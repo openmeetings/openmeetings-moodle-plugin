@@ -114,7 +114,7 @@ function openmeetings_delete_instance($id) {
 		
 		//Roomtype 0 means its and recording, we don't need to update a room for that
 		if ($openmeetings->type != 0) {
-			$openmeetings->room_id = $openmeetings_gateway->openmeetings_deleteRoom($openmeetings);
+			$openmeetings->room_id = $openmeetings_gateway->deleteRoom($openmeetings);
 		}
 		
 	} else {
