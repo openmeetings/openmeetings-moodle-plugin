@@ -24,7 +24,7 @@
 	<property name="plugin.name" value="openmeetings" />
 
 	<target name="dist-bin" depends="clean">
-		<property name="archive.file.name" value="${dist.dir}/apache-${project.distname}-incubating-${project.version}" />
+		<property name="archive.file.name" value="${dist.dir}/apache-${project.distname}-${project.version}" />
 
 		<mkdir dir="${dist.dir}/${plugin.name}"/>
 		<copy todir="${dist.dir}/${plugin.name}">
