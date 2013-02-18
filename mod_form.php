@@ -156,7 +156,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 	}
 }
 
-$mform = new mod_openmeetings_mod_form();
+global $data, $cm;
+$course = $DB->get_record('course', array('id'=>$data->course), '*', MUST_EXIST);
+$mform = new mod_openmeetings_mod_form($data, $data->section, $cm, $course);
 
 if ($mform->no_submit_button_pressed() && $om_login) {
 	$type = isset($mform->get_submitted_data()->{'avi'}) ? "avi" :
