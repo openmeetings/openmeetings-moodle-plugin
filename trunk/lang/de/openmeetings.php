@@ -19,6 +19,7 @@
 */
 
 $string['openmeetings'] = 'openmeetings';
+$string['openmeetings:addinstance'] = 'Add instance of Openmeetings';
 
 $string['modulename'] = 'OpenMeetings';
 $string['modulenameplural'] = 'OpenMeetings';

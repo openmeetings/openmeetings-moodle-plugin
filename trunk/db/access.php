@@ -1,11 +1,11 @@
 <?php
 /*
-* Licensed to the Apache Software Foundation (ASF) under one
+ * Licensed to the Apache Software Foundation (ASF) under one
 * or more contributor license agreements.  See the NOTICE file
 * distributed with this work for additional information
 * regarding copyright ownership.  The ASF licenses this file
 * to you under the Apache License, Version 2.0 (the
-* "License") +  you may not use this file except in compliance
+		* "License") +  you may not use this file except in compliance
 * with the License.  You may obtain a copy of the License at
 *
 *   http://www.apache.org/licenses/LICENSE-2.0
@@ -51,18 +51,25 @@
 
 
 $capabilities = array(
-
-    'mod/openmeetings:becomemoderator' => array(
-
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    )
-    
+		'mod/openmeetings:addinstance' => array(
+				'riskbitmask' => RISK_XSS,
+				'captype' => 'write',
+				'contextlevel' => CONTEXT_COURSE,
+				'archetypes' => array(
+						'editingteacher' => CAP_ALLOW,
+						'manager' => CAP_ALLOW
+				),
+				'clonepermissionsfrom' => 'moodle/course:manageactivities'
+		)
+		, 'mod/openmeetings:becomemoderator' => array(
+				'captype' => 'read',
+				'contextlevel' => CONTEXT_MODULE,
+				'legacy' => array(
+						'teacher' => CAP_ALLOW,
+						'editingteacher' => CAP_ALLOW,
+						'manager' => CAP_ALLOW
+				)
+		)
 );
 
 ?>
