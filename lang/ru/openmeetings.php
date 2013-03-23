@@ -64,5 +64,8 @@ $string['openmeetingsWebappnameDescription'] = '&#1044;&#1086;&#1087;&#1086;&#10
 
 $string['download_avi'] = '&#1057;&#1082;&#1072;&#1095;&#1072;&#1090;&#1100; .avi';
 $string['download_flv'] = '&#1057;&#1082;&#1072;&#1095;&#1072;&#1090;&#1100; .flv';
+
+$string['pluginadministration'] = 'OpenMeetings Administration';
+$string['pluginname'] = 'OpenMeetings';
 ?>
 

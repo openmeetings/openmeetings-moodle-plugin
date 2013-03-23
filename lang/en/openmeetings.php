@@ -64,4 +64,7 @@ $string['openmeetingsWebappnameDescription'] = 'Advanced setting: If you have re
 
 $string['download_avi'] = 'Download .avi';
 $string['download_flv'] = 'Download .flv';
+
+$string['pluginadministration'] = 'OpenMeetings Administration';
+$string['pluginname'] = 'OpenMeetings';
 ?>

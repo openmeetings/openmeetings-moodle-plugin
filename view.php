@@ -55,6 +55,7 @@ if (!empty($id)) {
 
 
 require_login($course->id);
+$PAGE->set_url('/mod/openmeetings/view.php', array('id' => $cm->id));
 
 add_to_log($course->id, "openmeetings", "view", "view.php?id=$cm->id", "$openmeetings->id");
 
