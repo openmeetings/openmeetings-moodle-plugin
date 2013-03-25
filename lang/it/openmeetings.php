@@ -20,6 +20,7 @@
 
 $string['openmeetings'] = 'Openmeetings';
 $string['openmeetings:addinstance'] = 'Aggiungere Istanza Openmeetings';
+$string['openmeetings:becomemoderator'] = 'Become moderator in an Openmeetings Room';
 
 $string['modulename'] = 'OpenMeetings';
 $string['modulenameplural'] = 'OpenMeetings';
