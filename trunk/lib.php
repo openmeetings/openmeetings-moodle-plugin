@@ -20,7 +20,7 @@
 
 $old_error_handler = set_error_handler("myErrorHandler");
 require_once($CFG->dirroot.'/config.php');
-require_once($CFG->dirroot.'/mod/openmeetings/openmeetings_gateway.php');
+require_once($CFG->dirroot.'/mod/openmeetings/api/openmeetings_gateway.php');
 
 //include('../mod/openmeetings/lib/nusoap.php');
 // error handler function
@@ -52,15 +52,24 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
     return true;
 }
 
+function getOmConfig() {
+	global $CFG;
+	return array("protocol" => "http", "port" => $CFG->openmeetings_red5port
+		, "host" => $CFG->openmeetings_red5host, "webappname" => $CFG->openmeetings_webappname
+		, "adminUser" => $CFG->openmeetings_openmeetingsAdminUser
+		, "adminPass" => $CFG->openmeetings_openmeetingsAdminUserPass
+		, "moduleKey" => $CFG->openmeetings_openmeetingsModuleKey);
+}
+
 function openmeetings_add_instance($openmeetings) {
 	global $USER, $CFG, $DB;
 	
-	$openmeetings_gateway = new openmeetings_gateway();
-	if ($openmeetings_gateway->openmeetings_loginuser()) {
+	$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
+	if ($openmeetings_gateway->loginuser()) {
 		
 		//Roomtype 0 means its and recording, we don't need to create a room for that
 		if ($openmeetings->type != 0) {
-			$openmeetings->room_id = $openmeetings_gateway->openmeetings_createRoomWithModAndType($openmeetings);
+			$openmeetings->room_id = $openmeetings_gateway->createRoomWithModAndType($openmeetings);
 		}
 		
 	} else {
@@ -74,17 +83,17 @@ function openmeetings_add_instance($openmeetings) {
 
 
 function openmeetings_update_instance($openmeetings) {
-	global $DB;
+	global $DB, $CFG;
 	
-    $openmeetings->timemodified = time();
-    $openmeetings->id = $openmeetings->instance;
+	$openmeetings->timemodified = time();
+	$openmeetings->id = $openmeetings->instance;
 
-	$openmeetings_gateway = new openmeetings_gateway();
-	if ($openmeetings_gateway->openmeetings_loginuser()) {
+	$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
+	if ($openmeetings_gateway->loginuser()) {
 		
 		//Roomtype 0 means its and recording, we don't need to update a room for that
 		if ($openmeetings->type != 0) {
-			$openmeetings->room_id = $openmeetings_gateway->openmeetings_updateRoomWithModeration($openmeetings);
+			$openmeetings->room_id = $openmeetings_gateway->updateRoomWithModeration($openmeetings);
 		} else {
 			$openmeetings->room_id = 0;
 		}
@@ -94,23 +103,22 @@ function openmeetings_update_instance($openmeetings) {
 		exit();
 	}
 
-    # May have to add extra stuff in here #
-    return $DB->update_record("openmeetings", $openmeetings);
+	# May have to add extra stuff in here #
+	return $DB->update_record("openmeetings", $openmeetings);
 }
 
 
 function openmeetings_delete_instance($id) {
-	global $DB;
+	global $DB, $CFG;
 	
-    if (! $openmeetings = $DB->get_record("openmeetings", array("id"=>"$id"))) {
-        return false;
-    }
-    
+	if (! $openmeetings = $DB->get_record("openmeetings", array("id"=>"$id"))) {
+		return false;
+	}
 
-    $result = true;
-    
-    $openmeetings_gateway = new openmeetings_gateway();
-	if ($openmeetings_gateway->openmeetings_loginuser()) {
+	$result = true;
+
+	$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
+	if ($openmeetings_gateway->loginuser()) {
 		
 		//Roomtype 0 means its and recording, we don't need to update a room for that
 		if ($openmeetings->type != 0) {
@@ -122,14 +130,11 @@ function openmeetings_delete_instance($id) {
 		exit();
 	}
 	
-    # Delete any dependent records here #
-
-    if (! $DB->delete_records("openmeetings", array("id"=>"$openmeetings->id"))) {
-        $result = false;
-    }
-
-    return $result;
-    
+	# Delete any dependent records here #
+	if (! $DB->delete_records("openmeetings", array("id"=>"$openmeetings->id"))) {
+		$result = false;
+	}
+	return $result;
 }
 
 

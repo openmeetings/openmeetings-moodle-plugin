@@ -21,7 +21,6 @@
 
 require_once("../../config.php");
 require_once("lib.php");
-require_once("openmeetings_gateway.php");
 
 
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID, or
@@ -94,8 +93,8 @@ if (has_capability('mod/openmeetings:becomemoderator', $context)) {
 }
 
 
-$openmeetings_gateway = new openmeetings_gateway();
-if ($openmeetings_gateway->openmeetings_loginuser()) {
+$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
+if ($openmeetings_gateway->loginuser()) {
 		
 	$allowRecording = 1;
 	if ($openmeetings->allow_recording == 2) {
@@ -110,10 +109,10 @@ if ($openmeetings_gateway->openmeetings_loginuser()) {
 
 	// Simulate the User automatically
 	if ($openmeetings->type != 0){
-		$returnVal = $openmeetings_gateway->openmeetings_setUserObjectAndGenerateRoomHashByURLAndRecFlag($USER->username,$USER->firstname,
+		$returnVal = $openmeetings_gateway->setUserObjectAndGenerateRoomHashByURLAndRecFlag($USER->username,$USER->firstname,
 		$USER->lastname,$profilePictureUrl,$USER->email,$USER->id,$CFG->openmeetings_openmeetingsModuleKey,$openmeetings->room_id,$becomemoderator,$allowRecording);
 	} else {
-		$returnVal = $openmeetings_gateway->openmeetings_setUserObjectAndGenerateRecordingHashByURL($USER->username,$USER->firstname,
+		$returnVal = $openmeetings_gateway->setUserObjectAndGenerateRecordingHashByURL($USER->username,$USER->firstname,
 		$USER->lastname,$USER->id,$CFG->openmeetings_openmeetingsModuleKey,$openmeetings->room_recording_id);
 	}
 		
@@ -127,15 +126,14 @@ if ($openmeetings_gateway->openmeetings_loginuser()) {
 
 		$iframe_d = "http://".$CFG->openmeetings_red5host . ":" . $CFG->openmeetings_red5port .
 							 	"/".$CFG->openmeetings_webappname."/?" .
-								"secureHash=" . $returnVal . 
+								"secureHash=" . $returnVal .
 								"&scopeRoomId=" . $scope_room_id .
-								"&language=" . $openmeetings->language . 
-								"&user_id=". $USER->id . 
-								"&moodleRoom=1" .   
-								"&wwwroot=". $CFG->wwwroot;                                                                                                
+								"&language=" . $openmeetings->language .
+								"&user_id=". $USER->id .
+								"&moodleRoom=1" .
+								"&wwwroot=". $CFG->wwwroot;
 
 		printf("<iframe src='%s' width='%s' height='%s' />",$iframe_d,"100%",640);
-
 	}
 } else {
 	echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
@@ -146,3 +144,4 @@ if ($openmeetings_gateway->openmeetings_loginuser()) {
 /// Finish the page
 print_footer($course);
 ?>
+
