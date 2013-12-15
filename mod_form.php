@@ -24,8 +24,13 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
 
-$openmeetings_gateway = new openmeetings_gateway();
-$om_login = $openmeetings_gateway->openmeetings_loginuser();
+$config = array("protocol" => "http", "port" => $CFG->openmeetings_red5port
+	, "host" => $CFG->openmeetings_red5host, "webappname" => $CFG->openmeetings_webappname
+	, "adminUser" => $CFG->openmeetings_openmeetingsAdminUser
+	, "adminPass" => $CFG->openmeetings_openmeetingsAdminUserPass
+	, "moduleKey" => $CFG->openmeetings_openmeetingsModuleKey);
+$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
+$om_login = $openmeetings_gateway->loginuser();
 
 class mod_openmeetings_mod_form extends moodleform_mod {
 
@@ -104,23 +109,15 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$recordings = array();
 			
 		if ($om_login) {
-		
-			$resultDom = $openmeetings_gateway->openmeetings_getRecordingsByExternalRooms();
-		
-			$flvrecordings = $resultDom->getElementsByTagName('return');
-				
+			$flvrecordings = $openmeetings_gateway->getRecordingsByExternalRooms();
+
 			foreach ($flvrecordings as $flvrecording) {
-				
-				$flvRecordingIdNode = $flvrecording->getElementsByTagName('flvRecordingId');
-				$flvRecordingNameNode = $flvrecording->getElementsByTagName('fileName');
-				if ($flvRecordingIdNode->length > 0) {
-					$recordings[$flvRecordingIdNode->item(0)->nodeValue] = $flvRecordingNameNode->item(0)->nodeValue;
+				$flvRecordingId = $flvrecording['flvRecordingId'];
+				$flvRecordingName = $flvrecording['fileName'];
+				if ($flvRecordingId) {
+					$recordings[$flvRecordingId] = $flvRecordingName;
 				}
-				
 			}
-				
-		
-		
 		}
 		
 		//$mform->registerNoSubmitButton('download_rec');
