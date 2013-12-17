@@ -69,14 +69,15 @@ if ($course->category) {
 $stropenmeetingss = get_string("modulenameplural", "openmeetings");
 $stropenmeetings  = get_string("modulename", "openmeetings");
 
-print_header("$course->shortname: $openmeetings->name", "$course->fullname",
-                 "$navigation <a href=index.php?id=$course->id>$stropenmeetingss</a> -> $openmeetings->name", 
-                  "", "", true, update_module_button($cm->id, $course->id, $stropenmeetings), 
-navmenu($course, $cm));
-
-/// Print the main part of the page
-
-//print_simple_box_start('center', '100%', '#ffffff', 10);
+$PAGE->set_heading($course->fullname); // Required
+$PAGE->set_title($course->shortname . ": " . $openmeetings->name);
+$PAGE->set_cacheable(true);
+$PAGE->set_focuscontrol("");
+$PAGE->set_button(update_module_button($cm->id, $course->id, $stropenmeetings));
+$PAGE->navbar->add($stropenmeetingss, null, null, navigation_node::TYPE_CUSTOM, new moodle_url($CFG->wwwroot.'/user/index.php?id='.$courseid));
+$PAGE->navbar->add($openmeetings->name);
+ 
+echo $OUTPUT->header();
 
 $colors = Array ("FFFF00", "CCCC00", "FFCC00", "CC9933", "996600", "FF9900", "CC9966", "CC6600", "996633", "663300", "FF6600", "CC6633", "993300", "660000", "FF6633", "CC3300", "FF3300", "FF0000", "CC0000", "990000", "FF3333", "FF0033", "CC0033", "CC6666", "CC3333", "993333", "990033", "330000", "FF3366", "FF0066", "CC3366", "996666", "663333", "9966CC", "9966FF", "6600CC", "6633CC", "663399", "330033", "3333FF", "3300FF", "3300CC", "3333CC", "000099", "000066", "99CCCC", "66CCCC", "339999", "669999", "006666", "336666", "66CC66", "669966", "336633", "003300", "006600", "CCCC66", "CCCC33", "999966", "999933", "999900", "666600");
 
@@ -84,7 +85,7 @@ $colorid = rand (0, 61);
 
 $sitelink = str_replace("http://", "", $CFG->wwwroot);
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
  
 $becomemoderator = 0;
 if (has_capability('mod/openmeetings:becomemoderator', $context)) {
@@ -105,7 +106,7 @@ if ($openmeetings_gateway->loginuser()) {
 	}
 		
 	$profilePictureUrl = moodle_url::make_pluginfile_url(
-		get_context_instance(CONTEXT_USER, $USER->id)->id, 'user', 'icon', NULL, '/', 'f2')->out(false);
+		context_user::instance($USER->id)->id, 'user', 'icon', NULL, '/', 'f2')->out(false);
 
 	// Simulate the User automatically
 	if ($openmeetings->type != 0){
