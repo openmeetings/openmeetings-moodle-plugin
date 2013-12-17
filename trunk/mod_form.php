@@ -122,7 +122,6 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 			}
 		}
 		
-		//$mform->registerNoSubmitButton('download_rec');
 		$mform->registerNoSubmitButton('avi');
 		$mform->registerNoSubmitButton('flv');
 		$dgrp = array();
@@ -131,27 +130,11 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$dgrp[] =& $mform->createElement('submit', 'avi', get_string('download_avi', 'openmeetings'));
 		$dgrp[] =& $mform->createElement('submit', 'flv', get_string('download_flv', 'openmeetings'));
 		$mform->addGroup($dgrp, 'dgrp', get_string('recordings_show', 'openmeetings'), array(' '), false);
-		//$mform->setType('download_rec', PARAM_NOTAGS);
 		$mform->setType('avi', PARAM_NOTAGS);
 		$mform->setType('flv', PARAM_NOTAGS);
 		
-		//$mform->addRule('intro', get_string('required'), 'required', null, 'client');
-		//$mform->setHelpButton('intro', array('writing', 'richtext'), false, 'editorhelpbutton');
-
-		//$mform->addElement('format', 'introformat', get_string('format', 'openmeetings'));
-		//$this->add_intro_editor(true, get_string('description', 'mplayer'));
-
-		//$this->add_intro_editor(true);
-
-		//-------------------------------------------------------------------------------
-		// add standard elements, common to all modules
-		//$this->standard_coursemodule_elements(array('groups'=>true, 'groupings'=>true, 'groupmembersonly'=>true));
 		$this->standard_coursemodule_elements();
-
-		//-------------------------------------------------------------------------------
-		// add standard buttons, common to all modules
 		$this->add_action_buttons();
-
 	}
 }
 
@@ -172,3 +155,4 @@ if ($mform->no_submit_button_pressed() && $om_login) {
 }
 
 ?>
+
