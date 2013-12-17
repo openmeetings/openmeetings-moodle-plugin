@@ -46,8 +46,10 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$mform->addElement('text', 'name', get_string('Room_Name', 'openmeetings'), array('size'=>'64'));
 		//$mform->setType('name', PARAM_TEXT);
 		$mform->addRule('name', null, 'required', null, 'client');
+		$mform->setType('name', PARAM_TEXT);
 
 		$mform->addElement('hidden', 'room_id', '0', array('size'=>'64'));
+		$mform->setType('room_id', PARAM_INT);
 
 		/// Adding the "Room Type" field
 		$mform->addElement('select', 'type', get_string('Room_Type', 'openmeetings'), array('1'=>get_string('Conference', 'openmeetings'), '3'=>get_string('Restricted', 'openmeetings'), '4'=>get_string('Interview', 'openmeetings'), '0'=>get_string('Recording', 'openmeetings')));
