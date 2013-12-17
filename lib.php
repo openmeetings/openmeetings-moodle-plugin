@@ -61,6 +61,10 @@ function getOmConfig() {
 		, "moduleKey" => $CFG->openmeetings_openmeetingsModuleKey);
 }
 
+function setRoomName(&$openmeetings) {
+	$openmeetings->roomname = 'MOODLE_COURSE_ID_' . $openmeetings->course . '_NAME_' . $openmeetings->name;
+}
+
 function openmeetings_add_instance($openmeetings) {
 	global $USER, $CFG, $DB;
 	
@@ -69,6 +73,7 @@ function openmeetings_add_instance($openmeetings) {
 		
 		//Roomtype 0 means its and recording, we don't need to create a room for that
 		if ($openmeetings->type != 0) {
+			setRoomName($openmeetings);
 			$openmeetings->room_id = $openmeetings_gateway->createRoomWithModAndType($openmeetings);
 		}
 		
@@ -93,6 +98,7 @@ function openmeetings_update_instance($openmeetings) {
 		
 		//Roomtype 0 means its and recording, we don't need to update a room for that
 		if ($openmeetings->type != 0) {
+			setRoomName($openmeetings);
 			$openmeetings->room_id = $openmeetings_gateway->updateRoomWithModeration($openmeetings);
 		} else {
 			$openmeetings->room_id = 0;
@@ -178,3 +184,4 @@ function openmeetings_scale_used ($openmeetingsid,$scaleid) {
 }
 
 ?>
+
