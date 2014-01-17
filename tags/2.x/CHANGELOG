@@ -1,0 +1,6 @@
+Apache OpenMeetings Moodle Plugin Change Log
+
+  * Refactoring to use REST instead of SOAP/NuSOAP Library
+  * Download recordings made directly in Moodle UI
+  * update language files
+  * fix room types
