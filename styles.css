@@ -1,4 +1,3 @@
-<?php 
 /*
 * Licensed to the Apache Software Foundation (ASF) under one
 * or more contributor license agreements.  See the NOTICE file
@@ -18,14 +17,16 @@
 * under the License.
 */
 
-defined('MOODLE_INTERNAL') || die;
-
-$module->version	= 2014011801;
-$module->component	= 'mod_openmeetings';
-$module->maturity	= MATURITY_STABLE;
-$module->requires	= 2013111800;
-$module->release	= '1.7';
-$module->cron		= 0;
-$module->om_version = '3.0+';
-
-?>
+body.noMargin {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+iframe.openmeetings {
+	border: 0;
+	width: 100%;
+	height: 640px;
+}
+iframe.wholeWindow {
+	height: 100%;
+}

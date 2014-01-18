@@ -54,7 +54,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 
 function getOmConfig() {
 	global $CFG;
-	return array("protocol" => "http", "port" => $CFG->openmeetings_red5port
+	return array("protocol" => $CFG->openmeetings_protocol, "port" => $CFG->openmeetings_red5port
 		, "host" => $CFG->openmeetings_red5host, "webappname" => $CFG->openmeetings_webappname
 		, "adminUser" => $CFG->openmeetings_openmeetingsAdminUser
 		, "adminPass" => $CFG->openmeetings_openmeetingsAdminUserPass
@@ -184,4 +184,3 @@ function openmeetings_scale_used ($openmeetingsid,$scaleid) {
 }
 
 ?>
-
