@@ -69,5 +69,9 @@ $string['download_flv'] = 'Download .flv';
 
 $string['pluginadministration'] = 'OpenMeetings Administration';
 $string['pluginname'] = 'OpenMeetings';
+$string['whole_window'] = 'Occupy the entire window';
+$string['whole_window_type_1'] = 'Display in frame';
+$string['whole_window_type_2'] = 'Occupy the entire window';
+$string['openmeetingsProtocol'] = 'Protocol';
+$string['openmeetingsProtocolDescription'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
 ?>
-
