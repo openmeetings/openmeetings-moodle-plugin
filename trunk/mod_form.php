@@ -22,7 +22,8 @@ if (!defined('MOODLE_INTERNAL')) {
 	die('Direct access to this script is forbidden.'); // / It must be included from a Moodle page
 }
 
-require_once ($CFG->dirroot . '/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
 
 $config = array(
 		"protocol" => "http",
@@ -33,11 +34,11 @@ $config = array(
 		"adminPass" => $CFG->openmeetings_openmeetingsAdminUserPass,
 		"moduleKey" => $CFG->openmeetings_openmeetingsModuleKey 
 );
-$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
-$om_login = $openmeetings_gateway->loginuser();
+$gateway = new openmeetings_gateway(getOmConfig());
+$om_login = $gateway->loginuser();
 class mod_openmeetings_mod_form extends moodleform_mod {
 	function definition() {
-		global $openmeetings_gateway, $om_login;
+		global $gateway, $om_login;
 		$mform = $this->_form;
 		
 		// -------------------------------------------------------------------------------
@@ -147,7 +148,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$recordings = array();
 		
 		if ($om_login) {
-			$flvrecordings = $openmeetings_gateway->getRecordingsByExternalRooms();
+			$flvrecordings = $gateway->getRecordingsByExternalRooms();
 			
 			foreach ($flvrecordings as $flvrecording) {
 				$flvRecordingId = $flvrecording['flvRecordingId'];
@@ -181,18 +182,23 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 	}
 }
 
-global $data, $cm;
+global $data, $cm, $CFG, $USER;
 $course = $DB->get_record('course', array(
 		'id' => $data->course 
 ), '*', MUST_EXIST);
 $mform = new mod_openmeetings_mod_form($data, $data->section, $cm, $course);
 
 if ($mform->no_submit_button_pressed() && $om_login) {
+	$recId = $mform->get_submitted_data()->{'room_recording_id'};
 	$type = isset($mform->get_submitted_data()->{'avi'}) ? "avi" : (isset($mform->get_submitted_data()->{'flv'}) ? "flv" : "none");
-	$filename = 'flvRecording_' . $mform->get_submitted_data()->{'room_recording_id'} . '.' . $type;
-	header('Content-disposition: attachment; filename=' . $filename);
-	header('Content-type: video/' . $type);
-	readfile($openmeetings_gateway->getUrl() . '/DownloadHandler?fileName=' . $filename . '&moduleName=lzRecorderApp&parentPath=&room_id=' . '&sid=' . $openmeetings_gateway->session_id);
+	$filename = "flvRecording_$recId.$type";
+	if ($om_login) {
+		header('Content-disposition: attachment; filename=' . $filename);
+		header('Content-type: video/' . $type);
+		ob_clean();
+		$url = $gateway->getUrl() . "/recordings/$type/" . getRecordingHash($gateway, $recId);
+		readfile($url);
+	}
 	exit(0);
 }
 

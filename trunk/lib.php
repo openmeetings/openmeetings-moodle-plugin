@@ -52,6 +52,13 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
     return true;
 }
 
+function getRecordingHash($gateway, $recId) {
+	global $USER, $CFG;
+	
+	return $gateway->setUserObjectAndGenerateRecordingHashByURL($USER->username, $USER->firstname, $USER->lastname
+		, $USER->id, $CFG->openmeetings_openmeetingsModuleKey, $recId);
+}
+
 function getOmConfig() {
 	global $CFG;
 	return array("protocol" => $CFG->openmeetings_protocol, "port" => $CFG->openmeetings_red5port
