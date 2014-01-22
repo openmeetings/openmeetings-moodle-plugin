@@ -18,6 +18,8 @@
 * under the License.
 */
 
+require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
+
 class openmeetings implements renderable {
 	var $om;
 	
@@ -112,25 +114,24 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 				$returnVal = $gateway->setUserObjectAndGenerateRoomHashByURLAndRecFlag($USER->username, $USER->firstname, $USER->lastname
 						, $profilePictureUrl, $USER->email, $USER->id, $CFG->openmeetings_openmeetingsModuleKey, $openmeetings->om->room_id
 						, $becomemoderator, $allowRecording);
-			} else {
-				$returnVal = $gateway->setUserObjectAndGenerateRecordingHashByURL($USER->username, $USER->firstname, $USER->lastname
-						, $USER->id, $CFG->openmeetings_openmeetingsModuleKey, $openmeetings->om->room_recording_id);
-			}
-			
-			if ($returnVal != "") {
 				$scope_room_id = $openmeetings->om->room_id;
 				
-				if ($scope_room_id == 0 || $openmeetings->om->type == 0) {
+				if ($scope_room_id == 0) {
 					$scope_room_id = "hibernate";
 				}
-				
-				$url = "http://" . $CFG->openmeetings_red5host . ":" . $CFG->openmeetings_red5port . "/" . $CFG->openmeetings_webappname . "/swf?" 
+				$url = $gateway->getUrl() . "/swf?" 
 						. "&secureHash=" . $returnVal 
 						. "&scopeRoomId=" . $scope_room_id 
 						. "&language=" . $openmeetings->om->language 
 						. "&user_id=" . $USER->id 
 						. "&moodleRoom=1" . "&wwwroot=" . $CFG->wwwroot;
 				
+			} else {
+				$returnVal = getRecordingHash($gateway, $openmeetings->om->room_recording_id);
+				$url = $gateway->getUrl() . "/recording/" . $returnVal;
+			}
+			
+			if ($returnVal != "") {
 				$height = $openmeetings->om->whole_window == 1 ? "100%" : "640px";
 				$out .= html_writer::empty_tag("iframe", array(
 						"src" => $url,
