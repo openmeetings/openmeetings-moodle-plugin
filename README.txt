@@ -1,5 +1,5 @@
-This Moodle plugin uses Apache OpenMeetings.
+This Moodle plugin uses Apache OpenMeetings [Incbuating].
 You need your own Apache OpenMeetings instance running.
 
 Check out:
-http://openmeetings.apache.org
+http://incubator.apache.org/openmeetings/
