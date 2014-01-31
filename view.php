@@ -67,4 +67,4 @@ $openmeetingswidget = new openmeetings($openmeetings, false);
 echo $output->header();
 echo $output->render($openmeetingswidget);
 echo $output->footer();
-?>
+

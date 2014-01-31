@@ -147,3 +147,4 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 		return $out;
 	}
 }
+

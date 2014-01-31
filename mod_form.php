@@ -202,4 +202,3 @@ if ($mform->no_submit_button_pressed() && $om_login) {
 	exit(0);
 }
 
-?>

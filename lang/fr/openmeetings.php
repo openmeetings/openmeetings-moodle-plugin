@@ -73,4 +73,4 @@ $string['whole_window_type_1'] = 'Display in frame';
 $string['whole_window_type_2'] = 'Occupy the entire window';
 $string['openmeetingsProtocol'] = 'Protocol';
 $string['openmeetingsProtocolDescription'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
-?>
+

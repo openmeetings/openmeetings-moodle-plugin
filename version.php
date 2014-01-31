@@ -28,4 +28,3 @@ $module->release	= '1.7';
 $module->cron		= 0;
 $module->om_version = '3.0+';
 
-?>
