@@ -149,4 +149,4 @@
                                  FROM {$CFG->prefix}openmeetings_messages m
                                  WHERE m.openmeetingsid = $instanceid");
     }
-?>
+

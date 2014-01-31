@@ -68,5 +68,4 @@ $string['download_flv'] = '&#1057;&#1082;&#1072;&#1095;&#1072;&#1090;&#1100; .fl
 
 $string['pluginadministration'] = 'OpenMeetings Administration';
 $string['pluginname'] = 'OpenMeetings';
-?>
 

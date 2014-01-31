@@ -73,6 +73,3 @@ function xmldb_openmeetings_upgrade($oldversion) {
     return $result;
 }
 
-
-
-?>

@@ -144,5 +144,4 @@ if ($openmeetings_gateway->loginuser()) {
 
 /// Finish the page
 echo $OUTPUT->footer();
-?>
 

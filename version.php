@@ -27,4 +27,3 @@ $module->requires	= 2012110900;
 $module->release	= '1.6';
 $module->cron		= 0;
 
-?>
