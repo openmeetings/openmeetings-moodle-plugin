@@ -190,4 +190,3 @@ function openmeetings_scale_used ($openmeetingsid,$scaleid) {
     return $return;
 }
 
-?>

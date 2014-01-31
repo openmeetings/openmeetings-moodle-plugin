@@ -39,5 +39,3 @@ $settings->add(new admin_setting_configtext('openmeetings_openmeetingsModuleKey'
 $settings->add(new admin_setting_configtext('openmeetings_webappname', get_string('openmeetingsWebappnameLabel', 'openmeetings'),
 						get_string('openmeetingsWebappnameDescription', 'openmeetings'), "openmeetings", PARAM_TEXT));
 
-                       
-                       

@@ -265,4 +265,4 @@ require_once($CFG->dirroot.'/mod/openmeetings/lib.php');
         }
         return $status;
     }
-?>
+
