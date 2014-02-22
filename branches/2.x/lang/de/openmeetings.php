@@ -19,8 +19,8 @@
 */
 
 $string['openmeetings'] = 'openmeetings';
-$string['openmeetings:addinstance'] = 'Add instance of Openmeetings';
-$string['openmeetings:becomemoderator'] = 'Become moderator in an Openmeetings Room';
+$string['openmeetings:addinstance'] = 'Eine Openmeetings-Instanz hinzuf&uumlgen';
+$string['openmeetings:becomemoderator'] = 'Moderator in einem Openmeetings-Raum werden';
 
 $string['modulename'] = 'OpenMeetings';
 $string['modulenameplural'] = 'OpenMeetings';
@@ -46,7 +46,7 @@ $string['recordings_label'] = 'Das Feld zur Auswahl aufgezeichneter Meetings wir
 $string['recordings_show'] = 'Aufgezeichnete Meetings';
 $string['Comment'] = 'Kommentar';
 
-$string['Conference'] = 'Konference (bis 16 Teilnehmer)';
+$string['Conference'] = 'Konferenz (bis 16 Teilnehmer)';
 $string['Interview'] = 'Interview (2 Teilnehmer)';
 $string['Restricted'] = 'Webinar (bis 150 Teilnehmer)';
 $string['Recording'] = 'Aufzeichnung anzeigen (Aufzeichnung ausw&auml;hlen die statt dem Konferenzraum dann angezeigt wird!)';
@@ -60,7 +60,7 @@ $string['Allow_Recording'] = 'Funktion zum Aufzeichnen verf&uuml;gbar';
 $string['Recording_TYPE_1'] = 'Die Funktion zum Aufzeichnen der Konferenz ist verf&uuml;gbar und kann gestartet werden.';
 $string['Recording_TYPE_2'] = 'Die Funktion zum Aufzeichnen der Konferenz ist nicht verf&uuml;gbar.';
 
-$string['openmeetingsWebappnameLabel'] = 'OpenMeetings webapp name';
+$string['openmeetingsWebappnameLabel'] = 'Name der OpenMeetings-Webanwendung';
 $string['openmeetingsWebappnameDescription'] = 'Erweiterte Einstellung: Wenn sie die OpenMeetings Applikation umbenannt haben k&ouml;nnen Sie hier einen alternativen Namen eingeben.';
 
 $string['download_avi'] = 'Download .avi';
