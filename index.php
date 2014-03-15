@@ -21,7 +21,7 @@
  * This page lists all the instances of openmeetings in a particular course
  *
  * @author Sebastian Wagner
- * @version 
+ * @version 1.7
  * @package openmeetings
  **/
 
