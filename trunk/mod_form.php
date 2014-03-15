@@ -19,7 +19,7 @@
 */
 
 if (!defined('MOODLE_INTERNAL')) {
-	die('Direct access to this script is forbidden.'); // / It must be included from a Moodle page
+	die('Direct access to this script is forbidden.'); // It must be included from a Moodle page
 }
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
@@ -42,7 +42,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$mform = $this->_form;
 		
 		// -------------------------------------------------------------------------------
-		// / Adding the "general" fieldset, where all the common settings are showed
+		// Adding the "general" fieldset, where all the common settings are showed
 		$mform->addElement('header', 'general', get_string('general', 'form'));
 		// / Adding the standard "name" field
 		$mform->addElement('text', 'name', get_string('Room_Name', 'openmeetings'), array(
@@ -57,7 +57,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		));
 		$mform->setType('room_id', PARAM_INT);
 		
-		// / Adding the "Room Type" field
+		// Adding the "Room Type" field
 		$mform->addElement('select', 'type', get_string('Room_Type', 'openmeetings'), array(
 				'1' => get_string('Conference', 'openmeetings'),
 				'3' => get_string('Restricted', 'openmeetings'),
@@ -65,7 +65,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				'0' => get_string('Recording', 'openmeetings') 
 		));
 		
-		// / Adding the "Number of Participants" field
+		// Adding the "Number of Participants" field
 		$mform->addElement('select', 'max_user', get_string('Max_User', 'openmeetings'), array(
 				'2' => '2',
 				'4' => '4',
@@ -78,11 +78,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				'150' => '150',
 				'200' => '200',
 				'250' => '250',
-				'500' => '500',
-				'1000' => '1000' 
 		));
 		
-		// / Adding the "Room Language" field
+		// Adding the "Room Language" field
 		$language_array = array(
 				'1' => 'english',
 				'2' => 'deutsch',
@@ -120,10 +118,10 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		
 		$mform->addElement('select', 'language', get_string('Room_Language', 'openmeetings'), $language_array);
 		
-		// / Some description
+		// Some description
 		$mform->addElement('static', 'description', '', get_string('Moderation_Description', 'openmeetings'));
 		
-		// / Adding the "Is Moderated Room" field
+		// Adding the "Is Moderated Room" field
 		$mform->addElement('select', 'is_moderated_room', get_string('Wait_for_teacher', 'openmeetings'), array(
 				'1' => get_string('Moderation_TYPE_1', 'openmeetings'),
 				'2' => get_string('Moderation_TYPE_2', 'openmeetings'),
@@ -140,11 +138,11 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				'1' => get_string('whole_window_type_2', 'openmeetings') 
 		));
 		
-		// / Adding the optional "intro" field
+		// Adding the optional "intro" field
 		$mform->addElement('htmleditor', 'intro', get_string('Comment', 'openmeetings'));
 		$mform->setType('intro', PARAM_RAW);
 		
-		// / Adding the "Available Recordings to Shows" field
+		// Adding the "Available Recordings to Shows" field
 		$recordings = array();
 		
 		if ($om_login) {
