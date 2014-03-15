@@ -1,5 +1,9 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+1.7
+  * Openmeetings rooms can now be displayed in Moodle courses in a frame or can occucy the entire window
+  
+1.6
   * Refactoring to use REST instead of SOAP/NuSOAP Library
   * Download recordings made directly in Moodle UI
   * update language files
