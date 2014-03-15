@@ -25,12 +25,12 @@
  * @package openmeetings
  **/
 
-/// Replace openmeetings with the name of your module
+// Replace openmeetings with the name of your module
 
     require_once("../../config.php");
     require_once("lib.php");
 
-    $id = required_param('id', PARAM_INT);   // course
+    $id = required_param('id', PARAM_INT);   // Course
 
     if (! $course = get_record("course", "id", $id)) {
         error("Course ID is incorrect");
@@ -41,13 +41,13 @@
     add_to_log($course->id, "openmeetings", "view all", "index.php?id=$course->id", "");
 
 
-/// Get all required stringsopenmeetings
+// Get all required stringsopenmeetings
 
     $stropenmeetings = get_string("modulenameplural", "openmeetings");
     $stropenmeetings  = get_string("modulename", "openmeetings");
 
 
-/// Print the header
+// Print the header
 
     if ($course->category) {
         $navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
@@ -57,14 +57,14 @@
 
     print_header("$course->shortname: $stropenmeetings", "$course->fullname", "$navigation $stropenmeetings", "", "", true, "", navmenu($course));
 
-/// Get all the appropriate data
+// Get all the appropriate data
 
     if (! $openmeetings = get_all_instances_in_course("openmeetings", $course)) {
         notice("There are no openmeetings", "../../course/view.php?id=$course->id");
         die;
     }
 
-/// Print the list of instances (your module will probably extend this)
+// Print the list of instances (your module will probably extend this)
 
     $timenow = time();
     $strname  = get_string("name");
@@ -84,10 +84,10 @@
 
     foreach ($openmeetings as $openmeetings) {
         if (!$openmeetings->visible) {
-            //Show dimmed if the mod is hidden
+            // Show dimmed if the mod is hidden
             $link = "<a class=\"dimmed\" href=\"view.php?id=$openmeetings->coursemodule\">$openmeetings->name</a>";
         } else {
-            //Show normal if the mod is visible
+            // Show normal if the mod is visible
             $link = "<a href=\"view.php?id=$openmeetings->coursemodule\">$openmeetings->name</a>";
         }
 
@@ -102,7 +102,7 @@
 
     print_table($table);
 
-/// Finish the page
+// Finish the page
 
     print_footer($course);
 
