@@ -1,7 +1,7 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
 1.7
-  * works with moodle 2.6.x
+  * works with moodle 2.5.x & 2.6.x
   * Openmeetings rooms can now be displayed in Moodle courses in a frame or can occucy the entire window
   
 1.6
