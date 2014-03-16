@@ -62,9 +62,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				'1' => get_string('Conference', 'openmeetings'),
 				'3' => get_string('Restricted', 'openmeetings'),
 				'4' => get_string('Interview', 'openmeetings'),
-				'0' => get_string('Recording', 'openmeetings') 
+				'0' => get_string('Recording', 'openmeetings')
 		));
-		
+
 		// Adding the "Number of Participants" field
 		$mform->addElement('select', 'max_user', get_string('Max_User', 'openmeetings'), array(
 				'2' => '2',
@@ -76,10 +76,8 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				'50' => '50',
 				'100' => '100',
 				'150' => '150',
-				'200' => '200',
-				'250' => '250',
 		));
-		
+
 		// Adding the "Room Language" field
 		$language_array = array(
 				'1' => 'english',
@@ -115,39 +113,39 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				'31' => 'danish',
 				'32' => 'slovak' 
 		);
-		
+
 		$mform->addElement('select', 'language', get_string('Room_Language', 'openmeetings'), $language_array);
-		
+
 		// Some description
 		$mform->addElement('static', 'description', '', get_string('Moderation_Description', 'openmeetings'));
-		
+
 		// Adding the "Is Moderated Room" field
 		$mform->addElement('select', 'is_moderated_room', get_string('Wait_for_teacher', 'openmeetings'), array(
 				'1' => get_string('Moderation_TYPE_1', 'openmeetings'),
 				'2' => get_string('Moderation_TYPE_2', 'openmeetings'),
 				'3' => get_string('Moderation_TYPE_3', 'openmeetings') 
 		));
-		
+
 		$mform->addElement('select', 'allow_recording', get_string('Allow_Recording', 'openmeetings'), array(
 				'1' => get_string('Recording_TYPE_1', 'openmeetings'),
 				'2' => get_string('Recording_TYPE_2', 'openmeetings') 
 		));
-		
+
 		$mform->addElement('select', 'whole_window', get_string('whole_window', 'openmeetings'), array(
 				'0' => get_string('whole_window_type_1', 'openmeetings'),
 				'1' => get_string('whole_window_type_2', 'openmeetings') 
 		));
-		
+
 		// Adding the optional "intro" field
 		$mform->addElement('htmleditor', 'intro', get_string('Comment', 'openmeetings'));
 		$mform->setType('intro', PARAM_RAW);
-		
+
 		// Adding the "Available Recordings to Shows" field
 		$recordings = array();
-		
+
 		if ($om_login) {
 			$flvrecordings = $gateway->getRecordingsByExternalRooms();
-			
+
 			foreach ($flvrecordings as $flvrecording) {
 				$flvRecordingId = $flvrecording['flvRecordingId'];
 				$flvRecordingName = $flvrecording['fileName'];
@@ -156,7 +154,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				}
 			}
 		}
-		
+
 		$mform->registerNoSubmitButton('avi');
 		$mform->registerNoSubmitButton('flv');
 		$dgrp = array();
@@ -169,11 +167,11 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		), false);
 		$mform->setType('avi', PARAM_NOTAGS);
 		$mform->setType('flv', PARAM_NOTAGS);
-		
+
 		// -------------------------------------------------------------------------------
 		// add standard elements, common to all modules
 		$this->standard_coursemodule_elements();
-		
+
 		// -------------------------------------------------------------------------------
 		// add standard buttons, common to all modules
 		$this->add_action_buttons();
