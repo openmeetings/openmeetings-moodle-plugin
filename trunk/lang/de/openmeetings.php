@@ -23,7 +23,7 @@ $string['openmeetings:addinstance'] = 'Eine OpenMeetings-Instanz hinzuf&uuml;gen
 $string['openmeetings:becomemoderator'] = 'Moderator in einem Openmeetings-Raum werden';
 
 $string['modulename'] = 'OpenMeetings';
-$string['modulename_help'] = 'OpenMeetings ist eine freie browser-basierte Software mit der Sie sich sehr einfach eine Webkonferenz einrichten k&oumlnnen;. Sie k&ouml;nnen daf&uuml;r Ihr Mikrofon und/oder Ihre Webcam nutzen, Dokumente auf einem Whiteboard austauschen, den Bildschirm teilen oder die Onlinesitzungen aufzeichnen.';
+$string['modulename_help'] = 'OpenMeetings ist eine freie browser-basierte Software mit der Sie sich sehr einfach eine Webkonferenz einrichten k&ouml;nnen. Sie k&ouml;nnen daf&uuml;r Ihr Mikrofon und/oder Ihre Webcam nutzen, Dokumente auf einem Whiteboard austauschen, den Bildschirm teilen oder die Onlinesitzungen aufzeichnen.';
 $string['modulenameplural'] = 'OpenMeetings';
 
 $string['whiteboardfieldset'] = 'Custom example fieldset';
