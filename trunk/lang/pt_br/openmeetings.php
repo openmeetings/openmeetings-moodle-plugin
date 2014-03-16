@@ -23,7 +23,8 @@ $string['openmeetings:addinstance'] = 'Add instance of Openmeetings';
 $string['openmeetings:becomemoderator'] = 'Become moderator in an Openmeetings Room';
 
 $string['modulename'] = 'OpenMeetings';
-$string['modulename_help'] = 'OpenMeetings is a free browser-based software that allows you to set up instantly a conference in the Web. You can use your microphone and/or webcam, share documents on a white board, share your screen or record meetings.';
+$string['modulename_help'] = 'OpenMeetings is a free browser-based software that allows you to set up instantly a conference in the Web. You can use your microphone and/or webcam, share documents on a white board, share your screen or record meetings.<br><br>This Moodle plugin uses Apache OpenMeetings.
+<br>You need your own Apache OpenMeetings instance running.<br><br>For more information see: <a href="http://openmeetings.apache.org">http://openmeetings.apache.org</a>';
 $string['modulenameplural'] = 'OpenMeetings';
 
 $string['whiteboardfieldset'] = 'Custom example fieldset';
