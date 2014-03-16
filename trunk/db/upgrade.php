@@ -65,7 +65,7 @@ function xmldb_openmeetings_upgrade($oldversion) {
 		upgrade_mod_savepoint(true, $ver, 'openmeetings');
 	}
 	
-	$ver = 2014011700;
+	$ver = 2014031603;
 	if ($oldversion < $ver) {
 		// Define field allow_recording to be added to openmeetings
 		$table = new xmldb_table('openmeetings');
