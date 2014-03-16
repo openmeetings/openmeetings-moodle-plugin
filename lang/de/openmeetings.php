@@ -23,6 +23,7 @@ $string['openmeetings:addinstance'] = 'Eine OpenMeetings-Instanz hinzuf&uuml;gen
 $string['openmeetings:becomemoderator'] = 'Moderator in einem Openmeetings-Raum werden';
 
 $string['modulename'] = 'OpenMeetings';
+$string['modulename_help'] = 'OpenMeetings ist eine freie browser-basierte Software mit der Sie sich sehr einfach eine Webkonferenz einrichten &ouml;. Sie k&ouml;nnen daf&uuml;r Ihr Mikrofon und/oder Ihre Webcam nutzen, Dokumente auf einem Whiteboard austauschen, den Bildschirm teilen oder die Onlinesitzungen aufzeichnen.';
 $string['modulenameplural'] = 'OpenMeetings';
 
 $string['whiteboardfieldset'] = 'Custom example fieldset';
@@ -33,7 +34,7 @@ $string['red5host'] = 'OpenMeetings Server Host oder IP';
 $string['red5port'] = 'OpenMeetings Server Port';
 $string['openmeetingsAdminUser'] = 'OpenMeetings Admin Benutzer';
 $string['openmeetingsAdminUserPass'] = 'OpenMeetings Admin Benutzer Passwort';
-$string['openmeetingsModuleKeyLabel'] = 'Modul-Schlüssel';
+$string['openmeetingsModuleKeyLabel'] = 'Modul-Schl&uuml;ssel';
 $string['openmeetingsModuleKey'] = 'Erweiterte Einstellung: OpenMeetings Modul-Schl&uuml;ssel (falls Sie mehrer Moodle Instanzen betreiben sollte der Schl&uuml;ssel bei jeder Instanz anders sein)';
 
 $string['Room_Name'] = 'Raumname';
@@ -72,5 +73,5 @@ $string['whole_window'] = 'gesamtes Fenster verwenden';
 $string['whole_window_type_1'] = 'in einem Rahmen anzeigen';
 $string['whole_window_type_2'] = 'gesamtes Fenster verwenden';
 $string['openmeetingsProtocol'] = 'Protokoll';
-$string['openmeetingsProtocolDescription'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
+$string['openmeetingsProtocolDescription'] = 'Protokoll das verwendet wird um die Openmeetings URLs zu erzeugen (Standard: http)';
 
