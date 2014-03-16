@@ -23,8 +23,7 @@ $string['openmeetings:addinstance'] = 'Eine OpenMeetings-Instanz hinzuf&uuml;gen
 $string['openmeetings:becomemoderator'] = 'Moderator in einem Openmeetings-Raum werden';
 
 $string['modulename'] = 'OpenMeetings';
-$string['modulename_help'] = 'OpenMeetings ist eine freie browser-basierte Software mit der Sie sich sehr einfach eine Webkonferenz einrichten k&ouml;nnen. Sie k&ouml;nnen daf&uuml;r Ihr Mikrofon und/oder Ihre Webcam nutzen, Dokumente auf einem Whiteboard austauschen, den Bildschirm teilen oder die Onlinesitzungen aufzeichnen.<br><br>Dieses Moodle-Plugin verwendet Apache OpenMeetings.
-<br>Sie brauchen dazu eine eigene laufende Apache OpenMeetings Instanz.<br><br>Weitere Informationen finden Sie hier: <a href="http://openmeetings.apache.org">http://openmeetings.apache.org</a>';
+$string['modulename_help'] = 'OpenMeetings ist eine freie browser-basierte Software mit der Sie sich sehr einfach eine Webkonferenz einrichten k&ouml;nnen. Sie k&ouml;nnen daf&uuml;r Ihr Mikrofon und/oder Ihre Webcam nutzen, Dokumente auf einem Whiteboard austauschen, den Bildschirm teilen oder die Onlinesitzungen aufzeichnen.<br><br>Dieses Moodle-Plugin verwendet Apache OpenMeetings. Sie brauchen dazu eine eigene laufende Apache OpenMeetings Installation.<br><br>Weitere Informationen finden Sie hier: <a href="http://openmeetings.apache.org">http://openmeetings.apache.org</a>';
 $string['modulenameplural'] = 'OpenMeetings';
 
 $string['whiteboardfieldset'] = 'Custom example fieldset';
