@@ -26,83 +26,76 @@
  **/
 
 // Replace openmeetings with the name of your module
+require_once("../../config.php");
+require_once("lib.php");
 
-    require_once("../../config.php");
-    require_once("lib.php");
+$id = required_param('id', PARAM_INT);   // Course
 
-    $id = required_param('id', PARAM_INT);   // Course
+if (! $course = get_record("course", "id", $id)) {
+	error("Course ID is incorrect");
+}
 
-    if (! $course = get_record("course", "id", $id)) {
-        error("Course ID is incorrect");
-    }
-
-    require_login($course->id);
-
-    add_to_log($course->id, "openmeetings", "view all", "index.php?id=$course->id", "");
-
+require_login($course->id);
+$event = \mod_openmeetings\event\course_module_instance_list_viewed::create(array(
+    'context' => context_course::instance($course->id)
+));
+$event->trigger();
 
 // Get all required stringsopenmeetings
-
-    $stropenmeetings = get_string("modulenameplural", "openmeetings");
-    $stropenmeetings  = get_string("modulename", "openmeetings");
-
+$stropenmeetings = get_string("modulenameplural", "openmeetings");
+$stropenmeetings  = get_string("modulename", "openmeetings");
 
 // Print the header
+if ($course->category) {
+	$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
+} else {
+	$navigation = '';
+}
 
-    if ($course->category) {
-        $navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-    } else {
-        $navigation = '';
-    }
-
-    print_header("$course->shortname: $stropenmeetings", "$course->fullname", "$navigation $stropenmeetings", "", "", true, "", navmenu($course));
+print_header("$course->shortname: $stropenmeetings", "$course->fullname", "$navigation $stropenmeetings", "", "", true, "", navmenu($course));
 
 // Get all the appropriate data
-
-    if (! $openmeetings = get_all_instances_in_course("openmeetings", $course)) {
-        notice("There are no openmeetings", "../../course/view.php?id=$course->id");
-        die;
-    }
+if (! $openmeetings = get_all_instances_in_course("openmeetings", $course)) {
+	notice("There are no openmeetings", "../../course/view.php?id=$course->id");
+	die;
+}
 
 // Print the list of instances (your module will probably extend this)
+$timenow = time();
+$strname = get_string("name");
+$strweek = get_string("week");
+$strtopic = get_string("topic");
 
-    $timenow = time();
-    $strname  = get_string("name");
-    $strweek  = get_string("week");
-    $strtopic  = get_string("topic");
+if ($course->format == "weeks") {
+	$table->head  = array ($strweek, $strname);
+	$table->align = array ("center", "left");
+} else if ($course->format == "topics") {
+	$table->head  = array ($strtopic, $strname);
+	$table->align = array ("center", "left", "left", "left");
+} else {
+	$table->head  = array ($strname);
+	$table->align = array ("left", "left", "left");
+}
 
-    if ($course->format == "weeks") {
-        $table->head  = array ($strweek, $strname);
-        $table->align = array ("center", "left");
-    } else if ($course->format == "topics") {
-        $table->head  = array ($strtopic, $strname);
-        $table->align = array ("center", "left", "left", "left");
-    } else {
-        $table->head  = array ($strname);
-        $table->align = array ("left", "left", "left");
-    }
+foreach ($openmeetings as $openmeetings) {
+	if (!$openmeetings->visible) {
+		// Show dimmed if the mod is hidden
+		$link = "<a class=\"dimmed\" href=\"view.php?id=$openmeetings->coursemodule\">$openmeetings->name</a>";
+	} else {
+		// Show normal if the mod is visible
+		$link = "<a href=\"view.php?id=$openmeetings->coursemodule\">$openmeetings->name</a>";
+	}
 
-    foreach ($openmeetings as $openmeetings) {
-        if (!$openmeetings->visible) {
-            // Show dimmed if the mod is hidden
-            $link = "<a class=\"dimmed\" href=\"view.php?id=$openmeetings->coursemodule\">$openmeetings->name</a>";
-        } else {
-            // Show normal if the mod is visible
-            $link = "<a href=\"view.php?id=$openmeetings->coursemodule\">$openmeetings->name</a>";
-        }
+	if ($course->format == "weeks" or $course->format == "topics") {
+		$table->data[] = array ($openmeetings->section, $link);
+	} else {
+		$table->data[] = array ($link);
+	}
+}
 
-        if ($course->format == "weeks" or $course->format == "topics") {
-            $table->data[] = array ($openmeetings->section, $link);
-        } else {
-            $table->data[] = array ($link);
-        }
-    }
+echo "<br />";
 
-    echo "<br />";
-
-    print_table($table);
+print_table($table);
 
 // Finish the page
-
-    print_footer($course);
-
+print_footer($course);

@@ -17,14 +17,22 @@
 * specific language governing permissions and limitations
 * under the License.
 */
+namespace mod_openmeetings\event;
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$module->version    = 2014051201;
-$module->component  = 'mod_openmeetings';
-$module->maturity   = MATURITY_STABLE;
-$module->requires   = 2012120309;
-$module->release    = '1.7';
-$module->cron       = 0;
-$module->om_version = '3.0+';
-
+/**
+ * The mod_openmeetings course module viewed event class.
+ *
+ * @package    mod_openmeetings
+ * @since      Moodle 2.7
+ * @copyright  2014 solomax <solomax@apache.org>
+ * @license    http://www.apache.org/licenses/LICENSE-2.0
+ */
+class course_module_viewed extends \core\event\course_module_viewed {
+	protected function init() {
+		$this->data['crud'] = 'r';
+		$this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+		$this->data['objecttable'] = 'openmeetings';
+	}
+}
