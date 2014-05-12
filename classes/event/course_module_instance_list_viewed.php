@@ -17,14 +17,7 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-
-defined('MOODLE_INTERNAL') || die;
-
-$module->version    = 2014051201;
-$module->component  = 'mod_openmeetings';
-$module->maturity   = MATURITY_STABLE;
-$module->requires   = 2012120309;
-$module->release    = '1.7';
-$module->cron       = 0;
-$module->om_version = '3.0+';
-
+namespace mod_openmeetings\event;
+defined('MOODLE_INTERNAL') || die();
+class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
+}

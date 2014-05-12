@@ -58,8 +58,14 @@ if (!empty($id)) {
 }
 
 require_login($course->id);
+$context = context_module::instance($openmeetings->id);
 
-add_to_log($course->id, "openmeetings", "view", "view.php?id=$cm->id", "$openmeetings->id");
+$event = \mod_openmeetings\event\course_module_viewed::create(array(
+		'objectid' => $openmeetings->id,
+		'context' => $context,
+));
+$event->add_record_snapshot('openmeetings', $openmeetings);
+$event->trigger();
 
 $output = $PAGE->get_renderer('mod_openmeetings');
 $openmeetingswidget = new openmeetings($openmeetings, false);
@@ -67,4 +73,3 @@ $openmeetingswidget = new openmeetings($openmeetings, false);
 echo $output->header();
 echo $output->render($openmeetingswidget);
 echo $output->footer();
-
