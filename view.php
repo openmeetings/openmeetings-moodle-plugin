@@ -58,7 +58,7 @@ if (!empty($id)) {
 }
 
 require_login($course->id);
-$context = context_module::instance($openmeetings->id);
+$context = context_module::instance($cm->id);
 
 $event = \mod_openmeetings\event\course_module_viewed::create(array(
 		'objectid' => $openmeetings->id,
