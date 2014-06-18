@@ -1,15 +1,18 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
-1.7.1 (2014051301)
+1.7.1 (2014061801)
   * installation and upgrade works with moodle 2.7.x and Openmeetings with version 3.0.+
 
-1.7 (2014031603)
-  * installation and upgrade works with moodle 2.4.x, 2.5.x & 2.6.x and Openmeetings with version 3.0.+
+1.7 (2014031605)
+  * installation and upgrade works with moodle 2.2.x, 2.3.x, 2.4.x, 2.5.x & 2.6.x and Openmeetings with version 3.0.+
   * Openmeetings rooms (conference, webinar & interview) can now be displayed in Moodle courses in a frame or can occucy the entire window
 
-1.6
+1.6 (2014022101)
   * installation and upgrade works with moodle 2.4.x, 2.5.x & 2.6.x and Openmeetings with version 2.0.+
   * Refactoring to use REST instead of SOAP/NuSOAP Library
   * Download recordings made directly in Moodle UI
   * update language files
   * fix room types
+
+20111019 (2011101901)
+  * installation and upgrade works with moodle 2.0.x & 2.1.x and Openmeetings with version 1.9.+
