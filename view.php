@@ -29,23 +29,23 @@ if (!empty($id)) {
 		print_error('invalidcoursemodule');
 	}
 	if (!$course = $DB->get_record("course", array(
-			"id" => $cm->course 
+			"id" => $cm->course
 	))) {
 		print_error('coursemisconf');
 	}
 	if (!$openmeetings = $DB->get_record("openmeetings", array(
-			"id" => $cm->instance 
+			"id" => $cm->instance
 	))) {
 		print_error('invalidid', 'openmeetings');
 	}
 } else if (!empty($g)) {
 	if (!$openmeetings = $DB->get_record("openmeetings", array(
-			"id" => $g 
+			"id" => $g
 	))) {
 		print_error('invalidid', 'openmeetings');
 	}
 	if (!$course = $DB->get_record("course", array(
-			"id" => $openmeetings->course 
+			"id" => $openmeetings->course
 	))) {
 		print_error('invalidcourseid');
 	}
