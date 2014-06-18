@@ -25,6 +25,6 @@ $module->component  = 'mod_openmeetings';
 $module->maturity   = MATURITY_STABLE;
 $module->requires   = 2011120511;
 $module->release    = '1.7';
-$pmodulelugin->cron       = 0;
+$modulelugin->cron  = 0;
 $module->om_version = '3.0+';
 
