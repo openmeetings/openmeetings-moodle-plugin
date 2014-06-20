@@ -1,6 +1,11 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
-1.7.1 (2014061801)
+1.7.1
+  (2014062001)
+  * Correct lists are being returned from Recording related API methods
+  (2014061801)
+  * 'Can not find data record' issue is fixed
+  (2014051301)
   * installation and upgrade works with moodle 2.7.x and Openmeetings with version 3.0.+
 
 1.7 (2014031605)
