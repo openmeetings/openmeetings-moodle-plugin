@@ -1,5 +1,9 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+1.7.2
+  (2014111101)
+  * installation and upgrade works with moodle 2.7.x & 2.8.x and Openmeetings with version 3.0.+
+  
 1.7.1
   (2014062001)
   * Correct lists are being returned from Recording related API methods
