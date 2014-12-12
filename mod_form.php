@@ -146,11 +146,11 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		if ($om_login) {
 			$flvrecordings = $gateway->getRecordingsByExternalRooms();
 
-			foreach ($flvrecordings as $flvrecording) {
-				$flvRecordingId = $flvrecording['flvRecordingId'];
-				$flvRecordingName = $flvrecording['fileName'];
-				if ($flvRecordingId) {
-					$recordings[$flvRecordingId] = $flvRecordingName;
+			foreach ($flvrecordings as $rec) {
+				$recId = $rec['flvRecordingId'] ? $rec['flvRecordingId'] : $rec['id'];
+				$recName = $rec['fileName'] ? $rec['fileName'] : $rec['name'];
+				if ($recId) {
+					$recordings[$recId] = $recName;
 				}
 			}
 		}
@@ -162,10 +162,8 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$dgrp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings);
 		$dgrp[] = & $mform->createElement('submit', 'avi', get_string('download_avi', 'openmeetings'));
 		$dgrp[] = & $mform->createElement('submit', 'flv', get_string('download_flv', 'openmeetings'));
-		$mform->addGroup($dgrp, 'dgrp', get_string('recordings_show', 'openmeetings'), array(
-				' ' 
-		), false);
-		$mform->setType('avi', PARAM_NOTAGS);
+		$mform->addGroup($dgrp, 'dgrp', get_string('recordings_show', 'openmeetings'), array(' '), false);
+				$mform->setType('avi', PARAM_NOTAGS);
 		$mform->setType('flv', PARAM_NOTAGS);
 
 		// -------------------------------------------------------------------------------
