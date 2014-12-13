@@ -24,35 +24,32 @@
  * @version 1.7
  * @package openmeetings
  **/
-
-// Replace openmeetings with the name of your module
-require_once("../../config.php");
-require_once("lib.php");
+require(dirname(__FILE__).'/../../config.php');
+require_once(dirname(__FILE__).'/lib.php');
 
 $id = required_param('id', PARAM_INT);   // Course
 
-if (! $course = get_record("course", "id", $id)) {
-	error("Course ID is incorrect");
-}
+$course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
 
-require_login($course->id);
-$event = \mod_openmeetings\event\course_module_instance_list_viewed::create(array(
-    'context' => context_course::instance($course->id)
-));
-$event->trigger();
+unset($id);
+
+require_course_login($course, true);
+$PAGE->set_pagelayout('incourse');
 
 // Get all required stringsopenmeetings
 $stropenmeetings = get_string("modulenameplural", "openmeetings");
-$stropenmeetings  = get_string("modulename", "openmeetings");
+$stropenmeeting  = get_string("modulename", "openmeetings");
+$strname         = get_string("name");
+$strintro        = get_string('moduleintro');
+$strlastmodified = get_string('lastmodified');
 
-// Print the header
-if ($course->category) {
-	$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-} else {
-	$navigation = '';
-}
+$PAGE->set_url('/mod/openmeetings/index.php', array('id' => $course->id));
+$PAGE->set_title($course->shortname.': '.$stropenmeetings);
+$PAGE->set_heading($course->fullname);
+$PAGE->navbar->add($stropenmeetings);
+echo $OUTPUT->header();
 
-print_header("$course->shortname: $stropenmeetings", "$course->fullname", "$navigation $stropenmeetings", "", "", true, "", navmenu($course));
+\mod_openmeetings\event\course_module_instance_list_viewed::create_from_course($course)->trigger();
 
 // Get all the appropriate data
 if (! $openmeetings = get_all_instances_in_course("openmeetings", $course)) {
@@ -60,42 +57,48 @@ if (! $openmeetings = get_all_instances_in_course("openmeetings", $course)) {
 	die;
 }
 
-// Print the list of instances (your module will probably extend this)
-$timenow = time();
-$strname = get_string("name");
-$strweek = get_string("week");
-$strtopic = get_string("topic");
+$usesections = course_format_uses_sections($course->format);
 
-if ($course->format == "weeks") {
-	$table->head  = array ($strweek, $strname);
-	$table->align = array ("center", "left");
-} else if ($course->format == "topics") {
-	$table->head  = array ($strtopic, $strname);
-	$table->align = array ("center", "left", "left", "left");
+$table = new html_table();
+$table->attributes['class'] = 'generaltable mod_index';
+
+if ($usesections) {
+    $strsectionname = get_string('sectionname', 'format_'.$course->format);
+    $table->head  = array ($strsectionname, $strname, $strintro);
+    $table->align = array ('center', 'left', 'left');
 } else {
-	$table->head  = array ($strname);
-	$table->align = array ("left", "left", "left");
+    $table->head  = array ($strlastmodified, $strname, $strintro);
+    $table->align = array ('left', 'left', 'left');
 }
 
-foreach ($openmeetings as $openmeetings) {
-	if (!$openmeetings->visible) {
-		// Show dimmed if the mod is hidden
-		$link = "<a class=\"dimmed\" href=\"view.php?id=$openmeetings->coursemodule\">$openmeetings->name</a>";
+$modinfo = get_fast_modinfo($course);
+$currentsection = '';
+foreach ($openmeetings as $omeeting) {
+	$cm = $modinfo->get_cm($omeeting->coursemodule);
+	if ($usesections) {
+		$printsection = '';
+		if ($omeeting->section !== $currentsection) {
+			if ($omeeting->section) {
+				$printsection = get_section_name($course, $omeeting->section);
+			}
+			if ($currentsection !== '') {
+				$table->data[] = 'hr';
+			}
+			$currentsection = $omeeting->section;
+		}
 	} else {
-		// Show normal if the mod is visible
-		$link = "<a href=\"view.php?id=$openmeetings->coursemodule\">$openmeetings->name</a>";
+		$printsection = html_writer::tag('span', userdate($omeeting->timemodified), array ('class' => 'smallinfo'));
 	}
-
-	if ($course->format == "weeks" or $course->format == "topics") {
-		$table->data[] = array ($openmeetings->section, $link);
-	} else {
-		$table->data[] = array ($link);
-	}
+	
+	$class = $omeeting->visible ? null : array ('class' => 'dimmed'); // hidden modules are dimmed
+	
+	$table->data[] = array (
+			$printsection,
+			html_writer::link(new moodle_url('view.php', array ('id' => $cm->id)), format_string($omeeting->name), $class),
+			format_module_intro('openmeetings', $omeeting, $cm->id) 
+	);
 }
 
-echo "<br />";
+echo html_writer::table($table);
 
-print_table($table);
-
-// Finish the page
-print_footer($course);
+echo $OUTPUT->footer();
