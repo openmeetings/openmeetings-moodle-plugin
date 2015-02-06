@@ -48,7 +48,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 				'id' => $cm->id
 		));
 		
-		if ($openmeetings->om->whole_window == 1) {
+		if ($openmeetings->om->whole_window > 0) {
 			$out .= "<html" . $this->output->htmlattributes() . ">";
 			$out .= html_writer::start_tag("head");
 			$out .= html_writer::tag("title", $title);
@@ -77,7 +77,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 	}
 
 	private function _footer(openmeetings $openmeetings) {
-		if ($openmeetings->om->whole_window == 1) {
+		if ($openmeetings->om->whole_window > 0) {
 			$out .= html_writer::end_tag("body");
 			$out .= html_writer::end_tag("html");
 		} else {
@@ -132,10 +132,10 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 			}
 			
 			if ($returnVal != "") {
-				$height = $openmeetings->om->whole_window == 1 ? "100%" : "640px";
+				$height = $openmeetings->om->whole_window > 0 ? "100%" : "640px";
 				$out .= html_writer::empty_tag("iframe", array(
 						"src" => $url,
-						"class" => "openmeetings" . ($openmeetings->om->whole_window == 1 ? " wholeWindow" : "")
+						"class" => "openmeetings" . ($openmeetings->om->whole_window > 0 ? " wholeWindow" : "")
 				));
 			}
 		} else {
