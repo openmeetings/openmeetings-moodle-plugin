@@ -94,7 +94,7 @@ foreach ($openmeetings as $omeeting) {
 	
 	$table->data[] = array (
 			$printsection,
-			html_writer::link(new moodle_url('view.php', array ('id' => $cm->id)), format_string($omeeting->name), $class),
+			html_writer::link(new moodle_url('view.php', array ('id' => $cm->id)), format_string($omeeting->name), array('class' => $class, 'target' => $omeeting->whole_window > 1 ? '_blank' : '_self')),
 			format_module_intro('openmeetings', $omeeting, $cm->id) 
 	);
 }

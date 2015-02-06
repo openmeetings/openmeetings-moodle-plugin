@@ -133,7 +133,8 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 
 		$mform->addElement('select', 'whole_window', get_string('whole_window', 'openmeetings'), array(
 				'0' => get_string('whole_window_type_1', 'openmeetings'),
-				'1' => get_string('whole_window_type_2', 'openmeetings') 
+				'1' => get_string('whole_window_type_2', 'openmeetings'),
+				'2' => get_string('whole_window_type_3', 'openmeetings')
 		));
 
 		// Adding the optional "intro" field

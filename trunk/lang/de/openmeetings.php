@@ -72,6 +72,7 @@ $string['pluginname'] = 'OpenMeetings';
 $string['whole_window'] = 'gesamtes Fenster verwenden';
 $string['whole_window_type_1'] = 'in einem Rahmen anzeigen';
 $string['whole_window_type_2'] = 'gesamtes Fenster verwenden';
+$string['whole_window_type_3'] = 'ein neues Fenster öffnen';
 $string['openmeetingsProtocol'] = 'Protokoll';
 $string['openmeetingsProtocolDescription'] = 'Protokoll das verwendet wird um die Openmeetings URLs zu erzeugen (Standard: http)';
 
