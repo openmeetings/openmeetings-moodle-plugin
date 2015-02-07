@@ -1,31 +1,11 @@
 <?php
-/*
-* Licensed to the Apache Software Foundation (ASF) under one
-* or more contributor license agreements.  See the NOTICE file
-* distributed with this work for additional information
-* regarding copyright ownership.  The ASF licenses this file
-* to you under the Apache License, Version 2.0 (the
-* "License") +  you may not use this file except in compliance
-* with the License.  You may obtain a copy of the License at
-*
-*   http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing,
-* software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-* KIND, either express or implied.  See the License for the
-* specific language governing permissions and limitations
-* under the License.
-*/
 
 $string['openmeetings'] = 'openmeetings';
-$string['openmeetings:addinstance'] = 'Add instance of Openmeetings';
-$string['openmeetings:becomemoderator'] = 'Become moderator in an Openmeetings Room';
+
+$string['openmeetings:addinstance'] = 'Add a new openmeetings';
+$string['openmeetings:becomemoderator'] = 'Become moderator';
 
 $string['modulename'] = 'OpenMeetings';
-$string['modulename_help'] = 'OpenMeetings is a free browser-based software that allows you to set up instantly a conference in the Web. You can use your microphone and/or webcam, share documents on a white board, share your screen or record meetings.
-<br><br>This Moodle plugin uses Apache OpenMeetings.
-<br>You need your own Apache OpenMeetings instance running.<br><br>For more information see: <a href="http://openmeetings.apache.org">http://openmeetings.apache.org</a>';
 $string['modulenameplural'] = 'OpenMeetings';
 
 $string['whiteboardfieldset'] = 'Custom example fieldset';
@@ -50,7 +30,7 @@ $string['recordings_show'] = 'Available Recordings to Shows';
 $string['Comment'] = 'Comment';
 
 $string['Conference'] = 'Conference (max 16 participants)';
-$string['Interview'] = 'Interview (2 participants)';
+$string['Audience'] = 'Audience (max 32 participants)';
 $string['Restricted'] = 'Webinar (max 150 participants)';
 $string['Recording'] = 'Show Recording (select recording from drop down to be shown instead of meeting)';
 
@@ -66,15 +46,11 @@ $string['Recording_TYPE_2'] = 'Recording functionality is not available.';
 $string['openmeetingsWebappnameLabel'] = 'OpenMeetings webapp name';
 $string['openmeetingsWebappnameDescription'] = 'Advanced setting: If you have renamed the OpenMeetings webapp you can enter your alternative name here.';
 
-$string['download_avi'] = 'Download .avi';
-$string['download_flv'] = 'Download .flv';
-
-$string['pluginadministration'] = 'OpenMeetings Administration';
+$string['pluginadministration'] = 'OpenMeetings administration';
 $string['pluginname'] = 'OpenMeetings';
-$string['whole_window'] = 'Occupy the entire window';
-$string['whole_window_type_1'] = 'Display in frame';
-$string['whole_window_type_2'] = 'Occupy the entire window';
-$string['whole_window_type_3'] = 'Open in new window';
-$string['openmeetingsProtocol'] = 'Protocol';
-$string['openmeetingsProtocolDescription'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
 
+$string['aspopup'] = 'As popup';
+$string['popupwidth'] = 'Popup width';
+$string['popupheight'] = 'Popup height';
+$string['popupsettings'] = 'Popup settings';
+$string['width_x_height'] = 'width x height';

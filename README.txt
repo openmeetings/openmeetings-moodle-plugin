@@ -1,5 +1,9 @@
-This Moodle plugin uses Apache OpenMeetings.
-You need your own Apache OpenMeetings instance running.
+This Moodle plugin uses OpenMeetings Open Source Web-Conferencing.
+You need your own OpenMeetings instance running.
 
 Check out:
-http://openmeetings.apache.org
+http://www.openmeetings.de
+http://code.google.com/p/openmeetings
+
+Demo: 
+http://moodle.openmeetings.de

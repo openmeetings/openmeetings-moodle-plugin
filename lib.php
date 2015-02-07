@@ -1,26 +1,21 @@
-<?php  
-/*
-* Licensed to the Apache Software Foundation (ASF) under one
-* or more contributor license agreements.  See the NOTICE file
-* distributed with this work for additional information
-* regarding copyright ownership.  The ASF licenses this file
-* to you under the Apache License, Version 2.0 (the
-* "License") +  you may not use this file except in compliance
-* with the License.  You may obtain a copy of the License at
-*
-*   http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing,
-* software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-* KIND, either express or implied.  See the License for the
-* specific language governing permissions and limitations
-* under the License.
-*/
+<?php  // $Id: lib.php,v 1.0 2008/05/14 12:00:00 Sebastian Wagner Exp $
 
 $old_error_handler = set_error_handler("myErrorHandler");
 require_once($CFG->dirroot.'/config.php');
-require_once($CFG->dirroot.'/mod/openmeetings/api/openmeetings_gateway.php');
+require_once($CFG->dirroot.'/mod/openmeetings/openmeetings_gateway.php');
+
+function openmeetings_supports($feature) {
+    switch($feature) {
+        case FEATURE_GROUPS:                  return false;
+        case FEATURE_GROUPINGS:               return false;
+        case FEATURE_GROUPMEMBERSONLY:        return true;
+        case FEATURE_MOD_INTRO:               return true;
+        case FEATURE_BACKUP_MOODLE2:          return true;
+        case FEATURE_SHOW_DESCRIPTION:        return true;
+
+        default: return null;
+    }
+}
 
 //include('../mod/openmeetings/lib/nusoap.php');
 // error handler function
@@ -52,42 +47,28 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
     return true;
 }
 
-function getRecordingHash($gateway, $recId) {
-	global $USER, $CFG;
-	
-	return $gateway->setUserObjectAndGenerateRecordingHashByURL($USER->username, $USER->firstname, $USER->lastname
-		, $USER->id, $CFG->openmeetings_openmeetingsModuleKey, $recId);
-}
-
-function getOmConfig() {
-	global $CFG;
-	return array("protocol" => $CFG->openmeetings_protocol, "port" => $CFG->openmeetings_red5port
-		, "host" => $CFG->openmeetings_red5host, "webappname" => $CFG->openmeetings_webappname
-		, "adminUser" => $CFG->openmeetings_openmeetingsAdminUser
-		, "adminPass" => $CFG->openmeetings_openmeetingsAdminUserPass
-		, "moduleKey" => $CFG->openmeetings_openmeetingsModuleKey);
-}
-
-function setRoomName(&$openmeetings) {
-	$openmeetings->roomname = 'MOODLE_COURSE_ID_' . $openmeetings->course . '_NAME_' . $openmeetings->name;
-}
-
 function openmeetings_add_instance($openmeetings) {
 	global $USER, $CFG, $DB;
 	
-	$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
-	if ($openmeetings_gateway->loginuser()) {
+	$openmeetings_gateway = new openmeetings_gateway();
+	if ($openmeetings_gateway->openmeetings_loginuser()) {
 		
 		//Roomtype 0 means its and recording, we don't need to create a room for that
 		if ($openmeetings->type != 0) {
-			setRoomName($openmeetings);
-			$openmeetings->room_id = $openmeetings_gateway->createRoomWithModAndType($openmeetings);
+			$openmeetings->room_id = $openmeetings_gateway->openmeetings_createRoomWithModAndType($openmeetings);
 		}
 		
 	} else {
 		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 		exit();
 	}
+
+    $output_settings = new stdClass();
+    $output_settings->aspopup = !empty($openmeetings->aspopup) ? true : false;
+    $output_settings->popupwidth = !empty($openmeetings->popupwidth) ? (int)$openmeetings->popupwidth : false;
+    $output_settings->popupheight = !empty($openmeetings->popupheight) ? (int)$openmeetings->popupheight : false;
+    
+    $openmeetings->output_settings = serialize($output_settings);
 
     # May have to add extra stuff in here #
     return $DB->insert_record("openmeetings", $openmeetings);
@@ -95,59 +76,33 @@ function openmeetings_add_instance($openmeetings) {
 
 
 function openmeetings_update_instance($openmeetings) {
-	global $DB, $CFG;
+	global $DB;
 	
-	$openmeetings->timemodified = time();
-	$openmeetings->id = $openmeetings->instance;
+    $openmeetings->timemodified = time();
+    $openmeetings->id = $openmeetings->instance;
 
-	$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
-	if ($openmeetings_gateway->loginuser()) {
+	$openmeetings_gateway = new openmeetings_gateway();
+	if ($openmeetings_gateway->openmeetings_loginuser()) {
 		
 		//Roomtype 0 means its and recording, we don't need to update a room for that
 		if ($openmeetings->type != 0) {
-			setRoomName($openmeetings);
-			$openmeetings->room_id = $openmeetings_gateway->updateRoomWithModeration($openmeetings);
-		} else {
-			$openmeetings->room_id = 0;
+			$openmeetings->room_id = $openmeetings_gateway->openmeetings_updateRoomWithModeration($openmeetings);
 		}
 		
 	} else {
 		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 		exit();
 	}
+    
+    $output_settings = new stdClass();
+    $output_settings->aspopup = !empty($openmeetings->aspopup) ? true : false;
+    $output_settings->popupwidth = !empty($openmeetings->popupwidth) ? (int)$openmeetings->popupwidth : false;
+    $output_settings->popupheight = !empty($openmeetings->popupheight) ? (int)$openmeetings->popupheight : false;
+    
+    $openmeetings->output_settings = serialize($output_settings);
 
-	# May have to add extra stuff in here #
-	return $DB->update_record("openmeetings", $openmeetings);
-}
-
-
-function openmeetings_delete_instance($id) {
-	global $DB, $CFG;
-	
-	if (!$openmeetings = $DB->get_record("openmeetings", array("id" => "$id"))) {
-		return false;
-	}
-
-	$result = true;
-
-	$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
-	if ($openmeetings_gateway->loginuser()) {
-		
-		//Roomtype 0 means its and recording, we don't need to update a room for that
-		if ($openmeetings->type != 0) {
-			$openmeetings->room_id = $openmeetings_gateway->deleteRoom($openmeetings);
-		}
-		
-	} else {
-		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
-		exit();
-	}
-	
-	# Delete any dependent records here #
-	if (!$DB->delete_records("openmeetings", array("id" => "$openmeetings->id"))) {
-		$result = false;
-	}
-	return $result;
+    # May have to add extra stuff in here #
+    return $DB->update_record("openmeetings", $openmeetings);
 }
 
 /**
@@ -161,23 +116,79 @@ function openmeetings_delete_instance($id) {
  * @return object info
  */
 function openmeetings_get_coursemodule_info($coursemodule) {
-	global $DB;
-	
-	if (!$meeting = $DB->get_record('openmeetings', array ('id' => $coursemodule->instance))) {
-		return NULL;
-	}
-	
-	if ($meeting->whole_window != 2) {
-		return null;
-	}
-	$info = new cached_cm_info();
-	$info->name = format_string($meeting->name);
-	$info->onclick = "window.open('" . new moodle_url('/mod/openmeetings/view.php', array ('id' => $coursemodule->id)) . "');return false;";
-	return $info;
+    global $CFG, $DB;
+    require_once("$CFG->dirroot/mod/url/locallib.php");
+
+    if (!$openmeetings = $DB->get_record('openmeetings', array('id'=>$coursemodule->instance))) {
+        return NULL;
+    }
+
+    $output_settings = unserialize($openmeetings->output_settings);
+    if (!$output_settings->aspopup) {
+        return null;
+    }
+    
+    $info = new cached_cm_info();
+    $info->name = $openmeetings->name;
+
+    //note: there should be a way to differentiate links from normal resources
+    // $info->icon = url_guess_icon($openmeetings->externalurl);
+
+    $fullurl = "$CFG->wwwroot/mod/openmeetings/view.php?id=$coursemodule->id";
+
+    $width  = empty($output_settings->popupwidth) ? 1024 : $output_settings->popupwidth;
+    $height = empty($output_settings->popupheight) ? 1024 : $output_settings->popupheight;
+    $wh = "width=$width,height=$height,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,directories=no,scrollbars=yes,resizable=yes";
+    $info->onclick = "window.open('$fullurl', '', '$wh'); return false;";
+
+    // $fullurl = "$CFG->wwwroot/mod/url/view.php?id=$coursemodule->id&amp;redirect=1";
+    // $info->onclick = "window.open('$fullurl'); return false;";
+
+
+    if ($coursemodule->showdescription) {
+        // Convert intro to html. Do not filter cached version, filters run at display time.
+        $info->content = format_module_intro('openmeetings', $openmeetings, $coursemodule->id, false);
+    }
+
+    return $info;
 }
 
+function openmeetings_delete_instance($id) {
+	global $DB;
+	
+    if (! $openmeetings = $DB->get_record("openmeetings", array("id"=>"$id"))) {
+        return false;
+    }
+    
+
+    $result = true;
+    
+    $openmeetings_gateway = new openmeetings_gateway();
+	if ($openmeetings_gateway->openmeetings_loginuser()) {
+		
+		//Roomtype 0 means its and recording, we don't need to update a room for that
+		if ($openmeetings->type != 0) {
+			$openmeetings->room_id = $openmeetings_gateway->openmeetings_deleteRoom($openmeetings);
+		}
+		
+	} else {
+		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
+		exit();
+	}
+	
+    # Delete any dependent records here #
+
+    if (! $DB->delete_records("openmeetings", array("id"=>"$openmeetings->id"))) {
+        $result = false;
+    }
+
+    return $result;
+    
+}
+
+
 function openmeetings_user_outline($course, $user, $mod, $openmeetings) {
-    return true;
+    return $return;
 }
 
 
@@ -214,4 +225,3 @@ function openmeetings_scale_used ($openmeetingsid,$scaleid) {
 
     return $return;
 }
-
