@@ -124,7 +124,7 @@ function openmeetings_update_instance($openmeetings) {
 function openmeetings_delete_instance($id) {
 	global $DB, $CFG;
 	
-	if (! $openmeetings = $DB->get_record("openmeetings", array("id"=>"$id"))) {
+	if (!$openmeetings = $DB->get_record("openmeetings", array("id" => "$id"))) {
 		return false;
 	}
 
@@ -144,12 +144,37 @@ function openmeetings_delete_instance($id) {
 	}
 	
 	# Delete any dependent records here #
-	if (! $DB->delete_records("openmeetings", array("id"=>"$openmeetings->id"))) {
+	if (!$DB->delete_records("openmeetings", array("id" => "$openmeetings->id"))) {
 		$result = false;
 	}
 	return $result;
 }
 
+/**
+ * Given a course_module object, this function returns any
+ * "extra" information that may be needed when printing
+ * this activity in a course listing.
+ *
+ * See {@link get_array_of_activities()} in course/lib.php
+ *
+ * @param object $coursemodule
+ * @return object info
+ */
+function openmeetings_get_coursemodule_info($coursemodule) {
+	global $DB;
+	
+	if (!$meeting = $DB->get_record('openmeetings', array ('id' => $coursemodule->instance))) {
+		return NULL;
+	}
+	
+	if ($meeting->whole_window != 2) {
+		return null;
+	}
+	$info = new cached_cm_info();
+	$info->name = format_string($meeting->name);
+	$info->onclick = "window.open('" . new moodle_url('/mod/openmeetings/view.php', array ('id' => $coursemodule->id)) . "');return false;";
+	return $info;
+}
 
 function openmeetings_user_outline($course, $user, $mod, $openmeetings) {
     return true;
