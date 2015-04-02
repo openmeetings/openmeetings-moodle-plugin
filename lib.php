@@ -215,3 +215,6 @@ function openmeetings_scale_used ($openmeetingsid,$scaleid) {
     return $return;
 }
 
+function openmeetings_scale_used_anywhere($scaleid) {
+    return false;
+}
