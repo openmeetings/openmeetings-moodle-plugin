@@ -1,5 +1,10 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+1.7.4.1
+  (2015040201)
+  * added function openmeetings_scale_used_anywhere
+  * installation and upgrade works with moodle 2.7.x & 2.8.x and Openmeetings with version 3.0.+
+
 1.7.4
   (2015020701)
   * Open in new window function is fully implemented
