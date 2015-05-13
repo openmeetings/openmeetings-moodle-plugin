@@ -1,6 +1,6 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
-1.7.5 (2015042701)
+1.7.5 (2015051301)
    * added standard_intro_elements as description field instead of the old mform for intro/comment 
    * installation and upgrade works with moodle 2.9.x and Openmeetings with version 3.0.+
 
