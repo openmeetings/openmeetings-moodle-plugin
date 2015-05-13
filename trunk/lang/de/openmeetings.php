@@ -45,7 +45,6 @@ $string['Wait_for_teacher'] = 'Moderations-Modus';
 
 $string['recordings_label'] = 'Das Feld zur Auswahl aufgezeichneter Meetings wird nur verwendet, wenn der Raumtyp "Aufzeichnung anzeigen" gew&auml;hlt wurde. Es wird dann die Aufzeichnung anstatt des Konferenzraums angezeigt.';
 $string['recordings_show'] = 'Aufgezeichnete Meetings';
-$string['Comment'] = 'Kommentar';
 
 $string['Conference'] = 'Konferenz (bis 16 Teilnehmer)';
 $string['Interview'] = 'Interview (2 Teilnehmer)';
@@ -75,4 +74,6 @@ $string['whole_window_type_2'] = 'gesamtes Fenster verwenden';
 $string['whole_window_type_3'] = 'ein neues Fenster öffnen';
 $string['openmeetingsProtocol'] = 'Protokoll';
 $string['openmeetingsProtocolDescription'] = 'Protokoll das verwendet wird um die Openmeetings URLs zu erzeugen (Standard: http)';
+
+$string['description'] = 'Beschreibung';
 

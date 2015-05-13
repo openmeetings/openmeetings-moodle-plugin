@@ -46,7 +46,6 @@ $string['Wait_for_teacher'] = 'Modo Moderacion';
 
 $string['recordings_label'] = 'El campo de Grabacion solo es empleado si el Tipo de Sala es de Grabacion. En lugar de la sala de conferencias sera mostrada una grabacion.';
 $string['recordings_show'] = 'Dispuestas Grabaciones para Mostrar';
-$string['Comment'] = 'Comentario';
 
 $string['Conference'] = 'Conferencia (max 16 participantes)';
 $string['Interview'] = 'Interview (2 participantes)';
@@ -77,4 +76,6 @@ $string['whole_window_type_2'] = 'Occupy the entire window';
 $string['whole_window_type_3'] = 'Open in new window';
 $string['openmeetingsProtocol'] = 'Protocol';
 $string['openmeetingsProtocolDescription'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
+
+$string['description'] = 'Description';
 

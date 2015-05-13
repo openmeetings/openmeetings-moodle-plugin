@@ -46,7 +46,6 @@ $string['Wait_for_teacher'] = 'Modo moderazione';
 
 $string['recordings_label'] = 'Nel caso di Stanza di tipo Visualizza registrazione disponibile. Al posto della Stanza Conferenze si visualizza la seguente registrazione.';
 $string['recordings_show'] = 'Registrazioni disponibili';
-$string['Comment'] = 'Descrizione';
 
 $string['Conference'] = 'Conferenza (max 16 partecipanti)';
 $string['Interview'] = 'Intervista (max 2 partecipanti)';
@@ -76,4 +75,6 @@ $string['whole_window_type_2'] = 'Occupy the entire window';
 $string['whole_window_type_3'] = 'Open in new window';
 $string['openmeetingsProtocol'] = 'Protocol';
 $string['openmeetingsProtocolDescription'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
+
+$string['description'] = 'Description';
 
