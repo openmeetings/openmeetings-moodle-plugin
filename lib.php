@@ -68,11 +68,14 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
     return true;
 }
 
-function getRecordingHash($gateway, $recId) {
-	global $USER, $CFG;
-	
-	return $gateway->setUserObjectAndGenerateRecordingHashByURL($USER->username, $USER->firstname, $USER->lastname
-		, $USER->id, $CFG->openmeetings_openmeetingsModuleKey, $recId);
+function getOmUser($gateway) {
+	global $USER;
+	$pictureUrl = moodle_url::make_pluginfile_url(context_user::instance($USER->id)->id, 'user', 'icon', NULL, '/', 'f2')->out(false);
+	return $gateway->getUser($USER->username, $USER->firstname, $USER->lastname, $pictureUrl, $USER->email, $USER->id);
+}
+
+function getOmHash($gateway, $options) {
+	return $gateway->getSecureHash(getOmUser($gateway), $options);
 }
 
 function getOmConfig() {
@@ -92,57 +95,69 @@ function setRoomName(&$openmeetings) {
 	$openmeetings->roomname = 'MOODLE_COURSE_ID_' . $openmeetings->course . '_NAME_' . $openmeetings->name;
 }
 
-function openmeetings_add_instance($openmeetings) {
-	global $USER, $CFG, $DB;
+function getRoom(&$openmeetings) {
+	setRoomName($openmeetings);
+	return array(
+			'id' => $openmeetings->room_id > 0 ? $openmeetings->room_id : null
+			, 'name' => $openmeetings->roomname
+			, 'comment' => 'Created by SOAP-Gateway'
+			, 'type' => $openmeetings->type
+			, 'numberOfPartizipants' => $openmeetings->max_user
+			, 'isPublic' => false
+			, 'appointment' => false
+			, 'moderated' => 1 == $openmeetings->is_moderated_room
+			, 'audioOnly' => false
+			, 'allowUserQuestions' => true
+			, 'allowRecording' => 1 == $openmeetings->allow_recording
+			, 'externalId' => $openmeetings->instance
+	);
+}
+
+function openmeetings_add_instance(&$openmeetings) {
+	global $DB;
 	
-	$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
-	if ($openmeetings_gateway->loginuser()) {
+	$gateway = new OmGateway(getOmConfig());
+	if ($gateway->login()) {
 		
 		//Roomtype 0 means its and recording, we don't need to create a room for that
-		if ($openmeetings->type != 0) {
-			setRoomName($openmeetings);
-			$openmeetings->room_id = $openmeetings_gateway->createRoomWithModAndType($openmeetings);
+		if ($openmeetings->type != 'recording') {
+			$openmeetings->room_id = $gateway->updateRoom(getRoom($openmeetings));
 		}
-		
 	} else {
 		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 		exit();
 	}
-
     # May have to add extra stuff in here #
     return $DB->insert_record("openmeetings", $openmeetings);
 }
 
 
-function openmeetings_update_instance($openmeetings) {
-	global $DB, $CFG;
+function openmeetings_update_instance(&$openmeetings) {
+	global $DB;
 	
 	$openmeetings->timemodified = time();
 	$openmeetings->id = $openmeetings->instance;
 
-	$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
-	if ($openmeetings_gateway->loginuser()) {
+	$gateway = new OmGateway(getOmConfig());
+	if ($gateway->login()) {
 		
 		//Roomtype 0 means its and recording, we don't need to update a room for that
-		if ($openmeetings->type != 0) {
-			setRoomName($openmeetings);
-			$openmeetings->room_id = $openmeetings_gateway->updateRoomWithModeration($openmeetings);
-		} else {
+		if ($openmeetings->type == 'recording') {
 			$openmeetings->room_id = 0;
+		} else {
+			$openmeetings->room_id = $gateway->updateRoom(getRoom($openmeetings));
 		}
-		
 	} else {
 		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 		exit();
 	}
-
 	# May have to add extra stuff in here #
 	return $DB->update_record("openmeetings", $openmeetings);
 }
 
 
 function openmeetings_delete_instance($id) {
-	global $DB, $CFG;
+	global $DB;
 	
 	if (!$openmeetings = $DB->get_record("openmeetings", array("id" => "$id"))) {
 		return false;
@@ -150,14 +165,12 @@ function openmeetings_delete_instance($id) {
 
 	$result = true;
 
-	$openmeetings_gateway = new openmeetings_gateway(getOmConfig());
-	if ($openmeetings_gateway->loginuser()) {
-		
+	$gateway = new OmGateway(getOmConfig());
+	if ($gateway->login()) {
 		//Roomtype 0 means its and recording, we don't need to update a room for that
-		if ($openmeetings->type != 0) {
-			$openmeetings->room_id = $openmeetings_gateway->deleteRoom($openmeetings);
+		if ($openmeetings->type != 'recording') {
+			$openmeetings->room_id = $gateway->deleteRoom($openmeetings->room_id);
 		}
-		
 	} else {
 		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 		exit();
@@ -207,15 +220,11 @@ function openmeetings_user_complete($course, $user, $mod, $openmeetings) {
 
 
 function openmeetings_print_recent_activity($course, $isteacher, $timestart) {
-    global $CFG;
-
     return false;  //  True if anything was printed, otherwise false 
 }
 
 
 function openmeetings_cron () {
-    global $CFG;
-
     return true;
 }
 
@@ -229,10 +238,8 @@ function openmeetings_get_participants($openmeetingsid) {
     return false;
 }
 
-function openmeetings_scale_used ($openmeetingsid,$scaleid) {
-    $return = false;
-
-    return $return;
+function openmeetings_scale_used($openmeetingsid, $scaleid) {
+    return false;
 }
 
 function openmeetings_scale_used_anywhere($scaleid) {

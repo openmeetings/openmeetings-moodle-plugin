@@ -94,7 +94,7 @@ class OmGateway {
 				$this->getRestUrl("user") . "hash"
 				, RestMethod::POST
 				, $this->sessionId
-				, http_build_query(array("user" => json_encode($user), "options" => json_encode($options)))
+				, http_build_query(array("user" => json_encode($user), "options" => json_encode($options)), '', '&')
 				, null
 				, "serviceResult"
 			);
@@ -165,28 +165,23 @@ class OmGateway {
 	/**
 	 * Get list of available recordings made by this instance
 	 */
-	function getRecordingsByExternalRooms() {
-		$restService = new openmeetings_rest_service();
-
-		$url = $this->getRestUrl("RoomService") . "getFlvRecordingByExternalRoomType?SID=" . $this->sessionId
-		. "&externalRoomType=" . urlencode($this->config["moduleKey"]);
-
-		$result = $restService->call($url, "return");
-
-		return $this->getList($result);
-	}
-
-	/**
-	 * Get list of available recordings made by user
-	 */
-	function getRecordingsByExternalUser($id) {
-		$restService = new openmeetings_rest_service();
-
-		$url = $this->getRestUrl("RoomService") . "getFlvRecordingByExternalUserId?SID=" . $this->sessionId
-		. "&externalUserId=" . $id;
-
-		$result = $restService->call($url, "return");
-
-		return $this->getList($result);
+	function getRecordings() {
+		$rest = new OmRestService();
+		$response = $rest->call(
+				$this->getRestUrl("record") . urlencode($this->config["module"])
+				, RestMethod::GET
+				, $this->sessionId
+				, ""
+				, null
+				, "recordingDTO"
+			);
+		if ($rest->isError()) {
+			echo '<h2>Fault (Service error)</h2><pre>';
+			print_r($rest->getMessage());
+			echo '</pre>';
+		} else {
+			return $response;
+		}
+		return array();
 	}
 }

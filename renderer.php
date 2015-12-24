@@ -107,47 +107,28 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 
 		$out .= $this->_header($openmeetings);
 		$context = context_module::instance($cm->id);
-		$becomemoderator = 0;
+		$becomemoderator = false;
 		if (has_capability('mod/openmeetings:becomemoderator', $context)) {
-			$becomemoderator = 1;
+			$becomemoderator = true;
 		}
-		
-		$gateway = new openmeetings_gateway(getOmConfig());
-		if ($gateway->loginuser()) {
-			
-			$allowRecording = 1;
-			if ($openmeetings->om->allow_recording == 2) {
-				$allowRecording = 0;
-			}
+		$gateway = new OmGateway(getOmConfig());
+		if ($gateway->login()) {
+			$allowRecording = $openmeetings->om->allow_recording != 2;
 			if ($openmeetings->om->is_moderated_room == 3) {
-				$becomemoderator = 1;
+				$becomemoderator = true;
 			}
-			
-			$profilePictureUrl = moodle_url::make_pluginfile_url(context_user::instance($USER->id)->id, 'user', 'icon', NULL, '/', 'f2')->out(false);
-			
 			// Simulate the User automatically
-			if ($openmeetings->om->type != 0) {
-				$returnVal = $gateway->setUserObjectAndGenerateRoomHashByURLAndRecFlag($USER->username, $USER->firstname, $USER->lastname
-						, $profilePictureUrl, $USER->email, $USER->id, $CFG->openmeetings_openmeetingsModuleKey, $openmeetings->om->room_id
-						, $becomemoderator, $allowRecording);
-				$scope_room_id = $openmeetings->om->room_id;
-				
-				if ($scope_room_id == 0) {
-					$scope_room_id = "hibernate";
-				}
-				$url = $gateway->getUrl() . "/swf?" 
-						. "&secureHash=" . $returnVal 
-						. "&scopeRoomId=" . $scope_room_id 
-						. "&language=" . $openmeetings->om->language 
-						. "&user_id=" . $USER->id 
-						. "&moodleRoom=1" . "&wwwroot=" . $CFG->wwwroot;
-				
+			if ($openmeetings->om->type != 'recording') {
+				$hash = getOmHash($gateway, array("roomId" => $openmeetings->om->room_id, "moderator" => $becomemoderator, "allowRecording" => $allowRecording));
+				$url = $gateway->getUrl() . "/swf?&secureHash=" . $hash
+					. "&scopeRoomId=" . $openmeetings->om->room_id
+					. "&language=" . $openmeetings->om->language;
 			} else {
-				$returnVal = getRecordingHash($gateway, $openmeetings->om->room_recording_id);
-				$url = $gateway->getUrl() . "/recording/" . $returnVal;
+				$hash = getOmHash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));
+				$url = $gateway->getUrl() . "/recording/" . $hash;
 			}
 			
-			if ($returnVal != "") {
+			if ($hash != "") {
 				$height = $openmeetings->om->whole_window > 0 ? "100%" : "640px";
 				$out .= html_writer::empty_tag("iframe", array(
 						"src" => $url,
@@ -163,4 +144,3 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 		return $out;
 	}
 }
-

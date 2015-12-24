@@ -41,17 +41,8 @@ if (!defined('MOODLE_INTERNAL')) {
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
 
-$config = array(
-		"protocol" => $CFG->openmeetings_protocol,
-		"host" => $CFG->openmeetings_host,
-		"port" => $CFG->openmeetings_port,
-		"context" => $CFG->openmeetings_context,
-		"user" => $CFG->openmeetings_user,
-		"pass" => $CFG->openmeetings_pass,
-		"module" => $CFG->openmeetings_moduleKey 
-);
-$gateway = new openmeetings_gateway(getOmConfig());
-$om_login = $gateway->loginuser();
+$gateway = new OmGateway(getOmConfig());
+$om_login = $gateway->login();
 class mod_openmeetings_mod_form extends moodleform_mod {
 	function definition() {
 		global $gateway, $om_login;
@@ -75,10 +66,10 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 
 		// Adding the "Room Type" field
 		$mform->addElement('select', 'type', get_string('Room_Type', 'openmeetings'), array(
-				'1' => get_string('Conference', 'openmeetings'),
-				'3' => get_string('Restricted', 'openmeetings'),
-				'4' => get_string('Interview', 'openmeetings'),
-				'0' => get_string('Recording', 'openmeetings')
+				'conference' => get_string('Conference', 'openmeetings'),
+				'restricted' => get_string('Restricted', 'openmeetings'),
+				'interview' => get_string('Interview', 'openmeetings'),
+				'recording' => get_string('Recording', 'openmeetings')
 		));
 
 		// Adding the "Number of Participants" field
@@ -98,7 +89,6 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$language_array = array(
 				'1' => 'english',
 				'2' => 'deutsch',
-				'3' => 'deutsch (studIP)',
 				'4' => 'french',
 				'5' => 'italian',
 				'6' => 'portugues',
@@ -160,11 +150,11 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$recordings = array();
 
 		if ($om_login) {
-			$flvrecordings = $gateway->getRecordingsByExternalRooms();
+			$flvrecordings = $gateway->getRecordings();
 
 			foreach ($flvrecordings as $rec) {
-				$recId = $rec['flvRecordingId'] ? $rec['flvRecordingId'] : $rec['id'];
-				$recName = $rec['fileName'] ? $rec['fileName'] : $rec['name'];
+				$recId = $rec['id'];
+				$recName = $rec['name'];
 				if ($recId) {
 					$recordings[$recId] = $recName;
 				}
@@ -206,7 +196,7 @@ if ($mform->no_submit_button_pressed() && $om_login) {
 		header('Content-disposition: attachment; filename=' . $filename);
 		header('Content-type: video/' . $type);
 		ob_clean();
-		$url = $gateway->getUrl() . "/recordings/$type/" . getRecordingHash($gateway, $recId);
+		$url = $gateway->getUrl() . "/recordings/$type/" . getOmHash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));
 		readfile($url);
 	}
 	exit(0);
