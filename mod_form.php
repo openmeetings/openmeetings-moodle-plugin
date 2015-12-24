@@ -42,13 +42,13 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
 
 $config = array(
-		"protocol" => "http",
-		"port" => $CFG->openmeetings_red5port,
-		"host" => $CFG->openmeetings_red5host,
-		"webappname" => $CFG->openmeetings_webappname,
-		"adminUser" => $CFG->openmeetings_openmeetingsAdminUser,
-		"adminPass" => $CFG->openmeetings_openmeetingsAdminUserPass,
-		"moduleKey" => $CFG->openmeetings_openmeetingsModuleKey
+		"protocol" => $CFG->openmeetings_protocol,
+		"host" => $CFG->openmeetings_host,
+		"port" => $CFG->openmeetings_port,
+		"context" => $CFG->openmeetings_context,
+		"user" => $CFG->openmeetings_user,
+		"pass" => $CFG->openmeetings_pass,
+		"module" => $CFG->openmeetings_moduleKey 
 );
 $gateway = new openmeetings_gateway(getOmConfig());
 $om_login = $gateway->loginuser();

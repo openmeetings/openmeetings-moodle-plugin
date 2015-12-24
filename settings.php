@@ -36,16 +36,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$settings->add(new admin_setting_configtext('openmeetings_red5host', get_string('red5host', 'openmeetings'), get_string('red5host', 'openmeetings'), "localhost", PARAM_TEXT));
+$settings->add(new admin_setting_configtext('openmeetings_host', get_string('host', 'openmeetings'), get_string('host', 'openmeetings'), "localhost", PARAM_TEXT));
 
-$settings->add(new admin_setting_configtext('openmeetings_red5port', get_string('red5port', 'openmeetings'), get_string('red5port', 'openmeetings'), 5080, PARAM_INT));
+$settings->add(new admin_setting_configtext('openmeetings_port', get_string('port', 'openmeetings'), get_string('port', 'openmeetings'), 5080, PARAM_INT));
 
-$settings->add(new admin_setting_configtext('openmeetings_openmeetingsAdminUser', get_string('openmeetingsAdminUser', 'openmeetings'), get_string('openmeetingsAdminUser', 'openmeetings'), "admin", PARAM_TEXT));
+$settings->add(new admin_setting_configtext('openmeetings_user', get_string('user', 'openmeetings'), get_string('user', 'openmeetings'), "admin", PARAM_TEXT));
 
-$settings->add(new admin_setting_configpasswordunmask('openmeetings_openmeetingsAdminUserPass', get_string('openmeetingsAdminUserPass', 'openmeetings'), get_string('openmeetingsAdminUserPass', 'openmeetings'), "password", PARAM_TEXT));
+$settings->add(new admin_setting_configpasswordunmask('openmeetings_pass', get_string('pass', 'openmeetings'), get_string('pass', 'openmeetings'), "password", PARAM_TEXT));
 
-$settings->add(new admin_setting_configtext('openmeetings_openmeetingsModuleKey', get_string('openmeetingsModuleKeyLabel', 'openmeetings'), get_string('openmeetingsModuleKey', 'openmeetings'), "moodle", PARAM_TEXT));
+$settings->add(new admin_setting_configtext('openmeetings_moduleKey', get_string('moduleKey', 'openmeetings'), get_string('moduleKeyDesc', 'openmeetings'), "moodle", PARAM_TEXT));
 
-$settings->add(new admin_setting_configtext('openmeetings_webappname', get_string('openmeetingsWebappnameLabel', 'openmeetings'), get_string('openmeetingsWebappnameDescription', 'openmeetings'), "openmeetings", PARAM_TEXT));
+$settings->add(new admin_setting_configtext('openmeetings_context', get_string('webapp', 'openmeetings'), get_string('webappDesc', 'openmeetings'), "openmeetings", PARAM_TEXT));
 
-$settings->add(new admin_setting_configtext('openmeetings_protocol', get_string('openmeetingsProtocol', 'openmeetings'), get_string('openmeetingsProtocolDescription', 'openmeetings'), "http", PARAM_TEXT));
+$settings->add(new admin_setting_configtext('openmeetings_protocol', get_string('protocol', 'openmeetings'), get_string('protocolDesc', 'openmeetings'), "http", PARAM_TEXT));

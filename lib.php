@@ -36,7 +36,7 @@
 
 $old_error_handler = set_error_handler("myErrorHandler");
 require_once($CFG->dirroot.'/config.php');
-require_once($CFG->dirroot.'/mod/openmeetings/api/openmeetings_gateway.php');
+require_once($CFG->dirroot.'/mod/openmeetings/api/OmGateway.php');
 
 //include('../mod/openmeetings/lib/nusoap.php');
 // error handler function
@@ -77,11 +77,15 @@ function getRecordingHash($gateway, $recId) {
 
 function getOmConfig() {
 	global $CFG;
-	return array("protocol" => $CFG->openmeetings_protocol, "port" => $CFG->openmeetings_red5port
-		, "host" => $CFG->openmeetings_red5host, "webappname" => $CFG->openmeetings_webappname
-		, "adminUser" => $CFG->openmeetings_openmeetingsAdminUser
-		, "adminPass" => $CFG->openmeetings_openmeetingsAdminUserPass
-		, "moduleKey" => $CFG->openmeetings_openmeetingsModuleKey);
+	return array(
+			"protocol" => $CFG->openmeetings_protocol,
+			"host" => $CFG->openmeetings_host,
+			"port" => $CFG->openmeetings_port,
+			"context" => $CFG->openmeetings_context,
+			"user" => $CFG->openmeetings_user,
+			"pass" => $CFG->openmeetings_pass,
+			"module" => $CFG->openmeetings_moduleKey 
+	);
 }
 
 function setRoomName(&$openmeetings) {

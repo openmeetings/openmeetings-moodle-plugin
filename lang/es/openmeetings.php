@@ -47,12 +47,12 @@ $string['whiteboardfieldset'] = 'Ejemplo de campo personalizado';
 $string['whiteboardintro'] = 'OpenMeetings Intro';
 $string['whiteboardname'] = 'Nombre de Conferencia';
 
-$string['red5host'] = 'Host del servidor OpenMeetings o su IP';
-$string['red5port'] = 'Puerto del servidor OpenMeetings';
-$string['openmeetingsAdminUser'] = 'Usuario Admin OpenMeetings';
-$string['openmeetingsAdminUserPass'] = 'Clave Usuario Admin OpenMeetings';
-$string['openmeetingsModuleKeyLabel'] = 'Module Key';
-$string['openmeetingsModuleKey'] = 'Configuracion avanzada: OpenMeetings Module key (cambia para multiples instancias empleando el mismo Servidor OpenMeetings)';
+$string['host'] = 'Host del servidor OpenMeetings o su IP';
+$string['port'] = 'Puerto del servidor OpenMeetings';
+$string['user'] = 'Usuario Admin OpenMeetings';
+$string['pass'] = 'Clave Usuario Admin OpenMeetings';
+$string['moduleKey'] = 'Module Key';
+$string['moduleKeyDesc'] = 'Configuracion avanzada: OpenMeetings Module key (cambia para multiples instancias empleando el mismo Servidor OpenMeetings)';
 
 $string['Room_Name'] = 'Nombre de la Sala';
 $string['Room_Type'] = 'Tipo de Sala';
@@ -78,8 +78,8 @@ $string['Allow_Recording'] = 'Grabacion permitida';
 $string['Recording_TYPE_1'] = 'Funcionalidad de grabacion disponible.';
 $string['Recording_TYPE_2'] = 'Funcionalidad de grabacion no disponible.';
 
-$string['openmeetingsWebappnameLabel'] = 'Nombre webapp OpenMeetings';
-$string['openmeetingsWebappnameDescription'] = 'Configuracion Avanzada: Si ha renombrado webapp en OpenMeetings puede poner el nuevo nombre aqui.';
+$string['webapp'] = 'Nombre webapp OpenMeetings';
+$string['webappDesc'] = 'Configuracion Avanzada: Si ha renombrado webapp en OpenMeetings puede poner el nuevo nombre aqui.';
 
 $string['download_avi'] = 'Download .avi';
 $string['download_flv'] = 'Download .flv';
@@ -90,8 +90,8 @@ $string['whole_window'] = 'Occupy the entire window';
 $string['whole_window_type_1'] = 'Display in frame';
 $string['whole_window_type_2'] = 'Occupy the entire window';
 $string['whole_window_type_3'] = 'Open in new window';
-$string['openmeetingsProtocol'] = 'Protocol';
-$string['openmeetingsProtocolDescription'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
+$string['protocol'] = 'Protocol';
+$string['protocolDesc'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
 
 $string['description'] = 'Description';
 

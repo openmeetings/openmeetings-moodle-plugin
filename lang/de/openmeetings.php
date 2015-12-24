@@ -46,12 +46,12 @@ $string['whiteboardfieldset'] = 'Custom example fieldset';
 $string['whiteboardintro'] = 'OpenMeetings Intro';
 $string['whiteboardname'] = 'Name';
 
-$string['red5host'] = 'OpenMeetings Server Host oder IP';
-$string['red5port'] = 'OpenMeetings Server Port';
-$string['openmeetingsAdminUser'] = 'OpenMeetings Admin Benutzer';
-$string['openmeetingsAdminUserPass'] = 'OpenMeetings Admin Benutzer Passwort';
-$string['openmeetingsModuleKeyLabel'] = 'Modul-Schl&uuml;ssel';
-$string['openmeetingsModuleKey'] = 'Erweiterte Einstellung: OpenMeetings Modul-Schl&uuml;ssel (falls Sie mehrer Moodle Instanzen betreiben sollte der Schl&uuml;ssel bei jeder Instanz anders sein)';
+$string['host'] = 'OpenMeetings Server Host oder IP';
+$string['port'] = 'OpenMeetings Server Port';
+$string['user'] = 'OpenMeetings Admin Benutzer';
+$string['pass'] = 'OpenMeetings Admin Benutzer Passwort';
+$string['moduleKey'] = 'Modul-Schl&uuml;ssel';
+$string['moduleKeyDesc'] = 'Erweiterte Einstellung: OpenMeetings Modul-Schl&uuml;ssel (falls Sie mehrer Moodle Instanzen betreiben sollte der Schl&uuml;ssel bei jeder Instanz anders sein)';
 
 $string['Room_Name'] = 'Raumname';
 $string['Room_Type'] = 'Raumtyp';
@@ -76,8 +76,8 @@ $string['Allow_Recording'] = 'Funktion zum Aufzeichnen verf&uuml;gbar';
 $string['Recording_TYPE_1'] = 'Die Funktion zum Aufzeichnen der Konferenz ist verf&uuml;gbar und kann gestartet werden.';
 $string['Recording_TYPE_2'] = 'Die Funktion zum Aufzeichnen der Konferenz ist nicht verf&uuml;gbar.';
 
-$string['openmeetingsWebappnameLabel'] = 'Name der OpenMeetings-Webanwendung';
-$string['openmeetingsWebappnameDescription'] = 'Erweiterte Einstellung: Wenn sie die OpenMeetings Applikation umbenannt haben k&ouml;nnen Sie hier einen alternativen Namen eingeben.';
+$string['webapp'] = 'Name der OpenMeetings-Webanwendung';
+$string['webappDesc'] = 'Erweiterte Einstellung: Wenn sie die OpenMeetings Applikation umbenannt haben k&ouml;nnen Sie hier einen alternativen Namen eingeben.';
 
 $string['download_avi'] = 'Download .avi';
 $string['download_flv'] = 'Download .flv';
@@ -88,8 +88,8 @@ $string['whole_window'] = 'gesamtes Fenster verwenden';
 $string['whole_window_type_1'] = 'in einem Rahmen anzeigen';
 $string['whole_window_type_2'] = 'gesamtes Fenster verwenden';
 $string['whole_window_type_3'] = 'ein neues Fenster öffnen';
-$string['openmeetingsProtocol'] = 'Protokoll';
-$string['openmeetingsProtocolDescription'] = 'Protokoll das verwendet wird um die Openmeetings URLs zu erzeugen (Standard: http)';
+$string['protocol'] = 'Protokoll';
+$string['protocolDesc'] = 'Protokoll das verwendet wird um die Openmeetings URLs zu erzeugen (Standard: http)';
 
 $string['description'] = 'Beschreibung';
 

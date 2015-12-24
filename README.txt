@@ -4,9 +4,9 @@ This Moodle plugin uses Apache OpenMeetings.
 You need your own Apache OpenMeetings instance running.
 
 ##Versions##
-OpenMeetings: 3.1.0
+OpenMeetings: 3.1.x
 
-Moodle: 2.8
+Moodle: 3.0
 
 ##Check out:##
 

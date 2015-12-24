@@ -47,12 +47,12 @@ $string['whiteboardfieldset'] = 'Custom example fieldset';
 $string['whiteboardintro'] = 'OpenMeetings Intro';
 $string['whiteboardname'] = 'Nom de la r&eacute;union';
 
-$string['red5host'] = 'OpenMeetings Server Host or IP';
-$string['red5port'] = 'OpenMeetings Server Port';
-$string['openmeetingsAdminUser'] = 'OpenMeetings Admin User';
-$string['openmeetingsAdminUserPass'] = 'OpenMeetings Admin User Password';
-$string['openmeetingsModuleKeyLabel'] = 'Module Key';
-$string['openmeetingsModuleKey'] = 'Advanced setting: OpenMeetings Module key (vary for multiple instances using same OpenMeetings Server)';
+$string['host'] = 'OpenMeetings Server Host or IP';
+$string['port'] = 'OpenMeetings Server Port';
+$string['user'] = 'OpenMeetings Admin User';
+$string['pass'] = 'OpenMeetings Admin User Password';
+$string['moduleKey'] = 'Module Key';
+$string['moduleKeyDesc'] = 'Advanced setting: OpenMeetings Module key (vary for multiple instances using same OpenMeetings Server)';
 
 $string['Room_Name'] = 'Nom R&eacute;union';
 $string['Room_Type'] = 'Type R&eacute;union';
@@ -77,8 +77,8 @@ $string['Allow_Recording'] = 'Recording allowed';
 $string['Recording_TYPE_1'] = 'Recording functionality is available.';
 $string['Recording_TYPE_2'] = 'Recording functionality is not available.';
 
-$string['openmeetingsWebappnameLabel'] = 'OpenMeetings webapp name';
-$string['openmeetingsWebappnameDescription'] = 'Advanced setting: If you have renamed the OpenMeetings webapp you can enter your alternative name here.';
+$string['webapp'] = 'OpenMeetings webapp name';
+$string['webappDesc'] = 'Advanced setting: If you have renamed the OpenMeetings webapp you can enter your alternative name here.';
 
 $string['download_avi'] = 'Download .avi';
 $string['download_flv'] = 'Download .flv';
@@ -89,8 +89,8 @@ $string['whole_window'] = 'Occupy the entire window';
 $string['whole_window_type_1'] = 'Display in frame';
 $string['whole_window_type_2'] = 'Occupy the entire window';
 $string['whole_window_type_3'] = 'Open in new window';
-$string['openmeetingsProtocol'] = 'Protocol';
-$string['openmeetingsProtocolDescription'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
+$string['protocol'] = 'Protocol';
+$string['protocolDesc'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
 
 $string['description'] = 'Description';
 
