@@ -6,7 +6,7 @@ You need your own Apache OpenMeetings instance running.
 ##Versions##
 OpenMeetings: 3.0.x
 
-Moodle: 2.8
+Moodle: 2.9
 
 ##Check out:##
 
