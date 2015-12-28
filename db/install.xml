@@ -49,7 +49,8 @@
         <FIELD NAME="room_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" ENUM="false" PREVIOUS="timemodified" NEXT="room_recording_id"/>
         <FIELD NAME="room_recording_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" ENUM="false" COMMENT="Id of the recording" PREVIOUS="room_id" NEXT="allow_recording"/>
         <FIELD NAME="allow_recording" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" ENUM="false" COMMENT="Flag to check if recording is allowed in the room" PREVIOUS="room_recording_id" NEXT="whole_window"/>
-        <FIELD NAME="whole_window" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" ENUM="false" COMMENT="Property to define how OM room will be opened" PREVIOUS="allow_recording" />
+        <FIELD NAME="whole_window" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" ENUM="false" COMMENT="Property to define how OM room will be opened" PREVIOUS="allow_recording" NEXT="chat_hidden" />
+        <FIELD NAME="chat_hidden" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" ENUM="false" COMMENT="Flag to check if chat is hidden in the room" PREVIOUS="whole_window" />
 	  </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for whiteboard"/>

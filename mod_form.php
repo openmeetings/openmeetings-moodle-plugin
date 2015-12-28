@@ -136,7 +136,11 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				'1' => get_string('Recording_TYPE_1', 'openmeetings'),
 				'2' => get_string('Recording_TYPE_2', 'openmeetings')
 		));
-
+		//chatHidden
+		$mform->addElement('select', 'chat_hidden', get_string('Chat_Hidden', 'openmeetings'), array(
+				'0' => get_string('Chat_Hidden_TYPE_1', 'openmeetings'),
+				'1' => get_string('Chat_Hidden_TYPE_2', 'openmeetings')
+		));
 		$mform->addElement('select', 'whole_window', get_string('whole_window', 'openmeetings'), array(
 				'0' => get_string('whole_window_type_1', 'openmeetings'),
 				'1' => get_string('whole_window_type_2', 'openmeetings'),

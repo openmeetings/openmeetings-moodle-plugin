@@ -109,6 +109,7 @@ function getRoom(&$openmeetings) {
 			, 'audioOnly' => false
 			, 'allowUserQuestions' => true
 			, 'allowRecording' => 1 == $openmeetings->allow_recording
+			, 'chatHidden' => 1 == $openmeetings->chat_hidden
 			, 'externalId' => $openmeetings->instance
 	);
 }

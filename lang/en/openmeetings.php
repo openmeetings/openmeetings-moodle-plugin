@@ -95,3 +95,6 @@ $string['protocolDesc'] = 'Protocol to be used while constructing Openmeetings U
 
 $string['description'] = 'Description';
 
+$string['Chat_Hidden'] = 'Chat hidden';
+$string['Chat_Hidden_TYPE_1'] = 'Display chat in the room.';
+$string['Chat_Hidden_TYPE_2'] = 'Hide chat in the room.';
