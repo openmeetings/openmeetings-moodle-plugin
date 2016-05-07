@@ -36,10 +36,10 @@
 
 $string['openmeetings'] = 'openmeetings';
 $string['openmeetings:addinstance'] = 'Eine OpenMeetings-Instanz hinzuf&uuml;gen';
-$string['openmeetings:becomemoderator'] = 'Moderator in einem Openmeetings-Raum werden';
+$string['openmeetings:becomemoderator'] = 'Moderator in einem OpenMeetings-Raum werden';
 
 $string['modulename'] = 'OpenMeetings';
-$string['modulename_help'] = 'OpenMeetings ist eine freie browser-basierte Software mit der Sie sich sehr einfach eine Webkonferenz einrichten k&ouml;nnen. Sie k&ouml;nnen daf&uuml;r Ihr Mikrofon und/oder Ihre Webcam nutzen, Dokumente auf einem Whiteboard austauschen, den Bildschirm teilen oder die Onlinesitzungen aufzeichnen.<br><br>Dieses Moodle-Plugin verwendet Apache OpenMeetings. Sie brauchen dazu eine eigene laufende Apache OpenMeetings Installation.<br><br>Weitere Informationen finden Sie hier: <a href="http://openmeetings.apache.org">http://openmeetings.apache.org</a>';
+$string['modulename_help'] = 'OpenMeetings ist e#ine freie browser-basierte Software, mit der Sie sich sehr einfach eine Webkonferenz einrichten k&ouml;nnen. Sie k&ouml;nnen daf&uuml;r Ihr Mikrofon und/oder Ihre Webcam nutzen, Dokumente auf einem Whiteboard austauschen, den Bildschirm teilen oder die Onlinesitzungen aufzeichnen.<br><br>Dieses Moodle-Plugin verwendet Apache OpenMeetings. Sie brauchen dazu eine eigene laufende Apache OpenMeetings Installation.<br><br>Weitere Informationen finden Sie hier: <a href="http://openmeetings.apache.org">http://openmeetings.apache.org</a>';
 $string['modulenameplural'] = 'OpenMeetings';
 
 $string['whiteboardfieldset'] = 'Custom example fieldset';
@@ -55,7 +55,7 @@ $string['moduleKeyDesc'] = 'Erweiterte Einstellung: OpenMeetings Modul-Schl&uuml
 
 $string['Room_Name'] = 'Raumname';
 $string['Room_Type'] = 'Raumtyp';
-$string['Room_Language'] = 'Raum-Sprache';
+$string['Room_Language'] = 'Sprache des Raumes';
 $string['Max_User'] = 'Maximale Teilnehmerzahl';
 $string['Wait_for_teacher'] = 'Moderations-Modus';
 
@@ -65,7 +65,7 @@ $string['recordings_show'] = 'Aufgezeichnete Meetings';
 $string['Conference'] = 'Konferenz (bis 16 Teilnehmer)';
 $string['Interview'] = 'Interview (2 Teilnehmer)';
 $string['Restricted'] = 'Webinar (bis 150 Teilnehmer)';
-$string['Recording'] = 'Aufzeichnung anzeigen (Aufzeichnung ausw&auml;hlen die statt dem Konferenzraum dann angezeigt wird!)';
+$string['Recording'] = 'Aufzeichnung anzeigen (Aufzeichnung ausw&auml;hlen, die statt dem Konferenzraum dann angezeigt wird!)';
 
 $string['Moderation_Description'] = '(Moodle Administratoren, Lehrer und Kurs Moderatoren sind automatisch Moderator)';
 $string['Moderation_TYPE_1'] = 'Teilnehmer m&uuml;ssen warten bis ein Moderator im Raum erscheint';
@@ -89,10 +89,10 @@ $string['whole_window_type_1'] = 'in einem Rahmen anzeigen';
 $string['whole_window_type_2'] = 'gesamtes Fenster verwenden';
 $string['whole_window_type_3'] = 'ein neues Fenster öffnen';
 $string['protocol'] = 'Protokoll';
-$string['protocolDesc'] = 'Protokoll das verwendet wird um die Openmeetings URLs zu erzeugen (Standard: http)';
+$string['protocolDesc'] = 'Protokoll das verwendet wird, um die Openmeetings URLs zu erzeugen (Standard: http)';
 
 $string['description'] = 'Beschreibung';
 
-$string['Chat_Hidden'] = 'Chat hidden';
-$string['Chat_Hidden_TYPE_1'] = 'Display chat in the room.';
-$string['Chat_Hidden_TYPE_2'] = 'Hide chat in the room.';
+$string['Chat_Hidden'] = 'Chat verbergen';
+$string['Chat_Hidden_TYPE_1'] = 'Chat im Raum anzeigen.';
+$string['Chat_Hidden_TYPE_2'] = 'Chat im Raum verbergen.';

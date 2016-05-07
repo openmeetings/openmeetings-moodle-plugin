@@ -1,5 +1,8 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+2.0.0.1 (2016043001)
+ * Moodle plugin is updated to work as expected with OM 3.1 and Moodle 3.0
+ 
 1.7.5.1 (2015051801)
    * GPL header was added to the files
 
