@@ -28,11 +28,6 @@ env:
   - DB=mysqli MOODLE_BRANCH=MOODLE_29_STABLE
   - DB=mysqli MOODLE_BRANCH=MOODLE_30_STABLE
   - DB=mysqli MOODLE_BRANCH=master
-  - DB=mariadb MOODLE_BRANCH=MOODLE_27_STABLE
-  - DB=mariadb MOODLE_BRANCH=MOODLE_28_STABLE
-  - DB=mariadb MOODLE_BRANCH=MOODLE_29_STABLE
-  - DB=mariadb MOODLE_BRANCH=MOODLE_30_STABLE
-  - DB=mariadb MOODLE_BRANCH=master
 
 before_install:
   - phpenv config-rm xdebug.ini
