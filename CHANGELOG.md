@@ -1,5 +1,8 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+2.0.0.3 (2016051801)
+ * config values from old plugins are preserved
+
 2.0.0.2 (2016051501)
  * fixed two upgrade issues (added chat_hidden field and changed type of the field type)
 

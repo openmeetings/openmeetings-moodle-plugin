@@ -95,28 +95,41 @@ function xmldb_openmeetings_upgrade($oldversion) {
 		upgrade_mod_savepoint(true, $ver, 'openmeetings');
 	}
 
-        $ver = 2016042002;
-        if ($oldversion < $ver) {
-                // Define field chat_hidden to be added to openmeetings
-                $table = new xmldb_table('openmeetings');
-                $field = new xmldb_field('chat_hidden', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'whole_window');
+	$ver = 2016042002;
+	if ($oldversion < $ver) {
+		// Define field chat_hidden to be added to openmeetings
+		$table = new xmldb_table('openmeetings');
+		$field = new xmldb_field('chat_hidden', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'whole_window');
 
-                // Conditionally launch add field chat_hidden
-                if (!$dbman->field_exists($table, $field)) {
-                        $dbman->add_field($table, $field);
-                }
+		// Conditionally launch add field chat_hidden
+		if (!$dbman->field_exists($table, $field)) {
+			$dbman->add_field($table, $field);
+		}
 
-                // Define field type to be changed in openmeetings
-                $table = new xmldb_table('openmeetings');
-                $field = new xmldb_field('type', XMLDB_TYPE_CHAR, '16', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'teacher');
+		// Define field type to be changed in openmeetings
+		$table = new xmldb_table('openmeetings');
+		$field = new xmldb_field('type', XMLDB_TYPE_CHAR, '16', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'teacher');
 
-                // Conditionally launch change type of the field type
-                if ($dbman->field_exists($table, $field)) {
-                        $dbman->change_field_type($table, $field);
-                }
+		// Conditionally launch change type of the field type
+		if ($dbman->field_exists($table, $field)) {
+			$dbman->change_field_type($table, $field);
+		}
 
-                upgrade_mod_savepoint(true, $ver, 'openmeetings');
-        }
+		set_config('openmeetings_host', $CFG->openmeetings_red5host);
+		set_config('openmeetings_port', $CFG->openmeetings_red5port);
+		set_config('openmeetings_user', $CFG->openmeetings_openmeetingsAdminUser);
+		set_config('openmeetings_pass', $CFG->openmeetings_openmeetingsAdminUserPass);
+		set_config('openmeetings_moduleKey', $CFG->openmeetings_openmeetingsModuleKey);
+		set_config('openmeetings_context', $CFG->openmeetings_webappname);
+		unset_config('openmeetings_red5host');
+		unset_config('openmeetings_red5port');
+		unset_config('openmeetings_openmeetingsAdminUser');
+		unset_config('openmeetings_openmeetingsAdminUserPass');
+		unset_config('openmeetings_openmeetingsModuleKey');
+		unset_config('openmeetings_webappname');
+
+		upgrade_mod_savepoint(true, $ver, 'openmeetings');
+	}
 
 	return $result;
 }
