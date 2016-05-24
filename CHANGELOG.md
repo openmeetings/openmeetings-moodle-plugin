@@ -1,5 +1,13 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+2.0.0.4 (2016052401)
+ * removed the ENUM attributes from the instal.xml, because they are deprecated since moodle 2.0
+ * added PHP 7 and MOODLE_31_STABLE checks to the travis-ci test
+ * Moodle plugin is updated to work as expected with OM 3.1 and all Moodle versions from 2.7 to 3.1
+
+2.0.0.3 (2016051801)
+ * config values from old plugins are preserved
+
 2.0.0.2 (2016051501)
  * fixed two upgrade issues (added chat_hidden field and changed type of the field type)
 
@@ -7,11 +15,11 @@ Apache OpenMeetings Moodle Plugin Change Log
  * Moodle plugin is updated to work as expected with OM 3.1 and Moodle 3.0
  
 1.7.5.1 (2015051801)
-   * GPL header was added to the files
+  * GPL header was added to the files
 
 1.7.5 (2015051301)
-   * added standard_intro_elements as description field instead of the old mform for intro/comment 
-   * installation and upgrade works with moodle 2.9.x and Openmeetings with version 3.0.+
+  * added standard_intro_elements as description field instead of the old mform for intro/comment 
+  * installation and upgrade works with moodle 2.9.x and Openmeetings with version 3.0.+
 
 1.7.4.1 (2015040201)
   * added function openmeetings_scale_used_anywhere
