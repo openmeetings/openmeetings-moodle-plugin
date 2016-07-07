@@ -1,5 +1,11 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+2.0.0.5 (2016070701)
+ * Recording download from 'Add OpenMeetings activity' page is fixed
+
+2.0.0.4 (2016052401)
+ * code clean-up: versions are updated, Travis build is set up
+
 2.0.0.3 (2016051801)
  * config values from old plugins are preserved
 
