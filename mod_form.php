@@ -200,7 +200,7 @@ if ($mform->no_submit_button_pressed() && $om_login) {
 		header('Content-disposition: attachment; filename=' . $filename);
 		header('Content-type: video/' . $type);
 		ob_clean();
-		$url = $gateway->getUrl() . "/recordings/$type/" . getOmHash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));
+		$url = $gateway->getUrl() . "/recordings/$type/" . getOmHash($gateway, array("recordingId" => $recId));
 		readfile($url);
 	}
 	exit(0);
