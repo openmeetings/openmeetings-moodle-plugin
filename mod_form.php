@@ -148,7 +148,8 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		));
 
 		// Adding the optional "intro" field
-		$this->standard_intro_elements(get_string('description', 'openmeetings'));
+		$mform->addElement('htmleditor', 'intro', get_string('description', 'openmeetings'));
+		$mform->setType('intro', PARAM_RAW);
 
 		// Adding the "Available Recordings to Shows" field
 		$recordings = array();
