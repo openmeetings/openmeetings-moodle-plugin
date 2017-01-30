@@ -120,8 +120,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 			// Simulate the User automatically
 			if ($openmeetings->om->type != 'recording') {
 				$hash = getOmHash($gateway, array("roomId" => $openmeetings->om->room_id, "moderator" => $becomemoderator, "allowRecording" => $allowRecording));
-				$url = $gateway->getUrl() . "/swf?&secureHash=" . $hash
-					. "&scopeRoomId=" . $openmeetings->om->room_id
+				$url = $gateway->getUrl() . "/hash?&secure=" . $hash
 					. "&language=" . $openmeetings->om->language;
 			} else {
 				$hash = getOmHash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));

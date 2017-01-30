@@ -19,10 +19,13 @@
 	xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property name="dist.dir" value="dist" />
-	<property name="project.version" value="2.0.0.6" />
+	<property name="project.version" value="2.0.1.0" />
 	<property name="project.distname" value="openmeetings-moodle-plugin" />
 	<property name="plugin.name" value="openmeetings" />
 
+	<tstamp>
+		<format property="VERSION_DATE" pattern="yyyyMMdd01" />
+	</tstamp>
 	<target name="dist-bin" depends="clean">
 		<property name="archive.file.name" value="${dist.dir}/apache-${project.distname}-${project.version}" />
 
@@ -37,6 +40,10 @@
 				<exclude name="ivysettings.xsd"/>
 			</fileset>
 		</copy>
+		<echo message="$$plugin->release    = '${project.version}';${line.separator}" file="${dist.dir}/${plugin.name}/version.php"
+				append="true" force="true"/>
+		<echo message="$$plugin->version    = ${VERSION_DATE};${line.separator}" file="${dist.dir}/${plugin.name}/version.php"
+				append="true" force="true"/>
 		<zip destfile="${archive.file.name}.zip">
 			<zipfileset dir="${dist.dir}">
 				<include name="${plugin.name}/**/**" />
