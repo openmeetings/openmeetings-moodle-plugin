@@ -11,7 +11,15 @@ PHP 7.0 or later, OpenMeetings 3.2.0 or later and Moodle 2.9 or later.
 ##tested Versions##
 OpenMeetings: 3.2.0
 
-Moodle: 2.9
+Moodle: 3.0
+
+##Building/Developing
+
+* Checkout necessary branch `git checkout <branch_name>`
+* Perform necessary edits
+* update `<property name="project.version" value="2.0.2.0" />` in build.xml
+* run `ant` command
+As a result version.php packed will have correct $plugin->release and $plugin->version set
 
 ##Check out:##
 

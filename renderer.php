@@ -58,7 +58,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 		
 		$title = $course->shortname . ": " . $openmeetings->om->name;
 		$PAGE->set_title($title);
-		$PAGE->set_cacheable(true);
+		$PAGE->set_cacheable(false);
 		$PAGE->set_focuscontrol("");
 		$PAGE->set_url('/mod/openmeetings/view.php', array(
 				'id' => $cm->id
@@ -67,6 +67,18 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 		if ($openmeetings->om->whole_window > 0) {
 			$out .= "<html" . $this->output->htmlattributes() . ">";
 			$out .= html_writer::start_tag("head");
+			$out .= html_writer::empty_tag("meta", array(
+					"http-equiv" => "pragma",
+					"content" => "no-cache")
+				);
+			$out .= html_writer::empty_tag("meta", array(
+					"http-equiv" => "expires",
+					"content" => "-1")
+				);
+			$out .= html_writer::empty_tag("meta", array(
+					"http-equiv" => "cache-control",
+					"content" => "no-cache")
+				);
 			$out .= html_writer::tag("title", $title);
 			$out .= $this->output->standard_head_html();
 			$out .= html_writer::end_tag("head");
@@ -120,14 +132,12 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 			// Simulate the User automatically
 			if ($openmeetings->om->type != 'recording') {
 				$hash = getOmHash($gateway, array("roomId" => $openmeetings->om->room_id, "moderator" => $becomemoderator, "allowRecording" => $allowRecording));
-				$url = $gateway->getUrl() . "/hash?&secure=" . $hash
-					. "&language=" . $openmeetings->om->language;
 			} else {
 				$hash = getOmHash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));
-				$url = $gateway->getUrl() . "/recording/" . $hash;
 			}
 			
 			if ($hash != "") {
+				$url = $gateway->getUrl() . "/hash?&secure=" . $hash . "&language=" . $openmeetings->om->language;
 				$height = $openmeetings->om->whole_window > 0 ? "100%" : "640px";
 				$out .= html_writer::empty_tag("iframe", array(
 						"src" => $url,
