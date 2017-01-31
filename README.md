@@ -19,7 +19,8 @@ Moodle: 3.0
 * Perform necessary edits
 * update `<property name="project.version" value="2.0.2.0" />` in build.xml
 * run `ant` command
-As a result version.php packed will have correct $plugin->release and $plugin->version set
+
+As a result `version.php` packed will have correct `$plugin->release` and `$plugin->version` set
 
 ##Check out:##
 
