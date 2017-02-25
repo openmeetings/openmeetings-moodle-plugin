@@ -170,11 +170,8 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$dgrp = array();
 		$dgrp[] = & $mform->createElement('static', 'description', '', get_string('recordings_label', 'openmeetings'));
 		$dgrp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings);
-		$dgrp[] = & $mform->createElement('submit', 'avi', get_string('download_avi', 'openmeetings'));
-		$dgrp[] = & $mform->createElement('submit', 'flv', get_string('download_flv', 'openmeetings'));
+		$dgrp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'));
 		$mform->addGroup($dgrp, 'dgrp', get_string('recordings_show', 'openmeetings'), array(' '), false);
-				$mform->setType('avi', PARAM_NOTAGS);
-		$mform->setType('flv', PARAM_NOTAGS);
 
 		// -------------------------------------------------------------------------------
 		// add standard elements, common to all modules
@@ -194,7 +191,7 @@ $mform = new mod_openmeetings_mod_form($data, $data->section, $cm, $course);
 
 if ($mform->no_submit_button_pressed() && $om_login) {
 	$recId = $mform->get_submitted_data()->{'room_recording_id'};
-	$type = isset($mform->get_submitted_data()->{'avi'}) ? "avi" : (isset($mform->get_submitted_data()->{'flv'}) ? "flv" : "none");
+	$type = "mp4";
 	$filename = "flvRecording_$recId.$type";
 	if ($om_login) {
 		header('Content-disposition: attachment; filename=' . $filename);

@@ -81,8 +81,7 @@ $string['Recording_TYPE_2'] = 'Запретить';
 $string['webapp'] = 'Имя Java-приложения OpenMeetings';
 $string['webappDesc'] = 'Дополнительная функция: Если Вы переименовали приложение OpenMeetings укажите его новое имя здесь.';
 
-$string['download_avi'] = 'Скачать .avi';
-$string['download_flv'] = 'Скачать .flv';
+$string['download_mp4'] = 'Скачать .mp4';
 
 $string['pluginadministration'] = 'Администратор OpenMeetings';
 $string['pluginname'] = 'OpenMeetings';

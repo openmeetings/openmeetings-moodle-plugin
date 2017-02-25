@@ -81,8 +81,7 @@ $string['Recording_TYPE_2'] = 'Funcionalidad de grabacion no disponible.';
 $string['webapp'] = 'Nombre webapp OpenMeetings';
 $string['webappDesc'] = 'Configuracion Avanzada: Si ha renombrado webapp en OpenMeetings puede poner el nuevo nombre aqui.';
 
-$string['download_avi'] = 'Download .avi';
-$string['download_flv'] = 'Download .flv';
+$string['download_mp4'] = 'Download .mp4';
 
 $string['pluginadministration'] = 'OpenMeetings Administration';
 $string['pluginname'] = 'OpenMeetings';
