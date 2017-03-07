@@ -165,8 +165,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 			}
 		}
 
-		$mform->registerNoSubmitButton('avi');
-		$mform->registerNoSubmitButton('flv');
+		$mform->registerNoSubmitButton('mp4');
 		$dgrp = array();
 		$dgrp[] = & $mform->createElement('static', 'description', '', get_string('recordings_label', 'openmeetings'));
 		$dgrp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings);
