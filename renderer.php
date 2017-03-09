@@ -94,7 +94,6 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 			$stropenmeetingss = get_string("modulenameplural", "openmeetings");
 			
 			$PAGE->set_heading($course->fullname); // Required
-			$PAGE->set_button($OUTPUT->update_module_button($cm->id, 'openmeetings'));
 			$PAGE->navbar->add($stropenmeetingss, null, null, navigation_node::TYPE_CUSTOM, new moodle_url($CFG->wwwroot . '/user/index.php?id=' . $courseid));
 			$PAGE->navbar->add($openmeetings->om->name);
 			
