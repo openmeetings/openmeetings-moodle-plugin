@@ -38,7 +38,7 @@ defined('MOODLE_INTERNAL') || die;
 
 $plugin->component  = 'mod_openmeetings';
 $plugin->maturity   = MATURITY_STABLE;
-$plugin->requires   = 2014051200;
+$plugin->requires   = 2015051100;
 $plugin->cron       = 0;
 $plugin->om_version = '3.2+';
 
