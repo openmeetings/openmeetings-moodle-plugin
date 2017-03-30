@@ -38,34 +38,33 @@ $old_error_handler = set_error_handler("myErrorHandler");
 require_once($CFG->dirroot.'/config.php');
 require_once($CFG->dirroot.'/mod/openmeetings/api/OmGateway.php');
 
-//include('../mod/openmeetings/lib/nusoap.php');
 // error handler function
 function myErrorHandler($errno, $errstr, $errfile, $errline)
 {
-    switch ($errno) {
-    case E_USER_ERROR:
-        echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
-        echo "  Fatal error on line $errline in file $errfile";
-        echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
-        echo "Aborting...<br />\n";
-        exit(1);
-        break;
+	switch ($errno) {
+	case E_USER_ERROR:
+		echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
+		echo "  Fatal error on line $errline in file $errfile";
+		echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+		echo "Aborting...<br />\n";
+		exit(1);
+		break;
 
-    case E_USER_WARNING:
-        echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
-        break;
+	case E_USER_WARNING:
+		echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
+		break;
 
-    case E_USER_NOTICE:
-        echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
-        break;
+	case E_USER_NOTICE:
+		echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+		break;
 
-    default:
-        //echo "Unknown error type: [$errno] $errstr<br />\n";
-        break;
-    }
+	default:
+		//echo "Unknown error type: [$errno] $errstr<br />\n";
+		break;
+	}
 
-    /* Don't execute PHP internal error handler */
-    return true;
+	/* Don't execute PHP internal error handler */
+	return true;
 }
 
 function getOmUser($gateway) {
@@ -128,10 +127,9 @@ function openmeetings_add_instance(&$openmeetings) {
 		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 		exit();
 	}
-    # May have to add extra stuff in here #
-    return $DB->insert_record("openmeetings", $openmeetings);
+	# May have to add extra stuff in here #
+	return $DB->insert_record("openmeetings", $openmeetings);
 }
-
 
 function openmeetings_update_instance(&$openmeetings) {
 	global $DB;
@@ -155,7 +153,6 @@ function openmeetings_update_instance(&$openmeetings) {
 	# May have to add extra stuff in here #
 	return $DB->update_record("openmeetings", $openmeetings);
 }
-
 
 function openmeetings_delete_instance($id) {
 	global $DB;
@@ -205,44 +202,39 @@ function openmeetings_get_coursemodule_info($coursemodule) {
 		return null;
 	}
 	$info = new cached_cm_info();
-	$info->name = format_string($meeting->name);
+	$info->name = $meeting->name;
 	$info->onclick = "window.open('" . new moodle_url('/mod/openmeetings/view.php', array ('id' => $coursemodule->id)) . "');return false;";
 	return $info;
 }
 
 function openmeetings_user_outline($course, $user, $mod, $openmeetings) {
-    return true;
+	return true;
 }
-
 
 function openmeetings_user_complete($course, $user, $mod, $openmeetings) {
-    return true;
+	return true;
 }
-
 
 function openmeetings_print_recent_activity($course, $isteacher, $timestart) {
-    return false;  //  True if anything was printed, otherwise false 
+	return false;  //  True if anything was printed, otherwise false 
 }
-
 
 function openmeetings_cron () {
-    return true;
+	return true;
 }
-
 
 function openmeetings_grades($openmeetingsid) {
-   return NULL;
+	return NULL;
 }
 
-
 function openmeetings_get_participants($openmeetingsid) {
-    return false;
+	return false;
 }
 
 function openmeetings_scale_used($openmeetingsid, $scaleid) {
-    return false;
+	return false;
 }
 
 function openmeetings_scale_used_anywhere($scaleid) {
-    return false;
+	return false;
 }
