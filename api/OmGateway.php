@@ -51,6 +51,19 @@ class OmGateway {
 		return $this->config["protocol"] . "://" . $this->config["host"] . $port . "/" . $this->config["context"];
 	}
 
+	function version() {
+		$rest = new OmRestService();
+		$response = $rest->call(
+				$this->getRestUrl("info") . "version"
+				, RestMethod::GET
+				, null
+				, array()
+				, null
+				, "info"
+				);
+		return $response;
+	}
+
 	function login() {
 		$rest = new OmRestService();
 		$response = $rest->call(
@@ -106,6 +119,30 @@ class OmGateway {
 		} else {
 			if ($response["type"] == "SUCCESS") {
 				return $response["message"];
+			} else {
+				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+			}
+		}
+		return -1;
+	}
+
+	function getRoom($roomId) {
+		$rest = new OmRestService();
+		$response = $rest->call(
+				$this->getRestUrl("room") . $roomId
+				, RestMethod::GET
+				, $this->sessionId
+				, null
+				, null
+				, "roomDTO"
+			);
+		if ($rest->isError()) {
+			echo '<h2>Fault (Service error)</h2><pre>';
+			print_r($rest->getMessage());
+			echo '</pre>';
+		} else {
+			if (isset($response["id"]) && $response["id"]) {
+				return $response;
 			} else {
 				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
 			}
@@ -175,6 +212,64 @@ class OmGateway {
 				, null
 				, "recordingDTO"
 			);
+		if ($rest->isError()) {
+			echo '<h2>Fault (Service error)</h2><pre>';
+			print_r($rest->getMessage());
+			echo '</pre>';
+		} else {
+			return $response;
+		}
+		return array();
+	}
+
+	function deleteRecording($recId) {
+		$rest = new OmRestService();
+		$response = $rest->call(
+				$this->getRestUrl("record") . $recId
+				, RestMethod::DELETE
+				, $this->sessionId
+				, ""
+				, null
+				, "serviceResult"
+			);
+		if ($rest->isError()) {
+			echo '<h2>Fault (Service error)</h2><pre>';
+			print_r($rest->getMessage());
+			echo '</pre>';
+		} else {
+			if ($response["type"] == "SUCCESS") {
+				return $response["code"];
+			} else {
+				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+			}
+		}
+		return -1;
+	}
+
+	function createFile($fileJson, $file) {
+		$rest = new OmRestService();
+		$boundary = '';
+		$params = array(
+				array(
+					"name" => "file"
+					, "type" => "application/json"
+					, "val" => json_encode($fileJson)
+				)
+				, array(
+					"name" => "stream"
+					, "type" => "application/octet-stream"
+					, "val" => file_get_contents($file)
+				)
+			);
+		$data = OmRestService::encode($params, $boundary);
+		$response = $rest->call(
+				$this->getRestUrl("file")
+				, RestMethod::POST
+				, $this->sessionId
+				, $data
+				, array("Content-Length: " . strlen($data), 'Content-Type: multipart/form-data; boundary=' . $boundary)
+				, "fileExplorerItemDTO"
+				);
 		if ($rest->isError()) {
 			echo '<h2>Fault (Service error)</h2><pre>';
 			print_r($rest->getMessage());

@@ -97,3 +97,6 @@ $string['description'] = 'Description';
 $string['Chat_Hidden'] = 'Chat hidden';
 $string['Chat_Hidden_TYPE_1'] = 'Display chat in the room.';
 $string['Chat_Hidden_TYPE_2'] = 'Hide chat in the room.';
+
+$string['Version_Ok'] = 'You have correct version of OpenMeetings: ';
+$string['Version_Bad'] = 'You need to update your OpenMeetings, minimum version is: ';

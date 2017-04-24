@@ -30,23 +30,26 @@ abstract class RestMethod
 class OmRestService {
 	private $error = false;
 	private $message = "";
-	
-	public static function encode($params) {
+
+	public static function encode($params, &$boundary) {
 		$eol = "\r\n";
-		$data = '';
-		$mime_boundary=md5(time());
+		if (!$boundary) {
+			$boundary = md5(time());
+		}
+		$data = 'Content-type: multipart/form-data, boundary=' . $boundary . $eol . $eol;
 		//
-		$data .= '--' . $mime_boundary . $eol;
 		foreach($params as $p) {
+			$data .= '--' . $boundary . $eol;
 			$data .= 'Content-Disposition: form-data; name="' . $p["name"] . '"' . $eol;
 			if (array_key_exists('type', $p)) {
 				$data .= 'Content-Type: ' . $p["type"] . $eol;
 			}
-			$data .= $eol . $p["val"] . $eol;
+			$data .= $eol . $p["val"] . $eol . $eol;
 		}
+		$data .= '--' . $boundary . $eol;
 		return $data;
 	}
-	
+
 	public function call($url, $method, $sid, $params, $headers, $wraperName) {
 		$options = array (
 				CURLOPT_RETURNTRANSFER => true			// return web page
@@ -72,17 +75,21 @@ class OmRestService {
 			$url .= '&sid=' . $sid;
 		}
 		if ($method == RestMethod::GET) {
-			$url .= '&' . http_build_query($params, '', '&');
+			if ($params) {
+				$url .= '&' . http_build_query($params, '', '&');
+			}
 		} else {
 			//TODO something weird with PUT
 			$options[CURLOPT_POST] = true;
-			$options[CURLOPT_POSTFIELDS] = $params;
+			if ($params) {
+				$options[CURLOPT_POSTFIELDS] = $params;
+			}
 		}
 		$session = curl_init($url);
 		curl_setopt_array($session, $options);
-		
+
 		$response = curl_exec($session);
-		if ($response === false) {
+		if (!$response) {
 			$err = curl_errno($session);
 			$errmsg = curl_error($session);
 			$info = curl_getinfo($session);
@@ -96,11 +103,11 @@ class OmRestService {
 		$decoded = json_decode($response, true);
 		return $wraperName ? $decoded[$wraperName] : $decoded;
 	}
-	
+
 	public function isError() {
 		return $this->error;
 	}
-	
+
 	public function getMessage() {
 		return $this->message;
 	}

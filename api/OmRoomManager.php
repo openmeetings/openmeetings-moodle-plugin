@@ -6,22 +6,31 @@ class OmRoomManager {
 	function __construct($cfg) {
 		$this->config = $cfg;
 	}
-	
+
 	function update($data) {
 		$gateway = new OmGateway($this->config);
 		if ($gateway->login()) {
 			return $gateway->updateRoom($data);
 		} else {
-			echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
+			return -1;
 		}
 	}
-	
+
 	function delete($roomId) {
 		$gateway = new OmGateway($this->config);
 		if ($gateway->login()) {
 			return $gateway->deleteRoom($roomId);
 		} else {
-			echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
+			return -1;
+		}
+	}
+
+	function get($roomId) {
+		$gateway = new OmGateway($this->config);
+		if ($gateway->login()) {
+			return $gateway->getRoom($roomId);
+		} else {
+			return -1;
 		}
 	}
 }

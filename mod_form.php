@@ -40,18 +40,30 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
+require_once($CFG->dirroot . '/mod/openmeetings/version.php');
 
 $gateway = new OmGateway(getOmConfig());
 $om_login = $gateway->login();
 class mod_openmeetings_mod_form extends moodleform_mod {
 	function definition() {
-		global $gateway, $om_login;
+		global $gateway, $om_login, $plugin;
 		$mform = $this->_form;
 
 		// -------------------------------------------------------------------------------
 		// Adding the "general" fieldset, where all the common settings are showed
 		$mform->addElement('header', 'general', get_string('general', 'form'));
-		// / Adding the standard "name" field
+		if ($plugin->om_check) {
+			$min = preg_split('/[.-]/', $plugin->om_version);
+			$cur = preg_split('/[.-]/', $gateway->version()["version"]);
+			$ok = $cur[0] < $min[0] || $cur[1] < $min[1] || $cur[2] < $min[2];
+			if ($ok) {
+				$msg = get_string('Version_Ok', 'openmeetings') . $gateway->version()["version"];
+			} else {
+				$msg = get_string('Version_Bad', 'openmeetings') . $plugin->om_version;
+			}
+			$mform->addElement('html', '<div class="' . ($ok ? 'green' : 'red') . '">' . $msg . '</div>');
+		}
+		// Adding the standard "name" field
 		$mform->addElement('text', 'name', get_string('Room_Name', 'openmeetings'), array(
 				'size' => '64'
 		));
