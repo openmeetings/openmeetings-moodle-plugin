@@ -241,7 +241,7 @@ function openmeetings_scale_used_anywhere($scaleid) {
 
 // Enables grading using Moodle's Activity completion API
 
-function forum_supports($feature) {
+function openmeetings_supports($feature) {
     switch($feature) {
         case FEATURE_GRADE_HAS_GRADE: return true;
         default: return null;
