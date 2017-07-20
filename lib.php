@@ -238,3 +238,12 @@ function openmeetings_scale_used($openmeetingsid, $scaleid) {
 function openmeetings_scale_used_anywhere($scaleid) {
 	return false;
 }
+
+// Enables grading using Moodle's Activity completion API
+
+function forum_supports($feature) {
+    switch($feature) {
+        case FEATURE_GRADE_HAS_GRADE: return true;
+        default: return null;
+    }
+}
