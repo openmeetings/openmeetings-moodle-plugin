@@ -243,7 +243,9 @@ function openmeetings_scale_used_anywhere($scaleid) {
 
 function openmeetings_supports($feature) {
     switch($feature) {
-        case FEATURE_GRADE_HAS_GRADE: return true;
-        default: return null;
+        case FEATURE_GRADE_HAS_GRADE:
+		return true;
+        default:
+		return null;
     }
 }
