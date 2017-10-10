@@ -131,5 +131,16 @@ function xmldb_openmeetings_upgrade($oldversion) {
 		upgrade_mod_savepoint(true, $ver, 'openmeetings');
 	}
 
+	$ver = 2017101000;
+	if ($oldversion < $ver) {
+		$table = new xmldb_table('openmeetings');
+		$field = new xmldb_field('type');
+
+		// Conditionally launch value change for `type` field
+		if ($dbman->field_exists($table, $field)) {
+			$DB->execute("UPDATE {$CFG->prefix}openmeetings SET type = 'presentation' WHERE type = 'restricted'");
+		}
+		upgrade_mod_savepoint(true, $ver, 'openmeetings');
+	}
 	return $result;
 }

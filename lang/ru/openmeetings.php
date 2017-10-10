@@ -98,5 +98,5 @@ $string['Chat_Hidden'] = 'Отображение чата';
 $string['Chat_Hidden_TYPE_1'] = 'Показывать чат комнаты';
 $string['Chat_Hidden_TYPE_2'] = 'Скрывать чат комнаты';
 
-$string['Version_Ok'] = 'Вы используете совместимая версия OpenMeetings: ';
+$string['Version_Ok'] = 'Вы используете совместимую версию OpenMeetings: ';
 $string['Version_Bad'] = 'Вам необходимо обновить версию OpenMeetings, минимальная версия: ';

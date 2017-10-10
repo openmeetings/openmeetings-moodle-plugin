@@ -101,7 +101,7 @@ function getRoom(&$openmeetings) {
 			, 'name' => $openmeetings->roomname
 			, 'comment' => 'Created by SOAP-Gateway'
 			, 'type' => $openmeetings->type
-			, 'numberOfPartizipants' => $openmeetings->max_user
+			, 'capacity' => $openmeetings->max_user
 			, 'isPublic' => false
 			, 'appointment' => false
 			, 'moderated' => 1 == $openmeetings->is_moderated_room
@@ -242,10 +242,10 @@ function openmeetings_scale_used_anywhere($scaleid) {
 // Enables grading using Moodle's Activity completion API
 
 function openmeetings_supports($feature) {
-    switch($feature) {
-        case FEATURE_GRADE_HAS_GRADE:
-		return true;
-        default:
-		return null;
-    }
+	switch($feature) {
+		case FEATURE_GRADE_HAS_GRADE:
+			return true;
+		default:
+			return null;
+	}
 }

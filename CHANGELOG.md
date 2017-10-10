@@ -1,5 +1,8 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+3.0.0.0 (2017101000)
+ * Moodle plugin is updated to work as expected with OM 4.0
+
 2.0.0.6 (2016112701)
  * Moodle plugin is updated to work as expected with OM 3.2
  * Replaced html codes with actual russian texts (Merge pull request #16 from chkhanu/master)

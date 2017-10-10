@@ -16,48 +16,48 @@
 	along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <!--
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
 
        http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
  -->
 <XMLDB PATH="mod/openmeetings/db" VERSION="20111002" COMMENT="XMLDB file for OpenMeetings"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
->
-  <TABLES>	
-    <TABLE NAME="openmeetings" COMMENT="openmeetings">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id of the table" NEXT="course"/>
-        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Course whiteboard activity belongs to" PREVIOUS="id" NEXT="teacher"/>
-        <FIELD NAME="teacher" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Teacher id" PREVIOUS="course" NEXT="type"/>
-        <FIELD NAME="type" TYPE="char" LENGTH="16" NOTNULL="true" SEQUENCE="false" COMMENT="Room type" PREVIOUS="teacher" NEXT="is_moderated_room"/>
-        <FIELD NAME="is_moderated_room" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="Flag to check if the room is moderated or not" PREVIOUS="type" NEXT="max_user"/>
-        <FIELD NAME="max_user" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="4" SEQUENCE="false" COMMENT="Max number of users in the room" PREVIOUS="is_moderated_room" NEXT="language"/>
-        <FIELD NAME="language" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="Language for this room" PREVIOUS="max_user" NEXT="name"/>
-        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Room name" PREVIOUS="language" NEXT="intro"/>
-        <FIELD NAME="intro" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" COMMENT="General introduction of the whiteboard activity" PREVIOUS="name" NEXT="timecreated"/>
-        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="intro" NEXT="timemodified"/>
-        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="timecreated" NEXT="room_id"/>
-        <FIELD NAME="room_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="timemodified" NEXT="room_recording_id"/>
-        <FIELD NAME="room_recording_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Id of the recording" PREVIOUS="room_id" NEXT="allow_recording"/>
-        <FIELD NAME="allow_recording" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="Flag to check if recording is allowed in the room" PREVIOUS="room_recording_id" NEXT="whole_window"/>
-        <FIELD NAME="whole_window" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Property to define how OM room will be opened" PREVIOUS="allow_recording" NEXT="chat_hidden" />
-        <FIELD NAME="chat_hidden" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Flag to check if chat is hidden in the room" PREVIOUS="whole_window" />
-	  </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for whiteboard"/>
-      </KEYS>
-      <INDEXES>
-        <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
-      </INDEXES>
-    </TABLE>
-  </TABLES>
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+	>
+	<TABLES>
+		<TABLE NAME="openmeetings" COMMENT="openmeetings">
+			<FIELDS>
+				<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id of the table" NEXT="course" />
+				<FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Course whiteboard activity belongs to" PREVIOUS="id" NEXT="teacher" />
+				<FIELD NAME="teacher" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Teacher id" PREVIOUS="course" NEXT="type" />
+				<FIELD NAME="type" TYPE="char" LENGTH="16" NOTNULL="true" SEQUENCE="false" COMMENT="Room type" PREVIOUS="teacher" NEXT="is_moderated_room" />
+				<FIELD NAME="is_moderated_room" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="Flag to check if the room is moderated or not" PREVIOUS="type" NEXT="max_user" />
+				<FIELD NAME="max_user" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="4" SEQUENCE="false" COMMENT="Max number of users in the room" PREVIOUS="is_moderated_room" NEXT="language" />
+				<FIELD NAME="language" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="Language for this room" PREVIOUS="max_user" NEXT="name" />
+				<FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Room name" PREVIOUS="language" NEXT="intro" />
+				<FIELD NAME="intro" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" COMMENT="General introduction of the whiteboard activity" PREVIOUS="name" NEXT="timecreated" />
+				<FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="intro" NEXT="timemodified" />
+				<FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="timecreated" NEXT="room_id" />
+				<FIELD NAME="room_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="timemodified" NEXT="room_recording_id" />
+				<FIELD NAME="room_recording_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Id of the recording" PREVIOUS="room_id" NEXT="allow_recording" />
+				<FIELD NAME="allow_recording" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="Flag to check if recording is allowed in the room" PREVIOUS="room_recording_id" NEXT="whole_window" />
+				<FIELD NAME="whole_window" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Property to define how OM room will be opened" PREVIOUS="allow_recording" NEXT="chat_hidden" />
+				<FIELD NAME="chat_hidden" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Flag to check if chat is hidden in the room" PREVIOUS="whole_window" />
+			</FIELDS>
+			<KEYS>
+				<KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for whiteboard" />
+			</KEYS>
+			<INDEXES>
+				<INDEX NAME="course" UNIQUE="false" FIELDS="course" />
+			</INDEXES>
+		</TABLE>
+	</TABLES>
 </XMLDB>
