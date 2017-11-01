@@ -35,11 +35,13 @@
 require_once ('OmRestService.php');
 
 class OmGateway {
-	var $sessionId = "";
-	var $config = array();
+	private $sessionId = "";
+	private $config = array();
+	private $debug = false;
 
 	function __construct($cfg) {
 		$this->config = $cfg;
+		$this->debug = true === $cfg["debug"];
 	}
 
 	function getRestUrl($name) {
@@ -64,6 +66,14 @@ class OmGateway {
 		return $response;
 	}
 
+	private function showError($rest) {
+		echo '<h2>Fault (Service error)</h2><pre>';
+		if ($this->debug) {
+			print_r($rest->getMessage());
+		}
+		echo '</pre>';
+	}
+
 	function login() {
 		$rest = new OmRestService();
 		$response = $rest->call(
@@ -76,9 +86,7 @@ class OmGateway {
 			);
 
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if ($response["type"] == "SUCCESS") {
 				$this->sessionId = $response["message"];
@@ -89,7 +97,7 @@ class OmGateway {
 		}
 		return false;
 	}
-	
+
 	function getUser($login, $firstname, $lastname, $profilePictureUrl, $email, $userId) {
 		return array(
 			"login" => $login
@@ -100,7 +108,7 @@ class OmGateway {
 			, "externalType" => $this->config["module"]
 		);
 	}
-	
+
 	function getSecureHash($user, $options) {
 		$rest = new OmRestService();
 		$response = $rest->call(
@@ -113,9 +121,7 @@ class OmGateway {
 			);
 
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if ($response["type"] == "SUCCESS") {
 				return $response["message"];
@@ -137,9 +143,7 @@ class OmGateway {
 				, "roomDTO"
 			);
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if (isset($response["id"]) && $response["id"]) {
 				return $response;
@@ -162,9 +166,7 @@ class OmGateway {
 				, "roomDTO"
 			);
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if ($response["id"] > 0) {
 				return $response["id"];
@@ -186,9 +188,7 @@ class OmGateway {
 				, "serviceResult"
 			);
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if ($response["type"] == "SUCCESS") {
 				return $response["code"];
@@ -213,9 +213,7 @@ class OmGateway {
 				, "recordingDTO"
 			);
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			return $response;
 		}
@@ -233,9 +231,7 @@ class OmGateway {
 				, "serviceResult"
 			);
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if ($response["type"] == "SUCCESS") {
 				return $response["code"];
@@ -271,9 +267,7 @@ class OmGateway {
 				, "fileExplorerItemDTO"
 				);
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			return $response;
 		}
