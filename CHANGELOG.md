@@ -1,5 +1,8 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+3.0.0.1 (2017110100)
+ * Detailed CURL messages only being printed if debug is enabled
+
 3.0.0.0 (2017101000)
  * Moodle plugin is updated to work as expected with OM 4.0
 
