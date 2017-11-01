@@ -35,11 +35,13 @@
 require_once ('OmRestService.php');
 
 class OmGateway {
-	var $sessionId = "";
-	var $config = array();
+	private $sessionId = "";
+	private $config = array();
+	private $debug = false;
 
 	function __construct($cfg) {
 		$this->config = $cfg;
+		$this->debug = true === $cfg["debug"];
 	}
 
 	function getRestUrl($name) {
@@ -49,6 +51,27 @@ class OmGateway {
 	function getUrl() {
 		$port = $this->config["port"] == 80 ? '' : ":" . $this->config["port"];
 		return $this->config["protocol"] . "://" . $this->config["host"] . $port . "/" . $this->config["context"];
+	}
+
+	function version() {
+		$rest = new OmRestService();
+		$response = $rest->call(
+				$this->getRestUrl("info") . "version"
+				, RestMethod::GET
+				, null
+				, array()
+				, null
+				, "info"
+				);
+		return $response;
+	}
+
+	private function showError($rest) {
+		echo '<h2>Fault (Service error)</h2><pre>';
+		if ($this->debug) {
+			print_r($rest->getMessage());
+		}
+		echo '</pre>';
 	}
 
 	function login() {
@@ -63,9 +86,7 @@ class OmGateway {
 			);
 
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if ($response["type"] == "SUCCESS") {
 				$this->sessionId = $response["message"];
@@ -76,7 +97,7 @@ class OmGateway {
 		}
 		return false;
 	}
-	
+
 	function getUser($login, $firstname, $lastname, $profilePictureUrl, $email, $userId) {
 		return array(
 			"login" => $login
@@ -87,7 +108,7 @@ class OmGateway {
 			, "externalType" => $this->config["module"]
 		);
 	}
-	
+
 	function getSecureHash($user, $options) {
 		$rest = new OmRestService();
 		$response = $rest->call(
@@ -100,12 +121,32 @@ class OmGateway {
 			);
 
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if ($response["type"] == "SUCCESS") {
 				return $response["message"];
+			} else {
+				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+			}
+		}
+		return -1;
+	}
+
+	function getRoom($roomId) {
+		$rest = new OmRestService();
+		$response = $rest->call(
+				$this->getRestUrl("room") . $roomId
+				, RestMethod::GET
+				, $this->sessionId
+				, null
+				, null
+				, "roomDTO"
+			);
+		if ($rest->isError()) {
+			$this->showError($rest);
+		} else {
+			if (isset($response["id"]) && $response["id"]) {
+				return $response;
 			} else {
 				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
 			}
@@ -125,9 +166,7 @@ class OmGateway {
 				, "roomDTO"
 			);
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if ($response["id"] > 0) {
 				return $response["id"];
@@ -149,9 +188,7 @@ class OmGateway {
 				, "serviceResult"
 			);
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
 		} else {
 			if ($response["type"] == "SUCCESS") {
 				return $response["code"];
@@ -176,9 +213,61 @@ class OmGateway {
 				, "recordingDTO"
 			);
 		if ($rest->isError()) {
-			echo '<h2>Fault (Service error)</h2><pre>';
-			print_r($rest->getMessage());
-			echo '</pre>';
+			$this->showError($rest);
+		} else {
+			return $response;
+		}
+		return array();
+	}
+
+	function deleteRecording($recId) {
+		$rest = new OmRestService();
+		$response = $rest->call(
+				$this->getRestUrl("record") . $recId
+				, RestMethod::DELETE
+				, $this->sessionId
+				, ""
+				, null
+				, "serviceResult"
+			);
+		if ($rest->isError()) {
+			$this->showError($rest);
+		} else {
+			if ($response["type"] == "SUCCESS") {
+				return $response["code"];
+			} else {
+				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+			}
+		}
+		return -1;
+	}
+
+	function createFile($fileJson, $file) {
+		$rest = new OmRestService();
+		$boundary = '';
+		$params = array(
+				array(
+					"name" => "file"
+					, "type" => "application/json"
+					, "val" => json_encode($fileJson)
+				)
+				, array(
+					"name" => "stream"
+					, "type" => "application/octet-stream"
+					, "val" => file_get_contents($file)
+				)
+			);
+		$data = OmRestService::encode($params, $boundary);
+		$response = $rest->call(
+				$this->getRestUrl("file")
+				, RestMethod::POST
+				, $this->sessionId
+				, $data
+				, array("Content-Length: " . strlen($data), 'Content-Type: multipart/form-data; boundary=' . $boundary)
+				, "fileExplorerItemDTO"
+				);
+		if ($rest->isError()) {
+			$this->showError($rest);
 		} else {
 			return $response;
 		}
