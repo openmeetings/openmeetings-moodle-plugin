@@ -86,7 +86,8 @@ function getOmConfig() {
 			"context" => $CFG->openmeetings_context,
 			"user" => $CFG->openmeetings_user,
 			"pass" => $CFG->openmeetings_pass,
-			"module" => $CFG->openmeetings_moduleKey 
+			"module" => $CFG->openmeetings_moduleKey,
+			"debug" => $CFG->debug > 0
 	);
 }
 
