@@ -33,12 +33,23 @@
 * specific language governing permissions and limitations
 * under the License.
 */
+/**
+ *
+ * @package     mod_openmeetings
+ * @category    backup
+ */
+defined('MOODLE_INTERNAL') || die;
 
-defined('MOODLE_INTERNAL') || die();
+class backup_openmeetings_activity_structure_step extends backup_activity_structure_step {
 
-$plugin->component  = 'mod_openmeetings';
-$plugin->maturity   = MATURITY_STABLE;
-$plugin->requires   = 2015051100;
-$plugin->cron       = 0;
-$plugin->om_version = '4.0.0';
-$plugin->om_check   = false;
+	protected function define_structure() {
+		$room = new backup_nested_element('openmeetings', array('id'), array(
+				'teacher', 'type', 'is_moderated_room', 'max_user', 'language', 'name', 'intro'
+				, 'timecreated', 'timemodified', 'room_id', 'room_recording_id', 'allow_recording'
+				, 'whole_window', 'chat_hidden'));
+		
+		$room->set_source_table('openmeetings', array('id' => backup::VAR_ACTIVITYID));
+		$room->annotate_files('mod_openmeetings', 'intro', null); // This file area hasn't itemid
+		return $this->prepare_activity_structure($room);
+	}
+}

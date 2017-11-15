@@ -33,12 +33,36 @@
 * specific language governing permissions and limitations
 * under the License.
 */
+/**
+ *
+ * @package     mod_openmeetings
+ * @category    backup
+ */
+defined('MOODLE_INTERNAL') || die;
 
-defined('MOODLE_INTERNAL') || die();
+require_once($CFG->dirroot . '/mod/openmeetings/backup/moodle2/backup_openmeetings_stepslib.php');
 
-$plugin->component  = 'mod_openmeetings';
-$plugin->maturity   = MATURITY_STABLE;
-$plugin->requires   = 2015051100;
-$plugin->cron       = 0;
-$plugin->om_version = '4.0.0';
-$plugin->om_check   = false;
+/**
+ * Provides the steps to perform one complete backup of the Openmeetings instance
+ */
+class backup_openmeetings_activity_task extends backup_activity_task {
+	/**
+	 * No specific settings for this activity
+	 */
+	protected function define_my_settings() {
+	}
+
+	protected function define_my_steps() {
+		$this->add_step(new backup_openmeetings_activity_structure_step('openmeetings_structure', 'openmeetings.xml'));
+	}
+
+	/**
+	 * No content encoding needed for this activity
+	 *
+	 * @param string $content some HTML text that eventually contains URLs to the activity instance scripts
+	 * @return string the same content with no changes
+	 */
+	static public function encode_content_links($content) {
+		return $content;
+	}
+}

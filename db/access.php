@@ -35,7 +35,7 @@
 */
 
 //
-// Capability definitions for the forum module.
+// Capability definitions for the openmeetings module.
 //
 // The capabilities are loaded into the database table when the module is
 // installed or updated. Whenever the capability definitions are updated,
@@ -56,7 +56,7 @@
 // Core moodle capabilities are defined thus:
 //    moodle/<capabilityclass>:<capabilityname>
 //
-// Examples: mod/forum:viewpost
+// Examples: mod/openmeetings:viewpost
 //           block/recent_activity:view
 //           moodle/site:deleteuser
 //
