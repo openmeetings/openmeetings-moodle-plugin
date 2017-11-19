@@ -39,16 +39,16 @@
  * @category    backup
  */
 defined('MOODLE_INTERNAL') || die;
+require_once($CFG->dirroot.'/mod/openmeetings/lib.php');
 
 class restore_openmeetings_activity_structure_step extends restore_activity_structure_step {
-
 	protected function define_structure() {
 		$paths = array();
 		$paths[] = new restore_path_element('openmeetings', '/activity/openmeetings');
 		// Return the paths wrapped into standard activity structure
 		return $this->prepare_activity_structure($paths);
 	}
-	
+
 	protected function process_openmeetings($data) {
 		global $DB;
 
@@ -61,6 +61,9 @@ class restore_openmeetings_activity_structure_step extends restore_activity_stru
 
 		// insert the openmeetings record
 		$newitemid = $DB->insert_record('openmeetings', $data);
+		$data->room_id = 0; //reset it, new room will be created
+		$data->instance = $newitemid;
+		openmeetings_update_instance($data);
 		// immediately after inserting "activity" record, call this
 		$this->apply_activity_instance($newitemid);
 	}

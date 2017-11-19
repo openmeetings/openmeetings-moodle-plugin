@@ -1,5 +1,11 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+3.0.0.3 (2017112101)
+ * New room is created during restoring of the activity
+
+3.0.0.2 (2017111511)
+ * Backup/restore is fixed
+
 3.0.0.1 (2017110100)
  * Detailed CURL messages only being printed if debug is enabled
 

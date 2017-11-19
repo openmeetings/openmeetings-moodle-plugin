@@ -134,13 +134,12 @@ function openmeetings_add_instance(&$openmeetings) {
 
 function openmeetings_update_instance(&$openmeetings) {
 	global $DB;
-	
+
 	$openmeetings->timemodified = time();
 	$openmeetings->id = $openmeetings->instance;
 
 	$gateway = new OmGateway(getOmConfig());
 	if ($gateway->login()) {
-		
 		//Roomtype 0 means its and recording, we don't need to update a room for that
 		if ($openmeetings->type == 'recording') {
 			$openmeetings->room_id = 0;
