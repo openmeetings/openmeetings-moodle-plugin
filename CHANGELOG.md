@@ -1,5 +1,8 @@
 Apache OpenMeetings Moodle Plugin Change Log
 
+3.0.0.4 (2018020901)
+ * Additional iframe arrtibutes are added to bypass https://goo.gl/EuHzyv
+
 3.0.0.3 (2017112101)
  * New room is created during restoring of the activity
 

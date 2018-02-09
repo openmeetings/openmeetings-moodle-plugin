@@ -139,6 +139,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 				$height = $openmeetings->om->whole_window > 0 ? "100%" : "640px";
 				$out .= html_writer::empty_tag("iframe", array(
 						"src" => $url,
+						"allow" => "microphone; camera",
 						"class" => "openmeetings" . ($openmeetings->om->whole_window > 0 ? " wholeWindow" : "")
 				));
 			}
