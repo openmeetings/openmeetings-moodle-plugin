@@ -209,9 +209,12 @@ if ($mform->no_submit_button_pressed() && $om_login) {
 	$type = "mp4";
 	$filename = "flvRecording_$recId.$type";
 	if ($om_login) {
+		ob_end_clean();
+		if (ini_get_bool('zlib.output_compression')) {
+			ini_set('zlib.output_compression', 'Off');
+		}
 		header('Content-disposition: attachment; filename=' . $filename);
 		header('Content-type: video/' . $type);
-		ob_clean();
 		$url = $gateway->getUrl() . "/recordings/$type/" . getOmHash($gateway, array("recordingId" => $recId));
 		readfile($url);
 	}
