@@ -1,4 +1,7 @@
-Apache OpenMeetings Moodle Plugin Change Log
+##Apache OpenMeetings Moodle Plugin Change Log
+
+3.0.0.5 (2018061501)
+ * Recording download should be fixed if 'zlib.output_compression' is turned ON
 
 3.0.0.4 (2018020901)
  * Additional iframe arrtibutes are added to bypass https://goo.gl/EuHzyv
