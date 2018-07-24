@@ -43,3 +43,5 @@ $settings->add(new admin_setting_configpasswordunmask('openmeetings_pass', get_s
 $settings->add(new admin_setting_configtext('openmeetings_moduleKey', get_string('moduleKey', 'openmeetings'), get_string('moduleKeyDesc', 'openmeetings'), "moodle", PARAM_TEXT));
 $settings->add(new admin_setting_configtext('openmeetings_context', get_string('webapp', 'openmeetings'), get_string('webappDesc', 'openmeetings'), "openmeetings", PARAM_TEXT));
 $settings->add(new admin_setting_configtext('openmeetings_protocol', get_string('protocol', 'openmeetings'), get_string('protocolDesc', 'openmeetings'), "http", PARAM_TEXT));
+$settings->add(new admin_setting_configcheckbox('openmeetings_checkpeer', get_string('checkpeer', 'openmeetings'), get_string('checkpeerDesc', 'openmeetings'), 1));
+$settings->add(new admin_setting_configcheckbox('openmeetings_checkhost', get_string('checkhost', 'openmeetings'), get_string('checkhostDesc', 'openmeetings'), 1));

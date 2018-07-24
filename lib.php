@@ -42,27 +42,23 @@ require_once($CFG->dirroot.'/mod/openmeetings/api/OmGateway.php');
 function myErrorHandler($errno, $errstr, $errfile, $errline)
 {
 	switch ($errno) {
-	case E_USER_ERROR:
-		echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
-		echo "  Fatal error on line $errline in file $errfile";
-		echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
-		echo "Aborting...<br />\n";
-		exit(1);
-		break;
-
-	case E_USER_WARNING:
-		echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
-		break;
-
-	case E_USER_NOTICE:
-		echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
-		break;
-
-	default:
-		//echo "Unknown error type: [$errno] $errstr<br />\n";
-		break;
+		case E_USER_ERROR:
+			echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
+			echo "  Fatal error on line $errline in file $errfile";
+			echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+			echo "Aborting...<br />\n";
+			exit(1);
+			break;
+		case E_USER_WARNING:
+			echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
+			break;
+		case E_USER_NOTICE:
+			echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+			break;
+		default:
+			//echo "Unknown error type: [$errno] $errstr<br />\n";
+			break;
 	}
-
 	/* Don't execute PHP internal error handler */
 	return true;
 }
@@ -87,6 +83,8 @@ function getOmConfig() {
 			"user" => $CFG->openmeetings_user,
 			"pass" => $CFG->openmeetings_pass,
 			"module" => $CFG->openmeetings_moduleKey,
+			"checkpeer" => 1 == $CFG->openmeetings_checkpeer,
+			"checkhost" => 1 == $CFG->openmeetings_checkhost,
 			"debug" => $CFG->debug > 0
 	);
 }

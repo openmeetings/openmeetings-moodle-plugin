@@ -98,3 +98,8 @@ $string['Chat_Hidden_TYPE_2'] = 'Chat im Raum verbergen.';
 
 $string['Version_Ok'] = 'You have compatible version of OpenMeetings: ';
 $string['Version_Bad'] = 'You need to update your OpenMeetings, minimum version is: ';
+
+$string['checkpeer'] = 'Check SSL certificate';
+$string['checkpeerDesc'] = 'Enable/Disable SSL certificate checking, INSECURE if unchecked (default: checked)';
+$string['checkhost'] = 'Hostname verification';
+$string['checkhostDesc'] = 'Enable/Disable hostname verification, INSECURE if unchecked (default: checked)';

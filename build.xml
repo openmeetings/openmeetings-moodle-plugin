@@ -19,7 +19,7 @@
 	xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property name="dist.dir" value="dist" />
-	<property name="project.version" value="3.0.0.5" />
+	<property name="project.version" value="3.0.0.6" />
 	<property name="project.distname" value="openmeetings-moodle-plugin" />
 	<property name="plugin.name" value="openmeetings" />
 

@@ -142,5 +142,10 @@ function xmldb_openmeetings_upgrade($oldversion) {
 		}
 		upgrade_mod_savepoint(true, $ver, 'openmeetings');
 	}
+	$ver = 2018072401;
+	if ($oldversion < $ver) {
+		set_config('openmeetings_checkpeer', 1);
+		set_config('openmeetings_checkhost', 1);
+	}
 	return $result;
 }

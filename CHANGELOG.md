@@ -1,5 +1,8 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+3.0.0.6 (2018072401)
+ * Options to turn on/off SSL checks are made configurable in UI
+
 3.0.0.5 (2018061501)
  * Recording download should be fixed if 'zlib.output_compression' is turned ON
 

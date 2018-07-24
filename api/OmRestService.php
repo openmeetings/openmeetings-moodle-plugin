@@ -28,8 +28,13 @@ abstract class RestMethod
 }
 
 class OmRestService {
+	private $config = array();
 	private $error = false;
 	private $message = "";
+
+	function __construct($cfg) {
+		$this->config = $cfg;
+	}
 
 	public static function encode($params, &$boundary) {
 		$eol = "\r\n";
@@ -52,17 +57,17 @@ class OmRestService {
 
 	public function call($url, $method, $sid, $params, $headers, $wraperName) {
 		$options = array (
-				CURLOPT_RETURNTRANSFER => true			// return web page
-				, CURLOPT_HEADER => false 				// return headers
-				, CURLOPT_FOLLOWLOCATION => true		// follow redirects
-				, CURLOPT_ENCODING => ""				// handle all encodings
-				, CURLOPT_USERAGENT => "openmeetings"	// who am i
-				, CURLOPT_AUTOREFERER => true			// set referer on redirect
-				, CURLOPT_CONNECTTIMEOUT => 120			// timeout on connect
-				, CURLOPT_TIMEOUT => 120				// timeout on response
-				, CURLOPT_MAXREDIRS => 10					// stop after 10 redirects
-				//, CURLOPT_SSL_VERIFYPEER => false			// Disabled SSL Cert checks
-				//, CURLOPT_SSL_VERIFYHOST => false			// Disables hostname verification
+				CURLOPT_RETURNTRANSFER => true							// return web page
+				, CURLOPT_HEADER => false 								// return headers
+				, CURLOPT_FOLLOWLOCATION => true						// follow redirects
+				, CURLOPT_ENCODING => ""								// handle all encodings
+				, CURLOPT_USERAGENT => "openmeetings"					// who am i
+				, CURLOPT_AUTOREFERER => true							// set referer on redirect
+				, CURLOPT_CONNECTTIMEOUT => 120							// timeout on connect
+				, CURLOPT_TIMEOUT => 120								// timeout on response
+				, CURLOPT_MAXREDIRS => 10								// stop after 10 redirects
+				, CURLOPT_SSL_VERIFYPEER => $this->config["checkpeer"]	// Enable/Disable SSL Cert checks
+				, CURLOPT_SSL_VERIFYHOST => $this->config["checkhost"]	// Enable/Disable hostname verification
 		);
 		if ($headers) {
 			$options[CURLOPT_HTTPHEADER] = $headers;
