@@ -39,7 +39,8 @@ $string['openmeetings:addinstance'] = 'Add instance of Openmeetings';
 $string['openmeetings:becomemoderator'] = 'Become moderator in an Openmeetings Room';
 
 $string['modulename'] = 'OpenMeetings';
-$string['modulename_help'] = 'OpenMeetings is a free browser-based software that allows you to set up instantly a conference in the Web. You can use your microphone and/or webcam, share documents on a white board, share your screen or record meetings.<br><br>This Moodle plugin uses Apache OpenMeetings.
+$string['modulename_help'] = 'OpenMeetings is a free browser-based software that allows you to set up instantly a conference in the Web. You can use your microphone and/or webcam, share documents on a white board, share your screen or record meetings.
+<br><br>This Moodle plugin uses Apache OpenMeetings.
 <br>You need your own Apache OpenMeetings instance running.<br><br>For more information see: <a href="http://openmeetings.apache.org">http://openmeetings.apache.org</a>';
 $string['modulenameplural'] = 'OpenMeetings';
 
@@ -71,7 +72,7 @@ $string['Recording'] = 'Show Recording (select recording from drop down to be sh
 $string['Moderation_Description'] = '(Moodle Administratoren, teachers and course creators are automatically a moderator)';
 $string['Moderation_TYPE_1'] = 'Les participants doivent attendre un enseignant pour pouvoir commencer';
 $string['Moderation_TYPE_2'] = 'La r&eacute;union peut d&eacute;marrer imm&eacute;diatement (le premier connect&eacute; devient le mod&eacute;rateur)';
-$string['Moderation_TYPE_3'] = 'Every participant is automatically moderator when he/she enters the room';
+$string['Moderation_TYPE_3'] = 'Chaque participant est automatiquement modérateur lorsqu\'il entre dans la pièce';
 
 $string['Allow_Recording'] = 'Recording allowed';
 $string['Recording_TYPE_1'] = 'Recording functionality is available.';
@@ -91,7 +92,7 @@ $string['whole_window_type_3'] = 'Open in new window';
 $string['protocol'] = 'Protocol';
 $string['protocolDesc'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
 
-$string['description'] = 'Description';
+$string['description'] = 'La description';
 
 $string['Chat_Hidden'] = 'Chat hidden';
 $string['Chat_Hidden_TYPE_1'] = 'Display chat in the room.';
@@ -100,7 +101,7 @@ $string['Chat_Hidden_TYPE_2'] = 'Hide chat in the room.';
 $string['Version_Ok'] = 'You have compatible version of OpenMeetings: ';
 $string['Version_Bad'] = 'You need to update your OpenMeetings, minimum version is: ';
 
-$string['checkpeer'] = 'Check SSL certificate';
+$string['checkpeer'] = 'Vérifier le certificat SSL';
 $string['checkpeerDesc'] = 'Enable/Disable SSL certificate checking, INSECURE if unchecked (default: checked)';
 $string['checkhost'] = 'Hostname verification';
 $string['checkhostDesc'] = 'Enable/Disable hostname verification, INSECURE if unchecked (default: checked)';
