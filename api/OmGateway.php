@@ -264,7 +264,7 @@ class OmGateway {
 				, $this->sessionId
 				, $data
 				, array("Content-Length: " . strlen($data), 'Content-Type: multipart/form-data; boundary=' . $boundary)
-				, "fileExplorerItemDTO"
+				, "fileItemDTO"
 				);
 		if ($rest->isError()) {
 			$this->showError($rest);
