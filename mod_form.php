@@ -51,24 +51,8 @@ require_once($CFG->dirroot . '/mod/openmeetings/version.php');
 $gateway = new OmGateway(getOmConfig());
 $om_login = $gateway->login();
 class mod_openmeetings_mod_form extends moodleform_mod {
-	function definition() {
-		global $gateway, $om_login, $plugin;
+	private function addGeneralFields($recordings) {
 		$mform = $this->_form;
-
-		// -------------------------------------------------------------------------------
-		// Adding the "general" fieldset, where all the common settings are showed
-		$mform->addElement('header', 'general', get_string('general', 'form'));
-		if ($plugin->om_check) {
-			$min = preg_split('/[.-]/', $plugin->om_version);
-			$cur = preg_split('/[.-]/', $gateway->version()["version"]);
-			$ok = $cur[0] < $min[0] || $cur[1] < $min[1] || $cur[2] < $min[2];
-			if ($ok) {
-				$msg = get_string('Version_Ok', 'openmeetings') . $gateway->version()["version"];
-			} else {
-				$msg = get_string('Version_Bad', 'openmeetings') . $plugin->om_version;
-			}
-			$mform->addElement('html', '<div class="' . ($ok ? 'green' : 'red') . '">' . $msg . '</div>');
-		}
 		// Adding the standard "name" field
 		$mform->addElement('text', 'name', get_string('Room_Name', 'openmeetings'), array(
 				'size' => '64'
@@ -172,48 +156,77 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$this->standard_intro_elements(get_string('description', 'openmeetings'));
 
 		// Adding the "Available Recordings to Shows" field
+		$mform->registerNoSubmitButton('mp4');
+		$dwnld_grp = array();
+		$dwnld_grp[] = & $mform->createElement('html', '<div class="col-md-12">');
+		$dwnld_grp[] = & $mform->createElement('static', 'description', '', get_string('recordings_label', 'openmeetings'));
+		$dwnld_grp[] = & $mform->createElement('html', '</div>');
+		$dwnld_grp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings, array('class' => 'col-md-3'));
+		$dwnld_grp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'), array('class' => 'col-md-3'));
+		$mform->disabledIf('mp4', 'room_recording_id', 'lt', '1');
+		$mform->addGroup($dwnld_grp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
+		$mform->disabledIf('dwnld_grp', 'type', 'neq', 'recording');
+
+		$mform->closeHeaderBefore('dwnld_grp');
+	}
+
+	function definition() {
+		global $gateway, $om_login, $plugin;
+		$mform = $this->_form;
+
+		// -------------------------------------------------------------------------------
+		// Adding the "general" fieldset, where all the common settings are showed
+		$mform->addElement('header', 'general', get_string('general', 'form'));
+		if ($plugin->om_check) {
+			$min = preg_split('/[.-]/', $plugin->om_version);
+			$cur = preg_split('/[.-]/', $gateway->version()["version"]);
+			$ok = $cur[0] < $min[0] || $cur[1] < $min[1] || $cur[2] < $min[2];
+			if ($ok) {
+				$msg = get_string('Version_Ok', 'openmeetings') . $gateway->version()["version"];
+			} else {
+				$msg = get_string('Version_Bad', 'openmeetings') . $plugin->om_version;
+			}
+			$mform->addElement('html', '<div class="' . ($ok ? 'green' : 'red') . '">' . $msg . '</div>');
+		}
 		$recordings = array();
+		$files = array(-1 => get_string('upload_file', 'openmeetings'));
 
 		if ($om_login) {
-			$flvrecordings = $gateway->getRecordings();
-
-			foreach ($flvrecordings as $rec) {
+			$omrecordings = $gateway->getRecordings();
+			foreach ($omrecordings as $rec) {
 				$recId = $rec['id'];
 				$recName = $rec['name'];
 				if ($recId) {
 					$recordings[$recId] = $recName;
 				}
 			}
+
+			$omfiles = $gateway->getFiles();
+			foreach ($omfiles as $file) {
+				$fileId = $file['id'];
+				$fileName = $file['name'];
+				if ($fileId) {
+					$files[$fileId] = $fileName;
+				}
+			}
 		}
-
-		$mform->registerNoSubmitButton('mp4');
-		$dwnld_grp = array();
-		$dwnld_grp[] = & $mform->createElement('static', 'description', '', get_string('recordings_label', 'openmeetings'));
-		$dwnld_grp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings);
-		$dwnld_grp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'));
-		$mform->disabledIf('mp4', 'room_recording_id', 'lt', '1');
-		$mform->addGroup($dwnld_grp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
-		$mform->disabledIf('dwnld_grp', 'type', 'neq', 'recording');
-
-		$mform->closeHeaderBefore('dwnld_grp');
+		$this->addGeneralFields($recordings);
 
 		// room files
 		$mform->addElement('header', 'room_files_header', get_string('room_files', 'openmeetings'));
 
 		$mform->addElement('html', '<div class="om-room-files">');
 		$rep_newfile_grp = array();
-		$rep_newfile_grp[] = & $mform->createElement('text', 'wb_idx', get_string('wb_index', 'openmeetings'));
-		$rep_newfile_grp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'));
+		$rep_newfile_grp[] = & $mform->createElement('select', 'wb_idx', get_string('wb_index', 'openmeetings'), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+		$rep_newfile_grp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'), $files);
 		$rep_newfile_grp[] = & $mform->createElement('filepicker', 'userfile', get_string('file'), null,
 				array('accepted_types' => '*'));
 		$rep_newfile = array();
 		$rep_newfile[] = $mform->createElement('group', 'file_grp', get_string('room_file', 'openmeetings'), $rep_newfile_grp, ' ', false);
 
 		$rep_options = array();
-		$rep_options['limit']['default'] = 0;
-		$rep_options['limit']['disabledif'] = array('type', 'eq', 'recording');
-		$rep_options['limit']['rule'] = 'numeric';
-		$rep_options['limit']['type'] = PARAM_INT;
+		$rep_options['wb_idx']['disabledif'] = array('type', 'eq', 'recording');
+		$rep_options['om_files']['disabledif'] = array('type', 'eq', 'recording');
 
 		$this->repeat_elements($rep_newfile, 1, $rep_options, 'room_files', 'add_room_files', 1, null, true);
 

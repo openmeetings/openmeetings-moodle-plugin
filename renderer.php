@@ -54,7 +54,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 	}
 
 	private function _header(openmeetings $openmeetings) {
-		global $cm, $course, $CFG, $USER, $PAGE, $OUTPUT;
+		global $cm, $course, $CFG, $PAGE;
 
 		$title = $course->shortname . ": " . $openmeetings->om->name;
 		$PAGE->set_title($title);
@@ -82,20 +82,14 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 			$out .= html_writer::tag("title", $title);
 			$out .= $this->output->standard_head_html();
 			$out .= html_writer::end_tag("head");
-			$out .= html_writer::start_tag("body", array("class" => "noMargin"));
+			$out .= html_writer::start_tag("body", array("class" => "path-mod-openmeetings noMargin"));
 		} else {
-			// / Print the page header
-			if ($course->category) {
-				$navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-			} else {
-				$navigation = '';
-			}
-
 			$stropenmeetingss = get_string("modulenameplural", "openmeetings");
 
 			$PAGE->set_heading($course->fullname); // Required
-			$PAGE->navbar->add($stropenmeetingss, null, null, navigation_node::TYPE_CUSTOM, new moodle_url($CFG->wwwroot . '/user/index.php?id=' . $courseid));
+			$PAGE->navbar->add($stropenmeetingss, null, null, navigation_node::TYPE_CUSTOM, new moodle_url($CFG->wwwroot . '/user/index.php?id=' . $course->id));
 			$PAGE->navbar->add($openmeetings->om->name);
+			$PAGE->add_body_class('noMargin');
 
 			$out .= $this->output->header();
 		}
@@ -113,7 +107,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 	}
 
 	protected function render_openmeetings(openmeetings $openmeetings) {
-		global $cm, $course, $CFG, $USER, $PAGE;
+		global $cm;
 
 		$out .= $this->_header($openmeetings);
 		$context = context_module::instance($cm->id);
@@ -136,7 +130,6 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 
 			if ($hash != "") {
 				$url = $gateway->getUrl() . "/hash?&secure=" . $hash . "&language=" . $openmeetings->om->language;
-				$height = $openmeetings->om->whole_window > 0 ? "100%" : "640px";
 				$out .= html_writer::empty_tag("iframe", array(
 						"src" => $url,
 						"allow" => "microphone; camera",

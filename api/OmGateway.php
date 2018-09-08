@@ -243,6 +243,24 @@ class OmGateway {
 		return -1;
 	}
 
+	function getFiles() {
+		$rest = new OmRestService();
+		$response = $rest->call(
+				$this->getRestUrl("file") . urlencode($this->config["module"])
+				, RestMethod::GET
+				, $this->sessionId
+				, ""
+				, null
+				, "fileItemDTO"
+				);
+		if ($rest->isError()) {
+			$this->showError($rest);
+		} else {
+			return $response;
+		}
+		return array();
+	}
+
 	function createFile($fileJson, $file) {
 		$rest = new OmRestService();
 		$boundary = '';

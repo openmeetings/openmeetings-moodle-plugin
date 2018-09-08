@@ -16,19 +16,26 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-body.noMargin {
+.path-mod-openmeetings.noMargin {
 	margin: 0;
 	padding: 0;
 	border: 0;
 }
-iframe.openmeetings {
+.path-mod-openmeetings iframe.openmeetings {
 	border: 0;
 	width: 100%;
 	height: 640px;
 }
-iframe.wholeWindow {
+.path-mod-openmeetings iframe.wholeWindow {
 	height: 100%;
 }
-.om-room-files {
-/*	background-color: red;*/
+.path-mod-openmeetings .om-room-files .sr-only {
+	width: auto;
+	height: auto;
+	position: initial;
+	clip: auto;
+	clip-path: none;
+}
+.path-mod-openmeetings .om-room-files .w-100 {
+	width: auto !important;
 }
