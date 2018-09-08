@@ -45,7 +45,7 @@ class restore_openmeetings_activity_structure_step extends restore_activity_stru
 	protected function define_structure() {
 		$paths = array();
 		$paths[] = new restore_path_element('openmeetings', '/activity/openmeetings');
-		// Return the paths wrapped into standard activity structure
+		$paths[] = new restore_path_element('openmeetings_file', '/activity/openmeetings/files/file');
 		return $this->prepare_activity_structure($paths);
 	}
 
@@ -53,7 +53,6 @@ class restore_openmeetings_activity_structure_step extends restore_activity_stru
 		global $DB;
 
 		$data = (object)$data;
-		$oldid = $data->id;
 		$data->course = $this->get_courseid();
 
 		$data->timecreated = $this->apply_date_offset($data->timecreated);
@@ -66,6 +65,16 @@ class restore_openmeetings_activity_structure_step extends restore_activity_stru
 		openmeetings_update_instance($data);
 		// immediately after inserting "activity" record, call this
 		$this->apply_activity_instance($newitemid);
+	}
+
+	protected function process_openmeetings_file($data) {
+		global $DB;
+
+		$data = (object)$data;
+		$oldid = $data->id;
+		$data->openmeetings_id = $this->get_new_parentid('openmeetings');
+		$newitemid = $DB->insert_record('openmeetings_file', $data);
+		$this->set_mapping('openmeetings_file', $oldid, $newitemid);
 	}
 
 	protected function after_execute() {

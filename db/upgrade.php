@@ -1,17 +1,17 @@
-<?php 
+<?php
 /*
  * This file is part of Moodle - http://moodle.org/
- * 
+ *
  * Moodle is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Moodle is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,13 +34,7 @@
 * under the License.
 */
 
-function xmldb_openmeetings_upgrade($oldversion) {
-	global $CFG, $DB, $OUTPUT;
-
-	$dbman = $DB->get_manager();
-
-	$result = true;
-
+function upgrade20111001($oldversion, $dbman) {
 	$ver = 20111001;
 	if ($oldversion < $ver) {
 		// Define field allow_recording to be added to openmeetings
@@ -55,7 +49,9 @@ function xmldb_openmeetings_upgrade($oldversion) {
 		// openmeetings savepoint reached
 		upgrade_mod_savepoint(true, $ver, 'openmeetings');
 	}
+}
 
+function upgrade20111002($oldversion, $dbman) {
 	$ver = 20111002;
 	if ($oldversion < $ver) {
 		// Define field introformat to be dropped from openmeetings
@@ -70,17 +66,9 @@ function xmldb_openmeetings_upgrade($oldversion) {
 		// openmeetings savepoint reached
 		upgrade_mod_savepoint(true, $ver, 'openmeetings');
 	}
+}
 
-	$ver = 20111003;
-	if ($oldversion < $ver) {
-		upgrade_mod_savepoint(true, $ver, 'openmeetings');
-	}
-
-	$ver = 20120801;
-	if ($oldversion < $ver) {
-		upgrade_mod_savepoint(true, $ver, 'openmeetings');
-	}
-
+function upgrade2014031603($oldversion, $dbman) {
 	$ver = 2014031603;
 	if ($oldversion < $ver) {
 		// Define field allow_recording to be added to openmeetings
@@ -94,7 +82,10 @@ function xmldb_openmeetings_upgrade($oldversion) {
 
 		upgrade_mod_savepoint(true, $ver, 'openmeetings');
 	}
+}
 
+function upgrade2016042002($oldversion, $dbman) {
+	global $CFG;
 	$ver = 2016042002;
 	if ($oldversion < $ver) {
 		// Define field chat_hidden to be added to openmeetings
@@ -130,7 +121,10 @@ function xmldb_openmeetings_upgrade($oldversion) {
 
 		upgrade_mod_savepoint(true, $ver, 'openmeetings');
 	}
+}
 
+function upgrade2017101000($oldversion, $dbman) {
+	global $CFG, $DB;
 	$ver = 2017101000;
 	if ($oldversion < $ver) {
 		$table = new xmldb_table('openmeetings');
@@ -142,10 +136,51 @@ function xmldb_openmeetings_upgrade($oldversion) {
 		}
 		upgrade_mod_savepoint(true, $ver, 'openmeetings');
 	}
+}
+
+function upgrade2018072401($oldversion, $dbman) {
 	$ver = 2018072401;
 	if ($oldversion < $ver) {
 		set_config('openmeetings_checkpeer', 1);
 		set_config('openmeetings_checkhost', 1);
 	}
+}
+
+function upgrade2018081411($oldversion, $dbman) {
+	$ver = 2018081411;
+	if ($oldversion < $ver) {
+		$table = new xmldb_table('openmeetings_file');
+
+		$table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+		$table->add_field('openmeetings_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+		$table->add_field('file_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'openmeetings_id');
+		$table->add_field('file_name', XMLDB_TYPE_CHAR, '256', null, XMLDB_NOTNULL, null, null, 'file_id');
+		$table->add_field('wb', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'file_name');
+
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+		$table->add_key('openmeetings', XMLDB_KEY_FOREIGN, array('openmeetings_id'), 'openmeetings', array('id'));
+
+		if (!$dbman->table_exists($table)) {
+			$dbman->create_table($table);
+		}
+		upgrade_mod_savepoint(true, $ver, 'openmeetings');
+	}
+}
+
+function xmldb_openmeetings_upgrade($oldversion) {
+	global $DB;
+
+	$dbman = $DB->get_manager();
+
+	$result = true;
+
+	upgrade20111001($oldversion, $dbman);
+	upgrade20111002($oldversion, $dbman);
+	upgrade2014031603($oldversion, $dbman);
+	upgrade2016042002($oldversion, $dbman);
+	upgrade2017101000($oldversion, $dbman);
+	upgrade2018072401($oldversion, $dbman);
+	upgrade2018081411($oldversion, $dbman);
+
 	return $result;
 }

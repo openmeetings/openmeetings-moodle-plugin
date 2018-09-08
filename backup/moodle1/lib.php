@@ -70,13 +70,13 @@ class moodle1_mod_openmeetings_handler extends moodle1_mod_handler {
 	 * This is executed every time we have one /MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS
 	 * data available
 	 */
-	public function process_openmeetings($data) {
+	public function process_openmeetings() {
 	}
 
 	/**
 	 * This is executed every time we have one /MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS/OPTIONS/OPTION
 	 * data available
 	 */
-	public function process_openmeetings_option($data) {
+	public function process_openmeetings_option() {
 	}
 }

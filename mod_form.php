@@ -1,17 +1,17 @@
 <?php
 /*
  * This file is part of Moodle - http://moodle.org/
- * 
+ *
  * Moodle is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Moodle is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -41,6 +41,8 @@ if (!defined('MOODLE_INTERNAL')) {
 /**
  * @package mod_openmeetings
  **/
+
+global $data, $cm, $CFG;
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
@@ -74,10 +76,8 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		// $mform->setType('name', PARAM_TEXT);
 		$mform->addRule('name', null, 'required', null, 'client');
 		$mform->setType('name', PARAM_TEXT);
-	
-		$mform->addElement('hidden', 'room_id', '0', array(
-				'size' => '64'
-		));
+
+		$mform->addElement('hidden', 'room_id', '0', array('size' => '64'));
 		$mform->setType('room_id', PARAM_INT);
 
 		// Adding the "Room Type" field
@@ -100,6 +100,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				'100' => '100',
 				'150' => '150',
 		));
+		$mform->disabledIf('max_user', 'type', 'eq', 'recording');
 
 		// Adding the "Room Language" field
 		$language_array = array(
@@ -147,16 +148,20 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				'2' => get_string('Moderation_TYPE_2', 'openmeetings'),
 				'3' => get_string('Moderation_TYPE_3', 'openmeetings')
 		));
+		$mform->disabledIf('is_moderated_room', 'type', 'eq', 'recording');
 
 		$mform->addElement('select', 'allow_recording', get_string('Allow_Recording', 'openmeetings'), array(
 				'1' => get_string('Recording_TYPE_1', 'openmeetings'),
 				'2' => get_string('Recording_TYPE_2', 'openmeetings')
 		));
-		//chatHidden
+		$mform->disabledIf('allow_recording', 'type', 'eq', 'recording');
+
 		$mform->addElement('select', 'chat_hidden', get_string('Chat_Hidden', 'openmeetings'), array(
 				'0' => get_string('Chat_Hidden_TYPE_1', 'openmeetings'),
 				'1' => get_string('Chat_Hidden_TYPE_2', 'openmeetings')
 		));
+		$mform->disabledIf('chat_hidden', 'type', 'eq', 'recording');
+
 		$mform->addElement('select', 'whole_window', get_string('whole_window', 'openmeetings'), array(
 				'0' => get_string('whole_window_type_1', 'openmeetings'),
 				'1' => get_string('whole_window_type_2', 'openmeetings'),
@@ -182,11 +187,37 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		}
 
 		$mform->registerNoSubmitButton('mp4');
-		$dgrp = array();
-		$dgrp[] = & $mform->createElement('static', 'description', '', get_string('recordings_label', 'openmeetings'));
-		$dgrp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings);
-		$dgrp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'));
-		$mform->addGroup($dgrp, 'dgrp', get_string('recordings_show', 'openmeetings'), array(' '), false);
+		$dwnld_grp = array();
+		$dwnld_grp[] = & $mform->createElement('static', 'description', '', get_string('recordings_label', 'openmeetings'));
+		$dwnld_grp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings);
+		$dwnld_grp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'));
+		$mform->disabledIf('mp4', 'room_recording_id', 'lt', '1');
+		$mform->addGroup($dwnld_grp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
+		$mform->disabledIf('dwnld_grp', 'type', 'neq', 'recording');
+
+		$mform->closeHeaderBefore('dwnld_grp');
+
+		// room files
+		$mform->addElement('header', 'room_files_header', get_string('room_files', 'openmeetings'));
+
+		$mform->addElement('html', '<div class="om-room-files">');
+		$rep_newfile_grp = array();
+		$rep_newfile_grp[] = & $mform->createElement('text', 'wb_idx', get_string('wb_index', 'openmeetings'));
+		$rep_newfile_grp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'));
+		$rep_newfile_grp[] = & $mform->createElement('filepicker', 'userfile', get_string('file'), null,
+				array('accepted_types' => '*'));
+		$rep_newfile = array();
+		$rep_newfile[] = $mform->createElement('group', 'file_grp', get_string('room_file', 'openmeetings'), $rep_newfile_grp, ' ', false);
+
+		$rep_options = array();
+		$rep_options['limit']['default'] = 0;
+		$rep_options['limit']['disabledif'] = array('type', 'eq', 'recording');
+		$rep_options['limit']['rule'] = 'numeric';
+		$rep_options['limit']['type'] = PARAM_INT;
+
+		$this->repeat_elements($rep_newfile, 1, $rep_options, 'room_files', 'add_room_files', 1, null, true);
+
+		$mform->addElement('html', '</div>');
 
 		// -------------------------------------------------------------------------------
 		// add standard elements, common to all modules
@@ -198,14 +229,12 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 	}
 }
 
-global $data, $cm, $CFG, $USER;
-$course = $DB->get_record('course', array(
-		'id' => $data->course
-), '*', MUST_EXIST);
+$course = $DB->get_record('course', array('id' => $data->course), '*', MUST_EXIST);
 $mform = new mod_openmeetings_mod_form($data, $data->section, $cm, $course);
 
-if ($mform->no_submit_button_pressed() && $om_login) {
-	$recId = $mform->get_submitted_data()->{'room_recording_id'};
+$sdata = $mform->get_submitted_data();
+if ($mform->no_submit_button_pressed() && $om_login && $sdata->{'mp4'}) {
+	$recId = $sdata->{'room_recording_id'};
 	$type = "mp4";
 	$filename = "flvRecording_$recId.$type";
 	if ($om_login) {
@@ -220,4 +249,3 @@ if ($mform->no_submit_button_pressed() && $om_login) {
 	}
 	exit(0);
 }
-

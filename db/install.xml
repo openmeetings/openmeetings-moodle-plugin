@@ -33,10 +33,10 @@
 		xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 	>
 	<TABLES>
-		<TABLE NAME="openmeetings" COMMENT="openmeetings">
+		<TABLE NAME="openmeetings" COMMENT="Table for OpenMeetings activities">
 			<FIELDS>
 				<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id of the table" NEXT="course" />
-				<FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Course whiteboard activity belongs to" PREVIOUS="id" NEXT="teacher" />
+				<FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Course OpenMeetings activity belongs to" PREVIOUS="id" NEXT="teacher" />
 				<FIELD NAME="teacher" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Teacher id" PREVIOUS="course" NEXT="type" />
 				<FIELD NAME="type" TYPE="char" LENGTH="16" NOTNULL="true" SEQUENCE="false" COMMENT="Room type" PREVIOUS="teacher" NEXT="is_moderated_room" />
 				<FIELD NAME="is_moderated_room" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="Flag to check if the room is moderated or not" PREVIOUS="type" NEXT="max_user" />
@@ -53,11 +53,24 @@
 				<FIELD NAME="chat_hidden" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Flag to check if chat is hidden in the room" PREVIOUS="whole_window" />
 			</FIELDS>
 			<KEYS>
-				<KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for whiteboard" />
+				<KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for openmeetings activity" />
 			</KEYS>
 			<INDEXES>
 				<INDEX NAME="course" UNIQUE="false" FIELDS="course" />
 			</INDEXES>
+		</TABLE>
+		<TABLE NAME="openmeetings_file" COMMENT="Table for room files">
+			<FIELDS>
+				<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id of the table" NEXT="openmeetings_id" />
+				<FIELD NAME="openmeetings_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="id of moodle openmeetings activity" PREVIOUS="id" NEXT="file_id" />
+				<FIELD NAME="file_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="File Id in OpenMeetings" PREVIOUS="openmeetings_id" NEXT="file_name" />
+				<FIELD NAME="file_name" TYPE="char" LENGTH="256" NOTNULL="true" SEQUENCE="false" COMMENT="File Name" PREVIOUS="file_id" NEXT="wb" />
+				<FIELD NAME="wb" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whiteboard index in room" PREVIOUS="file_id" />
+			</FIELDS>
+			<KEYS>
+				<KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for whiteboard file" />
+				<KEY NAME="openmeetings" TYPE="foreign" FIELDS="openmeetings_id" REFTABLE="openmeetings" REFFIELDS="id" COMMENT="The instance of OpenMeetings activity this file belongs to" />
+			</KEYS>
 		</TABLE>
 	</TABLES>
 </XMLDB>

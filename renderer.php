@@ -1,17 +1,17 @@
-<?php 
+<?php
 /*
  * This file is part of Moodle - http://moodle.org/
- * 
+ *
  * Moodle is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Moodle is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -38,7 +38,7 @@ require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
 
 class openmeetings implements renderable {
 	var $om;
-	
+
 	public function __construct(stdclass $openmeetings) {
 		$this->om = $openmeetings;
 	}
@@ -48,14 +48,14 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 	public function header() {
 		// designed to be empty
 	}
-	
+
 	public function footer() {
 		// designed to be empty
 	}
-	
+
 	private function _header(openmeetings $openmeetings) {
 		global $cm, $course, $CFG, $USER, $PAGE, $OUTPUT;
-		
+
 		$title = $course->shortname . ": " . $openmeetings->om->name;
 		$PAGE->set_title($title);
 		$PAGE->set_cacheable(false);
@@ -63,7 +63,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 		$PAGE->set_url('/mod/openmeetings/view.php', array(
 				'id' => $cm->id
 		));
-		
+
 		if ($openmeetings->om->whole_window > 0) {
 			$out .= "<html" . $this->output->htmlattributes() . ">";
 			$out .= html_writer::start_tag("head");
@@ -90,13 +90,13 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 			} else {
 				$navigation = '';
 			}
-			
+
 			$stropenmeetingss = get_string("modulenameplural", "openmeetings");
-			
+
 			$PAGE->set_heading($course->fullname); // Required
 			$PAGE->navbar->add($stropenmeetingss, null, null, navigation_node::TYPE_CUSTOM, new moodle_url($CFG->wwwroot . '/user/index.php?id=' . $courseid));
 			$PAGE->navbar->add($openmeetings->om->name);
-			
+
 			$out .= $this->output->header();
 		}
 		return $out;
@@ -111,7 +111,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 		}
 		return $out;
 	}
-	
+
 	protected function render_openmeetings(openmeetings $openmeetings) {
 		global $cm, $course, $CFG, $USER, $PAGE;
 
@@ -133,7 +133,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 			} else {
 				$hash = getOmHash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));
 			}
-			
+
 			if ($hash != "") {
 				$url = $gateway->getUrl() . "/hash?&secure=" . $hash . "&language=" . $openmeetings->om->language;
 				$height = $openmeetings->om->whole_window > 0 ? "100%" : "640px";
@@ -147,7 +147,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 			echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 			exit();
 		}
-		
+
 		$out .= $this->_footer($openmeetings);
 		return $out;
 	}

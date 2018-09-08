@@ -4,12 +4,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * It is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You can get a copy of the GNU General Public License
  * at <http://www.gnu.org/licenses/>.
  */
@@ -69,7 +69,7 @@ class OmGateway {
 	private function showError($rest) {
 		echo '<h2>Fault (Service error)</h2><pre>';
 		if ($this->debug) {
-			print_r($rest->getMessage());
+			print_object($rest->getMessage());
 		}
 		echo '</pre>';
 	}
@@ -104,6 +104,7 @@ class OmGateway {
 			, "firstname" => $firstname
 			, "lastname" => $lastname
 			, "email" => $email
+			, "pictureUri" => $profilePictureUrl
 			, "externalId" => $userId
 			, "externalType" => $this->config["module"]
 		);

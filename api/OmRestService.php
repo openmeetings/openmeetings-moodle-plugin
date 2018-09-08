@@ -55,6 +55,24 @@ class OmRestService {
 		return $data;
 	}
 
+	private static function setParams(&$url, $method, $sid, $params, &$options) {
+		$url .= '?';
+		if ($sid) {
+			$url .= '&sid=' . $sid;
+		}
+		if ($method == RestMethod::GET) {
+			if ($params) {
+				$url .= '&' . http_build_query($params, '', '&');
+			}
+		} else {
+			//TODO something weird with PUT
+			$options[CURLOPT_POST] = true;
+			if ($params) {
+				$options[CURLOPT_POSTFIELDS] = $params;
+			}
+		}
+	}
+
 	public function call($url, $method, $sid, $params, $headers, $wraperName) {
 		$options = array (
 				CURLOPT_RETURNTRANSFER => true							// return web page
@@ -75,32 +93,16 @@ class OmRestService {
 		if ($method != RestMethod::GET && $method != RestMethod::POST) {
 			$options[CURLOPT_CUSTOMREQUEST] = $method;
 		}
-		$url .= '?';
-		if ($sid) {
-			$url .= '&sid=' . $sid;
-		}
-		if ($method == RestMethod::GET) {
-			if ($params) {
-				$url .= '&' . http_build_query($params, '', '&');
-			}
-		} else {
-			//TODO something weird with PUT
-			$options[CURLOPT_POST] = true;
-			if ($params) {
-				$options[CURLOPT_POSTFIELDS] = $params;
-			}
-		}
+		OmRestService::setParams($url, $method, $sid, $params, $options);
 		$session = curl_init($url);
 		curl_setopt_array($session, $options);
 
 		$response = curl_exec($session);
 		if (!$response) {
-			$err = curl_errno($session);
-			$errmsg = curl_error($session);
 			$info = curl_getinfo($session);
 			curl_close($session);
 			$this->error = true;
-			$this->message = 'Request OpenMeetings! OpenMeetings Service failed and no response was returned. Additioanl info: ' . print_r($info, true);
+			$this->message = 'Request OpenMeetings! OpenMeetings Service failed and no response was returned. Additioanl info: ' . print_object($info);
 			return;
 		}
 		//TODO FIXME check status
