@@ -138,7 +138,7 @@ function upgrade2017101000($oldversion, $dbman) {
 	}
 }
 
-function upgrade2018072401($oldversion, $dbman) {
+function upgrade2018072401($oldversion) {
 	$ver = 2018072401;
 	if ($oldversion < $ver) {
 		set_config('openmeetings_checkpeer', 1);
@@ -179,7 +179,7 @@ function xmldb_openmeetings_upgrade($oldversion) {
 	upgrade2014031603($oldversion, $dbman);
 	upgrade2016042002($oldversion, $dbman);
 	upgrade2017101000($oldversion, $dbman);
-	upgrade2018072401($oldversion, $dbman);
+	upgrade2018072401($oldversion);
 	upgrade2018081411($oldversion, $dbman);
 
 	return $result;

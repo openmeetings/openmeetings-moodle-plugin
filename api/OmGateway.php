@@ -261,19 +261,20 @@ class OmGateway {
 		return array();
 	}
 
-	function createFile($fileJson, $file) {
+	function createFile($fileJson, $fileContents) {
+		$fileJson['externalType'] = $this->config["module"];
 		$rest = new OmRestService();
 		$boundary = '';
 		$params = array(
 				array(
 					"name" => "file"
 					, "type" => "application/json"
-					, "val" => json_encode($fileJson)
+					, "val" => json_encode(array('fileItemDTO' => $fileJson))
 				)
 				, array(
 					"name" => "stream"
 					, "type" => "application/octet-stream"
-					, "val" => file_get_contents($file)
+					, "val" => $fileContents
 				)
 			);
 		$data = OmRestService::encode($params, $boundary);
@@ -282,7 +283,7 @@ class OmGateway {
 				, RestMethod::POST
 				, $this->sessionId
 				, $data
-				, array("Content-Length: " . strlen($data), 'Content-Type: multipart/form-data; boundary=' . $boundary)
+				, array("Content-Length: " . (strlen(bin2hex($data)) / 2), 'Content-Type: multipart/form-data; boundary=' . $boundary)
 				, "fileItemDTO"
 				);
 		if ($rest->isError()) {
@@ -290,6 +291,6 @@ class OmGateway {
 		} else {
 			return $response;
 		}
-		return array();
+		return false;
 	}
 }

@@ -29,13 +29,16 @@
 .path-mod-openmeetings iframe.wholeWindow {
 	height: 100%;
 }
-.path-mod-openmeetings .om-room-files .sr-only {
+.path-mod-openmeetings .om-labeled-group .sr-only {
 	width: auto;
 	height: auto;
 	position: initial;
 	clip: auto;
 	clip-path: none;
 }
-.path-mod-openmeetings .om-room-files .w-100 {
+.path-mod-openmeetings .om-labeled-group .w-100 {
 	width: auto !important;
+}
+.path-mod-openmeetings .om-labeled-group .inline, .path-mod-openmeetings .om-labeled-group .inline .col-form-label.sr-only {
+	display: inline-block;
 }

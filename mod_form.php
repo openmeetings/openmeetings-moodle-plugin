@@ -161,8 +161,10 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$dwnld_grp[] = & $mform->createElement('html', '<div class="col-md-12">');
 		$dwnld_grp[] = & $mform->createElement('static', 'description', '', get_string('recordings_label', 'openmeetings'));
 		$dwnld_grp[] = & $mform->createElement('html', '</div>');
-		$dwnld_grp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings, array('class' => 'col-md-3'));
-		$dwnld_grp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'), array('class' => 'col-md-3'));
+		$dwnld_grp[] = & $mform->createElement('html', '<div class="om-labeled-group col-md-12">');
+		$dwnld_grp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings, array('class' => 'inline col-md-8'));
+		$dwnld_grp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'), array('class' => 'inline col-md-3'));
+		$dwnld_grp[] = & $mform->createElement('html', '</div>');
 		$mform->disabledIf('mp4', 'room_recording_id', 'lt', '1');
 		$mform->addGroup($dwnld_grp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
 		$mform->disabledIf('dwnld_grp', 'type', 'neq', 'recording');
@@ -214,8 +216,12 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 
 		// room files
 		$mform->addElement('header', 'room_files_header', get_string('room_files', 'openmeetings'));
-
-		$mform->addElement('html', '<div class="om-room-files">');
+		foreach ($files as $fileId => $fileName) {
+			$hname = 'om_int_file' . $fileId;
+			$mform->addElement('hidden', $hname, $fileName);
+			$mform->setType($hname, PARAM_TEXT);
+		}
+		$mform->addElement('html', '<div class="om-labeled-group">');
 		$rep_newfile_grp = array();
 		$rep_newfile_grp[] = & $mform->createElement('select', 'wb_idx', get_string('wb_index', 'openmeetings'), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
 		$rep_newfile_grp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'), $files);
@@ -240,9 +246,29 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		// add standard buttons, common to all modules
 		$this->add_action_buttons();
 	}
+
+	function getFile($idx = 0) {
+		global $USER;
+		$grp = $this->_form->getElement('file_grp[' . $idx . ']');
+		if ($grp instanceof MoodleQuickForm_group) {
+			$picker = $grp->getElements()[2];
+			if ($picker instanceof MoodleQuickForm_filepicker) {
+				$fs = get_file_storage();
+				$context = context_user::instance($USER->id);
+				$files = $fs->get_area_files($context->id, 'user', 'draft', $picker->getValue(), 'id DESC', false);
+				if ($files) {
+					return reset($files);
+				}
+			}
+		}
+		return false;
+	}
 }
 
 $course = $DB->get_record('course', array('id' => $data->course), '*', MUST_EXIST);
+if ($data->id > 0) {
+	$data->files = $DB->get_records('openmeetings_file', array('openmeetings_id' => $data->id));
+}
 $mform = new mod_openmeetings_mod_form($data, $data->section, $cm, $course);
 
 $sdata = $mform->get_submitted_data();

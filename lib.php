@@ -34,7 +34,7 @@
 * under the License.
 */
 
-$old_error_handler = set_error_handler("myErrorHandler");
+set_error_handler("myErrorHandler");
 require_once($CFG->dirroot.'/config.php');
 require_once($CFG->dirroot.'/mod/openmeetings/api/OmGateway.php');
 
@@ -93,86 +93,116 @@ function setRoomName(&$openmeetings) {
 	$openmeetings->roomname = 'MOODLE_COURSE_ID_' . $openmeetings->course . '_NAME_' . $openmeetings->name;
 }
 
-function getRoom(&$openmeetings) {
-	setRoomName($openmeetings);
+function getRoom(&$meeting) {
+	setRoomName($meeting);
 	return array(
-			'id' => $openmeetings->room_id > 0 ? $openmeetings->room_id : null
-			, 'name' => $openmeetings->roomname
+			'id' => $meeting->room_id > 0 ? $meeting->room_id : null
+			, 'name' => $meeting->roomname
 			, 'comment' => 'Created by SOAP-Gateway'
-			, 'type' => $openmeetings->type
-			, 'capacity' => $openmeetings->max_user
+			, 'type' => $meeting->type
+			, 'capacity' => $meeting->max_user
 			, 'isPublic' => false
 			, 'appointment' => false
-			, 'moderated' => 1 == $openmeetings->is_moderated_room
+			, 'moderated' => 1 == $meeting->is_moderated_room
 			, 'audioOnly' => false
 			, 'allowUserQuestions' => true
-			, 'allowRecording' => 1 == $openmeetings->allow_recording
-			, 'chatHidden' => 1 == $openmeetings->chat_hidden
-			, 'externalId' => $openmeetings->instance
+			, 'allowRecording' => 1 == $meeting->allow_recording
+			, 'chatHidden' => 1 == $meeting->chat_hidden
+			, 'externalId' => $meeting->id
+			, 'files' => array()
 	);
 }
 
-function openmeetings_add_instance(&$openmeetings) {
+function openmeetings_add_instance(&$meeting) {
 	global $DB;
 
 	$gateway = new OmGateway(getOmConfig());
-	if ($gateway->login()) {
-		//Roomtype 0 means its and recording, we don't need to create a room for that
-		if ($openmeetings->type != 'recording') {
-			$openmeetings->room_id = $gateway->updateRoom(getRoom($openmeetings));
-		}
-	} else {
+	if (!$gateway->login()) {
 		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 		exit();
 	}
-	# May have to add extra stuff in here #
-	return $DB->insert_record("openmeetings", $openmeetings);
+	$meeting->id = $DB->insert_record("openmeetings", $meeting);
+	return updateOmRoom($meeting, $gateway);
 }
 
-function openmeetings_update_instance(&$openmeetings) {
-	global $DB;
-
-	$openmeetings->timemodified = time();
-	$openmeetings->id = $openmeetings->instance;
-
+function openmeetings_update_instance(&$meeting) {
 	$gateway = new OmGateway(getOmConfig());
-	if ($gateway->login()) {
-		//Roomtype 0 means its and recording, we don't need to update a room for that
-		if ($openmeetings->type == 'recording') {
-			$openmeetings->room_id = 0;
-		} else {
-			$openmeetings->room_id = $gateway->updateRoom(getRoom($openmeetings));
-		}
-	} else {
+	if (!$gateway->login()) {
 		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 		exit();
 	}
-	# May have to add extra stuff in here #
-	return $DB->update_record("openmeetings", $openmeetings);
+	$meeting->timemodified = time();
+	$meeting->id = $meeting->instance;
+	return updateOmRoom($meeting, $gateway);
+}
+
+function updateOmRoom(&$meeting, $gateway) {
+	global $DB, $mform;
+	if ($meeting->type == 'recording') {
+		$meeting->room_id = 0;
+	} else {
+		$room = getRoom($meeting);
+		for ($i = 0; $i < $meeting->room_files; ++$i) {
+			$wbIdx = $meeting->wb_idx[$i];
+			$omFileId = $meeting->om_files[$i];
+			$fileObj = new stdClass();
+			$fileObj->openmeetings_id = $meeting->instance;
+			$fileObj->wb = $wbIdx;
+			if ($omFileId > 0) {
+				$fileObj->file_name = $meeting->{'om_int_file' . $omFileId};
+				$fileObj->file_id = $omFileId;
+				$fileObj->id = $DB->insert_record("openmeetings_file", $fileObj);
+				$room['files'][] = array('wbIdx' => $wbIdx, 'fileId' => $omFileId);
+				continue;
+			}
+			$file = $mform->getFile($i);
+			if (!!$file) {
+				$fileName = $file->get_filename();
+				$fileObj->file_name = $fileName;
+				$fileObj->file_id = 0;
+				$fileObj->id = $DB->insert_record("openmeetings_file", $fileObj);
+				$fileJson = array(
+					'externalId' => $fileObj->id
+					, 'name' => $fileName
+				);
+				$fileContent = $file->get_content();
+				$omFile = $gateway->createFile($fileJson, $fileContent);
+				if (!$omFile) {
+					$DB->delete_records("openmeetings_file", array("id" => $fileObj->id));
+				} else {
+					$fileObj->file_id = $omFile['id'];
+					$DB->update_record("openmeetings_file", $fileObj);
+					$room['files'][] = array('wbIdx' => $wbIdx, 'fileId' => $omFile['id']);
+				}
+			}
+		}
+		$meeting->room_id = $gateway->updateRoom($room);
+	}
+	$DB->update_record("openmeetings", $meeting); // need to update room_id
+	return $meeting->instance;
 }
 
 function openmeetings_delete_instance($id) {
 	global $DB;
 
-	if (!$openmeetings = $DB->get_record("openmeetings", array("id" => "$id"))) {
+	if (!$meeting = $DB->get_record("openmeetings", array("id" => "$id"))) {
 		return false;
 	}
 
 	$result = true;
 
 	$gateway = new OmGateway(getOmConfig());
-	if ($gateway->login()) {
-		//Roomtype 0 means its and recording, we don't need to update a room for that
-		if ($openmeetings->type != 'recording') {
-			$openmeetings->room_id = $gateway->deleteRoom($openmeetings->room_id);
-		}
-	} else {
+	if (!$gateway->login()) {
 		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
 		exit();
 	}
-
-	# Delete any dependent records here #
-	if (!$DB->delete_records("openmeetings", array("id" => "$openmeetings->id"))) {
+	if ($meeting->type != 'recording') {
+		$meeting->room_id = $gateway->deleteRoom($meeting->room_id);
+	}
+	// processing room files
+	$DB->delete_records("openmeetings_file", array("openmeetings_id" => $meeting->id));
+	// delete room instance
+	if (!$DB->delete_records("openmeetings", array("id" => $meeting->id))) {
 		$result = false;
 	}
 	return $result;
