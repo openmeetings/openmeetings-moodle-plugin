@@ -105,7 +105,7 @@ $string['checkpeerDesc'] = 'Enable/Disable SSL certificate checking, INSECURE if
 $string['checkhost'] = 'Hostname verification';
 $string['checkhostDesc'] = 'Enable/Disable hostname verification, INSECURE if unchecked (default: checked)';
 
-$string['upload_file'] = 'Upload file';
+$string['upload_file'] = 'Subir arquivo';
 $string['room_files'] = 'Room files';
 $string['wb_index'] = 'White board index';
 $string['om_file'] = 'Existing OM file';

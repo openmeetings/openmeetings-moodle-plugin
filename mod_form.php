@@ -51,7 +51,7 @@ require_once($CFG->dirroot . '/mod/openmeetings/version.php');
 $gateway = new OmGateway(getOmConfig());
 $om_login = $gateway->login();
 class mod_openmeetings_mod_form extends moodleform_mod {
-	private function addGeneralFields($recordings) {
+	private function addGeneralFields() {
 		$mform = $this->_form;
 		// Adding the standard "name" field
 		$mform->addElement('text', 'name', get_string('Room_Name', 'openmeetings'), array(
@@ -154,7 +154,10 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 
 		// Adding the optional "intro" field
 		$this->standard_intro_elements(get_string('description', 'openmeetings'));
+	}
 
+	private function addRecordings($recordings) {
+		$mform = $this->_form;
 		// Adding the "Available Recordings to Shows" field
 		$mform->registerNoSubmitButton('mp4');
 		$dwnld_grp = array();
@@ -168,8 +171,31 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$mform->disabledIf('mp4', 'room_recording_id', 'lt', '1');
 		$mform->addGroup($dwnld_grp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
 		$mform->disabledIf('dwnld_grp', 'type', 'neq', 'recording');
+	}
 
-		$mform->closeHeaderBefore('dwnld_grp');
+	private function addFiles($files) {
+		$mform = $this->_form;
+		foreach ($files as $fileId => $fileName) {
+			$hname = 'om_int_file' . $fileId;
+			$mform->addElement('hidden', $hname, $fileName);
+			$mform->setType($hname, PARAM_TEXT);
+		}
+		$mform->addElement('html', '<div class="om-labeled-group">');
+		$rep_newfile_grp = array();
+		$rep_newfile_grp[] = & $mform->createElement('select', 'wb_idx', get_string('wb_index', 'openmeetings'), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+		$rep_newfile_grp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'), $files);
+		$rep_newfile_grp[] = & $mform->createElement('filepicker', 'userfile', get_string('file'), null,
+				array('accepted_types' => '*'));
+		$rep_newfile = array();
+		$rep_newfile[] = $mform->createElement('group', 'file_grp', get_string('room_file', 'openmeetings'), $rep_newfile_grp, ' ', false);
+
+		$rep_options = array();
+		$rep_options['wb_idx']['disabledif'] = array('type', 'eq', 'recording');
+		$rep_options['om_files']['disabledif'] = array('type', 'eq', 'recording');
+
+		$this->repeat_elements($rep_newfile, 1, $rep_options, 'room_files', 'add_room_files', 1, null, true);
+
+		$mform->addElement('html', '</div>');
 	}
 
 	function definition() {
@@ -212,31 +238,13 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				}
 			}
 		}
-		$this->addGeneralFields($recordings);
+		$this->addGeneralFields();
+		$this->addRecordings($recordings);
+		$mform->closeHeaderBefore('dwnld_grp');
 
 		// room files
 		$mform->addElement('header', 'room_files_header', get_string('room_files', 'openmeetings'));
-		foreach ($files as $fileId => $fileName) {
-			$hname = 'om_int_file' . $fileId;
-			$mform->addElement('hidden', $hname, $fileName);
-			$mform->setType($hname, PARAM_TEXT);
-		}
-		$mform->addElement('html', '<div class="om-labeled-group">');
-		$rep_newfile_grp = array();
-		$rep_newfile_grp[] = & $mform->createElement('select', 'wb_idx', get_string('wb_index', 'openmeetings'), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-		$rep_newfile_grp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'), $files);
-		$rep_newfile_grp[] = & $mform->createElement('filepicker', 'userfile', get_string('file'), null,
-				array('accepted_types' => '*'));
-		$rep_newfile = array();
-		$rep_newfile[] = $mform->createElement('group', 'file_grp', get_string('room_file', 'openmeetings'), $rep_newfile_grp, ' ', false);
-
-		$rep_options = array();
-		$rep_options['wb_idx']['disabledif'] = array('type', 'eq', 'recording');
-		$rep_options['om_files']['disabledif'] = array('type', 'eq', 'recording');
-
-		$this->repeat_elements($rep_newfile, 1, $rep_options, 'room_files', 'add_room_files', 1, null, true);
-
-		$mform->addElement('html', '</div>');
+		$this->addFiles($files);
 
 		// -------------------------------------------------------------------------------
 		// add standard elements, common to all modules

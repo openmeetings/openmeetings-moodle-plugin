@@ -234,35 +234,35 @@ function openmeetings_get_coursemodule_info($coursemodule) {
 	return $info;
 }
 
-function openmeetings_user_outline($course, $user, $mod, $openmeetings) {
+function openmeetings_user_outline() {
 	return true;
 }
 
-function openmeetings_user_complete($course, $user, $mod, $openmeetings) {
+function openmeetings_user_complete() {
 	return true;
 }
 
-function openmeetings_print_recent_activity($course, $isteacher, $timestart) {
+function openmeetings_print_recent_activity() {
 	return false;  //  True if anything was printed, otherwise false
 }
 
-function openmeetings_cron () {
+function openmeetings_cron() {
 	return true;
 }
 
-function openmeetings_grades($openmeetingsid) {
+function openmeetings_grades() {
 	return NULL;
 }
 
-function openmeetings_get_participants($openmeetingsid) {
+function openmeetings_get_participants() {
 	return false;
 }
 
-function openmeetings_scale_used($openmeetingsid, $scaleid) {
+function openmeetings_scale_used() {
 	return false;
 }
 
-function openmeetings_scale_used_anywhere($scaleid) {
+function openmeetings_scale_used_anywhere() {
 	return false;
 }
 
