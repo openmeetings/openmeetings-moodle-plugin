@@ -179,7 +179,7 @@ function updateOmRoom(&$meeting, $gateway) {
 		$meeting->room_id = $gateway->updateRoom($room);
 	}
 	$DB->update_record("openmeetings", $meeting); // need to update room_id
-	return $meeting->instance;
+	return $meeting->id;
 }
 
 function openmeetings_delete_instance($id) {
