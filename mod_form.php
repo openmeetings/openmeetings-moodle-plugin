@@ -51,6 +51,42 @@ require_once($CFG->dirroot . '/mod/openmeetings/version.php');
 $gateway = new OmGateway(getOmConfig());
 $om_login = $gateway->login();
 class mod_openmeetings_mod_form extends moodleform_mod {
+	private function getLanguages() {
+		return array(
+				'1' => 'english',
+				'2' => 'deutsch',
+				'4' => 'french',
+				'5' => 'italian',
+				'6' => 'portugues',
+				'7' => 'portugues brazil',
+				'8' => 'spanish',
+				'9' => 'russian',
+				'10' => 'swedish',
+				'11' => 'chinese simplified',
+				'12' => 'chinese traditional',
+				'13' => 'korean',
+				'14' => 'arabic',
+				'15' => 'japanese',
+				'16' => 'indonesian',
+				'17' => 'hungarian',
+				'18' => 'turkish',
+				'19' => 'ukrainian',
+				'20' => 'thai',
+				'21' => 'persian',
+				'22' => 'czech',
+				'23' => 'galician',
+				'24' => 'finnish',
+				'25' => 'polish',
+				'26' => 'greek',
+				'27' => 'dutch',
+				'28' => 'hebrew',
+				'29' => 'catalan',
+				'30' => 'bulgarian',
+				'31' => 'danish',
+				'32' => 'slovak'
+		);
+	}
+
 	private function addGeneralFields() {
 		$mform = $this->_form;
 		// Adding the standard "name" field
@@ -87,41 +123,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$mform->disabledIf('max_user', 'type', 'eq', 'recording');
 
 		// Adding the "Room Language" field
-		$language_array = array(
-				'1' => 'english',
-				'2' => 'deutsch',
-				'4' => 'french',
-				'5' => 'italian',
-				'6' => 'portugues',
-				'7' => 'portugues brazil',
-				'8' => 'spanish',
-				'9' => 'russian',
-				'10' => 'swedish',
-				'11' => 'chinese simplified',
-				'12' => 'chinese traditional',
-				'13' => 'korean',
-				'14' => 'arabic',
-				'15' => 'japanese',
-				'16' => 'indonesian',
-				'17' => 'hungarian',
-				'18' => 'turkish',
-				'19' => 'ukrainian',
-				'20' => 'thai',
-				'21' => 'persian',
-				'22' => 'czech',
-				'23' => 'galician',
-				'24' => 'finnish',
-				'25' => 'polish',
-				'26' => 'greek',
-				'27' => 'dutch',
-				'28' => 'hebrew',
-				'29' => 'catalan',
-				'30' => 'bulgarian',
-				'31' => 'danish',
-				'32' => 'slovak'
-		);
-
-		$mform->addElement('select', 'language', get_string('Room_Language', 'openmeetings'), $language_array);
+		$mform->addElement('select', 'language', get_string('Room_Language', 'openmeetings'), $this->getLanguages());
 
 		// Some description
 		$mform->addElement('static', 'description', '', get_string('Moderation_Description', 'openmeetings'));
