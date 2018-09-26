@@ -111,3 +111,5 @@ $string['room_files'] = 'Room files';
 $string['wb_index'] = 'White board index';
 $string['om_file'] = 'Existing OM file';
 $string['room_file'] = 'Room file';
+$string['remove'] = 'Remove';
+$string['clean_wb'] = 'Clean White board';

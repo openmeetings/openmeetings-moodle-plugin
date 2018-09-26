@@ -111,3 +111,5 @@ $string['room_files'] = 'Файлы комнаты';
 $string['wb_index'] = 'Индекс доски';
 $string['om_file'] = 'Уже загруженный файл';
 $string['room_file'] = 'Файл комнаты';
+$string['remove'] = 'Удалить';
+$string['clean_wb'] = 'Очистить доску';

@@ -142,11 +142,23 @@ function updateOmRoom(&$meeting, $gateway) {
 		$meeting->room_id = 0;
 	} else {
 		$room = getRoom($meeting);
+		foreach ($meeting->remove as $mFileId => $selected) {
+			if ($selected == 0) {
+				unset($meeting->remove[$mFileId]);
+			}
+		}
+		if (!empty($meeting->remove)) {
+			$delIds = join(',', $meeting->remove);
+			$DB->delete_records_select('openmeetings_file', 'id IN (' . $delIds . ')');
+		}
+		foreach ($DB->get_records('openmeetings_file', array('openmeetings_id' => $meeting->id)) as $mFile) {
+			$room['files'][] = array('wbIdx' => $mFile->wb, 'fileId' => $mFile->file_id);
+		}
 		for ($i = 0; $i < $meeting->room_files; ++$i) {
 			$wbIdx = $meeting->wb_idx[$i];
 			$omFileId = $meeting->om_files[$i];
 			$fileObj = new stdClass();
-			$fileObj->openmeetings_id = $meeting->instance;
+			$fileObj->openmeetings_id = $meeting->id;
 			$fileObj->wb = $wbIdx;
 			if ($omFileId > 0) {
 				$fileObj->file_name = $meeting->{'om_int_file' . $omFileId};

@@ -160,7 +160,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 
 	private function addRecordings($recordings) {
 		$mform = $this->_form;
-		// Adding the "Available Recordings to Shows" field
+		// Adding the "Available Recordings to Show" field
 		$mform->registerNoSubmitButton('mp4');
 		$dwnld_grp = array();
 		$dwnld_grp[] = & $mform->createElement('html', '<div class="col-md-12">');
@@ -183,6 +183,26 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 			$mform->setType($hname, PARAM_TEXT);
 		}
 		$mform->addElement('html', '<div class="om-labeled-group">');
+
+		foreach ($this->current->files as $cFile) {
+			$curId = 'curfile_grp' . $cFile->id;
+			$curfile_grp = array();
+			$curfile_grp[] = & $mform->createElement('html', '<div class="om-labeled-group col-md-12">');
+			$curfile_grp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
+			$curfile_grp[] = & $mform->createElement('static', 'file', '', $cFile->file_name);
+			$curfile_grp[] = & $mform->createElement('html', '</div>');
+			$curfile_grp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
+			$curfile_grp[] = & $mform->createElement('static', 'wb_idx_lbl', '', get_string('wb_index', 'openmeetings'));
+			$curfile_grp[] = & $mform->createElement('html', '</div>');
+			$curfile_grp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
+			$curfile_grp[] = & $mform->createElement('static', 'wb', '', $cFile->wb);
+			$curfile_grp[] = & $mform->createElement('html', '</div>');
+			$curfile_grp[] = & $mform->createElement('advcheckbox', 'remove[' . $cFile->id . ']', get_string('remove', 'openmeetings'), '', array('group' => 1, 'class' => 'inline col-md-3'), array(0, $cFile->id));
+			$curfile_grp[] = & $mform->createElement('html', '</div>');
+			$mform->addGroup($curfile_grp, $curId, get_string('room_file', 'openmeetings'), array(' '), false);
+			$mform->disabledIf($curId, 'type', 'eq', 'recording');
+		}
+
 		$rep_newfile_grp = array();
 		$rep_newfile_grp[] = & $mform->createElement('select', 'wb_idx', get_string('wb_index', 'openmeetings'), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
 		$rep_newfile_grp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'), $files);
@@ -242,7 +262,10 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		}
 		$this->addGeneralFields();
 		$this->addRecordings($recordings);
-		$mform->closeHeaderBefore('dwnld_grp');
+		if ($this->current->room_id > 0) {
+			$mform->registerNoSubmitButton('cleanWb');
+			$mform->addElement('submit', 'cleanWb', get_string('clean_wb', 'openmeetings'));
+		}
 
 		// room files
 		$mform->addElement('header', 'room_files_header', get_string('room_files', 'openmeetings'));
@@ -282,19 +305,23 @@ if ($data->id > 0) {
 $mform = new mod_openmeetings_mod_form($data, $data->section, $cm, $course);
 
 $sdata = $mform->get_submitted_data();
-if ($mform->no_submit_button_pressed() && $om_login && $sdata->{'mp4'}) {
-	$recId = $sdata->{'room_recording_id'};
-	$type = "mp4";
-	$filename = "flvRecording_$recId.$type";
-	if ($om_login) {
-		ob_end_clean();
-		if (ini_get_bool('zlib.output_compression')) {
-			ini_set('zlib.output_compression', 'Off');
+if ($mform->no_submit_button_pressed() && $om_login) {
+	if ($sdata->{'mp4'}) {
+		$recId = $sdata->{'room_recording_id'};
+		$type = "mp4";
+		$filename = "flvRecording_$recId.$type";
+		if ($om_login) {
+			ob_end_clean();
+			if (ini_get_bool('zlib.output_compression')) {
+				ini_set('zlib.output_compression', 'Off');
+			}
+			header('Content-disposition: attachment; filename=' . $filename);
+			header('Content-type: video/' . $type);
+			$url = $gateway->getUrl() . "/recordings/$type/" . getOmHash($gateway, array("recordingId" => $recId));
+			readfile($url);
 		}
-		header('Content-disposition: attachment; filename=' . $filename);
-		header('Content-type: video/' . $type);
-		$url = $gateway->getUrl() . "/recordings/$type/" . getOmHash($gateway, array("recordingId" => $recId));
-		readfile($url);
+		exit(0);
+	} else if ($sdata->{'cleanWb'} && $data->room_id > 0) {
+		$gateway->cleanWb($data->room_id);
 	}
-	exit(0);
 }

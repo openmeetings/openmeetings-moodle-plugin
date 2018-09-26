@@ -67,11 +67,15 @@ class OmGateway {
 	}
 
 	private function showError($rest) {
-		echo '<h2>Fault (Service error)</h2><pre>';
+		echo '<h2>Fault (Service error)</h2>';
 		if ($this->debug) {
 			print_object($rest->getMessage());
 		}
-		echo '</pre>';
+	}
+
+	private function showServiceError($msg, $response) {
+		echo '<h2>REST call failed</h2>';
+		echo '<div>' . $msg . '; message: ' . $response['message'] . '</div>';
 	}
 
 	function login() {
@@ -92,7 +96,7 @@ class OmGateway {
 				$this->sessionId = $response["message"];
 				return true;
 			} else {
-				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+				$this->showServiceError('Error While signing into OpenMeetings, please check credentials', $response);
 			}
 		}
 		return false;
@@ -127,7 +131,7 @@ class OmGateway {
 			if ($response["type"] == "SUCCESS") {
 				return $response["message"];
 			} else {
-				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+				$this->showServiceError('Failed to get hash', $response);
 			}
 		}
 		return -1;
@@ -149,7 +153,7 @@ class OmGateway {
 			if (isset($response["id"]) && $response["id"]) {
 				return $response;
 			} else {
-				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+				$this->showServiceError('Failed to get room', $response);
 			}
 		}
 		return -1;
@@ -172,7 +176,7 @@ class OmGateway {
 			if ($response["id"] > 0) {
 				return $response["id"];
 			} else {
-				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+				$this->showServiceError('Failed to update room', $response);
 			}
 		}
 		return -1;
@@ -194,7 +198,7 @@ class OmGateway {
 			if ($response["type"] == "SUCCESS") {
 				return $response["code"];
 			} else {
-				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+				$this->showServiceError('Failed to delete room', $response);
 			}
 		}
 		return -1;
@@ -237,7 +241,29 @@ class OmGateway {
 			if ($response["type"] == "SUCCESS") {
 				return $response["code"];
 			} else {
-				echo '<h2>Error While signing into OpenMeetings, please check credentials</h2><pre>' . $response["code"] . '</pre>';
+				$this->showServiceError('Failed to delete recording', $response);
+			}
+		}
+		return -1;
+	}
+
+	function cleanWb($roomId) {
+		$rest = new OmRestService();
+		$response = $rest->call(
+				$this->getRestUrl("room") . 'cleanwb/' . $roomId
+				, RestMethod::GET
+				, $this->sessionId
+				, ""
+				, null
+				, "serviceResult"
+				);
+		if ($rest->isError()) {
+			$this->showError($rest);
+		} else {
+			if ($response["type"] == "SUCCESS") {
+				return $response["code"];
+			} else {
+				$this->showServiceError('Failed to clean WB', $response);
 			}
 		}
 		return -1;
