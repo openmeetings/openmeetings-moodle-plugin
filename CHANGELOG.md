@@ -1,5 +1,8 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.0.0 (2018101601)
+ * White board files are added (OM 4.0.6 is required)
+
 3.0.0.6 (2018072401)
  * Options to turn on/off SSL checks are made configurable in UI
 

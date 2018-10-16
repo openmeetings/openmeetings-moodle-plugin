@@ -146,8 +146,8 @@ function upgrade2018072401($oldversion) {
 	}
 }
 
-function upgrade2018081411($oldversion, $dbman) {
-	$ver = 2018081411;
+function upgrade2018101600($oldversion, $dbman) {
+	$ver = 2018101600;
 	if ($oldversion < $ver) {
 		$table = new xmldb_table('openmeetings_file');
 
@@ -180,7 +180,7 @@ function xmldb_openmeetings_upgrade($oldversion) {
 	upgrade2016042002($oldversion, $dbman);
 	upgrade2017101000($oldversion, $dbman);
 	upgrade2018072401($oldversion);
-	upgrade2018081411($oldversion, $dbman);
+	upgrade2018101600($oldversion, $dbman);
 
 	return $result;
 }
