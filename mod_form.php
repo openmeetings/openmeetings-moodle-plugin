@@ -220,10 +220,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$mform->addElement('html', '</div>');
 	}
 
-	private function getFiles() {
+	private function getFiles(&$recordings, &$files) {
 		global $gateway, $om_login;
 
-		$files = array(-1 => get_string('upload_file', 'openmeetings'));
 		if ($om_login) {
 			$omrecordings = $gateway->getRecordings();
 			foreach ($omrecordings as $rec) {
@@ -243,11 +242,10 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				}
 			}
 		}
-		return $files;
 	}
 
 	function definition() {
-		global $gateway, $om_login, $plugin;
+		global $gateway, $plugin;
 		$mform = $this->_form;
 
 		// -------------------------------------------------------------------------------
@@ -265,7 +263,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 			$mform->addElement('html', '<div class="' . ($ok ? 'green' : 'red') . '">' . $msg . '</div>');
 		}
 		$recordings = array();
-		$files = $this->getFiles();
+		$files = array(-1 => get_string('upload_file', 'openmeetings'));
+		$this->fillFiles($recordings, $files);
+
 		$this->addGeneralFields();
 		$this->addRecordings($recordings);
 		if ($this->current->room_id > 0) {

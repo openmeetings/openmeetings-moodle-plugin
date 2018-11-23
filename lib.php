@@ -195,7 +195,7 @@ function updateOmRoom(&$meeting, $gateway) {
 }
 
 function updateOmRoomObj(&$meeting, $gateway) {
-	global $DB, $mform;
+	global $DB;
 	if ($meeting->type == 'recording') {
 		$meeting->room_id = 0;
 	} else {
