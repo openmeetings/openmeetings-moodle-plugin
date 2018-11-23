@@ -220,7 +220,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$mform->addElement('html', '</div>');
 	}
 
-	private function getFiles(&$recordings, &$files) {
+	private function fillFiles(&$recordings, &$files) {
 		global $gateway, $om_login;
 
 		if ($om_login) {
