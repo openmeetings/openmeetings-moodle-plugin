@@ -38,7 +38,9 @@ set_error_handler("myErrorHandler");
 require_once($CFG->dirroot.'/config.php');
 require_once($CFG->dirroot.'/mod/openmeetings/api/OmGateway.php');
 
-// error handler function
+/** error handler function
+ * @SuppressWarnings(PHPMD.ExitExpression)
+ */
 function myErrorHandler($errno, $errstr, $errfile, $errline)
 {
 	switch ($errno) {
