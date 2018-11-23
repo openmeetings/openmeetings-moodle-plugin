@@ -46,7 +46,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 			die("<b>My ERROR</b> [$errno] $errstr<br />\n"
 				. "  Fatal error on line $errline in file $errfile"
 				. ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n"
-				. "Aborting...<br />\n")
+				. "Aborting...<br />\n");
 		case E_USER_WARNING:
 			echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
 			break;
