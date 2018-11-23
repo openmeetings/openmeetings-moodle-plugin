@@ -106,6 +106,9 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 		return $out;
 	}
 
+	/**
+	 * This function will render OM iframe (if login was successful)
+	 */
 	protected function render_openmeetings(openmeetings $openmeetings) {
 		global $cm;
 
@@ -137,8 +140,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 				));
 			}
 		} else {
-			echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
-			exit();
+			$out .= "<p>Could not login User to OpenMeetings, check your OpenMeetings Module Configuration</p>";
 		}
 
 		$out .= $this->_footer($openmeetings);

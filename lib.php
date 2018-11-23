@@ -113,87 +113,102 @@ function getRoom(&$meeting) {
 	);
 }
 
+/**
+ * Add OM DB record
+ * @SuppressWarnings(PHPMD.ExitExpression)
+ */
 function openmeetings_add_instance(&$meeting) {
 	global $DB;
 
 	$gateway = new OmGateway(getOmConfig());
 	if (!$gateway->login()) {
-		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
-		exit();
+		die("Could not login User to OpenMeetings, check your OpenMeetings Module Configuration");
 	}
 	$meeting->id = $DB->insert_record("openmeetings", $meeting);
-	return updateOmRoom($meeting, $gateway);
+	return updateOmRoomObj($meeting, $gateway);
 }
 
+/**
+ * Update OM DB record
+ * @SuppressWarnings(PHPMD.ExitExpression)
+ */
 function openmeetings_update_instance(&$meeting) {
 	$gateway = new OmGateway(getOmConfig());
 	if (!$gateway->login()) {
-		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
-		exit();
+		die("Could not login User to OpenMeetings, check your OpenMeetings Module Configuration");
 	}
 	$meeting->timemodified = time();
 	$meeting->id = $meeting->instance;
-	return updateOmRoom($meeting, $gateway);
+	return updateOmRoomObj($meeting, $gateway);
 }
 
 function updateOmRoom(&$meeting, $gateway) {
 	global $DB, $mform;
+	$room = getRoom($meeting);
+	foreach ($meeting->remove as $mFileId => $selected) {
+		if ($selected == 0) {
+			unset($meeting->remove[$mFileId]);
+		}
+	}
+	if (!empty($meeting->remove)) {
+		$delIds = join(',', $meeting->remove);
+		$DB->delete_records_select('openmeetings_file', 'id IN (' . $delIds . ')');
+	}
+	foreach ($DB->get_records('openmeetings_file', array('openmeetings_id' => $meeting->id)) as $mFile) {
+		$room['files'][] = array('wbIdx' => $mFile->wb, 'fileId' => $mFile->file_id);
+	}
+	for ($i = 0; $i < $meeting->room_files; ++$i) {
+		$wbIdx = $meeting->wb_idx[$i];
+		$omFileId = $meeting->om_files[$i];
+		$fileObj = new stdClass();
+		$fileObj->openmeetings_id = $meeting->id;
+		$fileObj->wb = $wbIdx;
+		if ($omFileId > 0) {
+			$fileObj->file_name = $meeting->{'om_int_file' . $omFileId};
+			$fileObj->file_id = $omFileId;
+			$fileObj->id = $DB->insert_record("openmeetings_file", $fileObj);
+			$room['files'][] = array('wbIdx' => $wbIdx, 'fileId' => $omFileId);
+			continue;
+		}
+		$file = $mform->getFile($i);
+		if (!!$file) {
+			$fileName = $file->get_filename();
+			$fileObj->file_name = $fileName;
+			$fileObj->file_id = 0;
+			$fileObj->id = $DB->insert_record("openmeetings_file", $fileObj);
+			$fileJson = array(
+					'externalId' => $fileObj->id
+					, 'name' => $fileName
+			);
+			$fileContent = $file->get_content();
+			$omFile = $gateway->createFile($fileJson, $fileContent);
+			if (!$omFile) {
+				$DB->delete_records("openmeetings_file", array("id" => $fileObj->id));
+			} else {
+				$fileObj->file_id = $omFile['id'];
+				$DB->update_record("openmeetings_file", $fileObj);
+				$room['files'][] = array('wbIdx' => $wbIdx, 'fileId' => $omFile['id']);
+			}
+		}
+	}
+	$meeting->room_id = $gateway->updateRoom($room);
+}
+
+function updateOmRoomObj(&$meeting, $gateway) {
+	global $DB, $mform;
 	if ($meeting->type == 'recording') {
 		$meeting->room_id = 0;
 	} else {
-		$room = getRoom($meeting);
-		foreach ($meeting->remove as $mFileId => $selected) {
-			if ($selected == 0) {
-				unset($meeting->remove[$mFileId]);
-			}
-		}
-		if (!empty($meeting->remove)) {
-			$delIds = join(',', $meeting->remove);
-			$DB->delete_records_select('openmeetings_file', 'id IN (' . $delIds . ')');
-		}
-		foreach ($DB->get_records('openmeetings_file', array('openmeetings_id' => $meeting->id)) as $mFile) {
-			$room['files'][] = array('wbIdx' => $mFile->wb, 'fileId' => $mFile->file_id);
-		}
-		for ($i = 0; $i < $meeting->room_files; ++$i) {
-			$wbIdx = $meeting->wb_idx[$i];
-			$omFileId = $meeting->om_files[$i];
-			$fileObj = new stdClass();
-			$fileObj->openmeetings_id = $meeting->id;
-			$fileObj->wb = $wbIdx;
-			if ($omFileId > 0) {
-				$fileObj->file_name = $meeting->{'om_int_file' . $omFileId};
-				$fileObj->file_id = $omFileId;
-				$fileObj->id = $DB->insert_record("openmeetings_file", $fileObj);
-				$room['files'][] = array('wbIdx' => $wbIdx, 'fileId' => $omFileId);
-				continue;
-			}
-			$file = $mform->getFile($i);
-			if (!!$file) {
-				$fileName = $file->get_filename();
-				$fileObj->file_name = $fileName;
-				$fileObj->file_id = 0;
-				$fileObj->id = $DB->insert_record("openmeetings_file", $fileObj);
-				$fileJson = array(
-					'externalId' => $fileObj->id
-					, 'name' => $fileName
-				);
-				$fileContent = $file->get_content();
-				$omFile = $gateway->createFile($fileJson, $fileContent);
-				if (!$omFile) {
-					$DB->delete_records("openmeetings_file", array("id" => $fileObj->id));
-				} else {
-					$fileObj->file_id = $omFile['id'];
-					$DB->update_record("openmeetings_file", $fileObj);
-					$room['files'][] = array('wbIdx' => $wbIdx, 'fileId' => $omFile['id']);
-				}
-			}
-		}
-		$meeting->room_id = $gateway->updateRoom($room);
+		updateOmRoom($meeting, $gateway);
 	}
 	$DB->update_record("openmeetings", $meeting); // need to update room_id
 	return $meeting->id;
 }
 
+/**
+ * Delete OM DB record
+ * @SuppressWarnings(PHPMD.ExitExpression)
+ */
 function openmeetings_delete_instance($id) {
 	global $DB;
 
@@ -205,8 +220,7 @@ function openmeetings_delete_instance($id) {
 
 	$gateway = new OmGateway(getOmConfig());
 	if (!$gateway->login()) {
-		echo "Could not login User to OpenMeetings, check your OpenMeetings Module Configuration";
-		exit();
+		die("Could not login User to OpenMeetings, check your OpenMeetings Module Configuration");
 	}
 	if ($meeting->type != 'recording') {
 		$meeting->room_id = $gateway->deleteRoom($meeting->room_id);
