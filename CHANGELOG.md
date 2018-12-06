@@ -1,5 +1,8 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.0.1 (2018120601)
+ * Code clean-up, all Travis warnings are eliminated
+
 4.0.0 (2018101601)
  * White board files are added (OM 4.0.6 is required)
 
