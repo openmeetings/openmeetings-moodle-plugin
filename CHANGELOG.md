@@ -1,5 +1,8 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.0.2 (2019052401)
+ * Tested with Moodle 3.7, changes in Travis config
+
 4.0.1 (2018120601)
  * Code clean-up, all Travis warnings are eliminated
 

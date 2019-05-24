@@ -6,12 +6,12 @@ You need your own Apache OpenMeetings instance running.
 [![Build Status](https://travis-ci.org/openmeetings/openmeetings-moodle-plugin.svg?branch=master)](https://travis-ci.org/openmeetings/openmeetings-moodle-plugin)
 
 ## Requirements
-PHP 7.0 or later, OpenMeetings 4.0.0 or later and Moodle 2.9 or later.
+PHP 7.0 or later, OpenMeetings 4.0.8/5.0.0-M1 or later and Moodle 3.5 or later.
 
 ## tested Versions
-OpenMeetings: 4.0.0
+OpenMeetings: 4.0.9, 5.0.0-M1
 
-Moodle: 3.0
+Moodle: 3.6, 3.7
 
 ## Building/Developing
 
