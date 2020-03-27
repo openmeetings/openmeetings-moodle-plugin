@@ -102,9 +102,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 
 		// Adding the "Room Type" field
 		$mform->addElement('select', 'type', get_string('Room_Type', 'openmeetings'), array(
-				'conference' => get_string('Conference', 'openmeetings'),
-				'presentation' => get_string('Restricted', 'openmeetings'),
-				'interview' => get_string('Interview', 'openmeetings'),
+				'CONFERENCE' => get_string('Conference', 'openmeetings'),
+				'PRESENTATION' => get_string('Restricted', 'openmeetings'),
+				'INTERVIEW' => get_string('Interview', 'openmeetings'),
 				'recording' => get_string('Recording', 'openmeetings')
 		));
 

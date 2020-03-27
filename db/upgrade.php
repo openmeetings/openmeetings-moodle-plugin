@@ -167,6 +167,23 @@ function upgrade2018101600($oldversion, $dbman) {
 	}
 }
 
+function upgrade20200404($oldversion, $dbman) {
+	global $CFG, $DB;
+	$ver = 20200404;
+	if ($oldversion < $ver) {
+		$table = new xmldb_table('openmeetings');
+		$field = new xmldb_field('type');
+
+		// Conditionally launch value change for `type` field
+		if ($dbman->field_exists($table, $field)) {
+			$DB->execute("UPDATE {$CFG->prefix}openmeetings SET type = 'PRESENTATION' WHERE type = 'presentation'");
+			$DB->execute("UPDATE {$CFG->prefix}openmeetings SET type = 'INTERVIEW' WHERE type = 'interview'");
+			$DB->execute("UPDATE {$CFG->prefix}openmeetings SET type = 'CONFERENCE' WHERE type = 'conference'");
+		}
+		upgrade_mod_savepoint(true, $ver, 'openmeetings');
+	}
+}
+
 function xmldb_openmeetings_upgrade($oldversion) {
 	global $DB;
 
