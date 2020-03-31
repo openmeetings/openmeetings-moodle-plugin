@@ -135,7 +135,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 				$url = $gateway->getUrl() . "/hash?&secure=" . $hash . "&language=" . $openmeetings->om->language;
 				$out .= html_writer::empty_tag("iframe", array(
 						"src" => $url,
-						"allow" => "microphone; camera",
+						"allow" => "microphone; camera; display-capture",
 						"class" => "openmeetings" . ($openmeetings->om->whole_window > 0 ? " wholeWindow" : "")
 				));
 			}
