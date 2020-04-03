@@ -170,7 +170,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$dwnld_grp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings, array('class' => 'inline col-md-8'));
 		$dwnld_grp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'), array('class' => 'inline col-md-3'));
 		$dwnld_grp[] = & $mform->createElement('html', '</div>');
-		$mform->disabledIf('mp4', 'room_recording_id', 'lt', '1');
+		$mform->disabledIf('mp4', 'room_recording_id', 'neq', '0');
 		$mform->addGroup($dwnld_grp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
 		$mform->disabledIf('dwnld_grp', 'type', 'neq', 'recording');
 	}
@@ -231,6 +231,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 				if ($recId) {
 					$recordings[$recId] = $recName;
 				}
+			}
+			if (count($recordings) == 0) {
+				$recordings[0] = get_string('No_Recordings', 'openmeetings');
 			}
 
 			$omfiles = $gateway->getFiles();

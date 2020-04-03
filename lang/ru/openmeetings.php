@@ -113,3 +113,5 @@ $string['om_file'] = 'Уже загруженный файл';
 $string['room_file'] = 'Файл комнаты';
 $string['remove'] = 'Удалить';
 $string['clean_wb'] = 'Очистить доску';
+
+$string['No_Recordings'] = 'Нет записей';

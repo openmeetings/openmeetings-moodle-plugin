@@ -112,3 +112,5 @@ $string['om_file'] = 'Existing OM file';
 $string['room_file'] = 'Room file';
 $string['remove'] = 'Remove';
 $string['clean_wb'] = 'Clean White board';
+
+$string['No_Recordings'] = 'No Recordings';
