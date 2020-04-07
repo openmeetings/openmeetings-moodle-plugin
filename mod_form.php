@@ -170,7 +170,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$dwnld_grp[] = & $mform->createElement('select', 'room_recording_id', get_string('recordings_show', 'openmeetings'), $recordings, array('class' => 'inline col-md-8'));
 		$dwnld_grp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'), array('class' => 'inline col-md-3'));
 		$dwnld_grp[] = & $mform->createElement('html', '</div>');
-		$mform->disabledIf('mp4', 'room_recording_id', 'neq', '0');
+		$mform->disabledIf('mp4', 'room_recording_id', 'eq', '0');
 		$mform->addGroup($dwnld_grp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
 		$mform->disabledIf('dwnld_grp', 'type', 'neq', 'recording');
 	}
