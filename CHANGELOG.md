@@ -1,5 +1,12 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.1.0 (202052401)
+ * OM Version 5.0.0-M4 is required
+ * MP4 download should work as expected
+ * 'display-capture' is added to allow list
+ * Framed version looks better
+ * M4 related changes
+
 4.0.2 (2019052401)
  * Tested with Moodle 3.7, changes in Travis config
 
