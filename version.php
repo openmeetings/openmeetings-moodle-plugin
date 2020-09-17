@@ -40,5 +40,5 @@ $plugin->component  = 'mod_openmeetings';
 $plugin->maturity   = MATURITY_STABLE;
 $plugin->requires   = 2018051700;
 $plugin->cron       = 0;
-$plugin->om_version = '5.0.0-M4';
+$plugin->om_version = '5.0.0';
 $plugin->om_check   = false;

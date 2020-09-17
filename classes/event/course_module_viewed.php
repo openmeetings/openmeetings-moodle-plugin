@@ -46,9 +46,9 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.apache.org/licenses/LICENSE-2.0
  */
 class course_module_viewed extends \core\event\course_module_viewed {
-	protected function init() {
-		$this->data['crud'] = 'r';
-		$this->data['edulevel'] = self::LEVEL_PARTICIPATING;
-		$this->data['objecttable'] = 'openmeetings';
-	}
+    protected function init() {
+        $this->data['crud'] = 'r';
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+        $this->data['objecttable'] = 'openmeetings';
+    }
 }

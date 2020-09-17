@@ -1,5 +1,11 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.1.2 (2020092001)
+ * Ability to access the room via externalId/type is added
+
+4.1.1 (2020080111)
+ * tested to work with Moodle 3.9, changes in Travis config
+
 4.1.0 (202052401)
  * OM Version 5.0.0-M4 is required
  * MP4 download should work as expected
