@@ -1,6 +1,6 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
-4.1.2 (2020092001)
+4.1.2 (2020121801)
  * Ability to access the room via externalId/type is added
 
 4.1.1 (2020080111)

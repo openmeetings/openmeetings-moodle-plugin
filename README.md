@@ -9,7 +9,7 @@ You need your own Apache OpenMeetings instance running.
 PHP 7.0 or later, OpenMeetings 5.0.0 or later and Moodle 3.5 or later.
 
 ## tested Versions
-OpenMeetings: 5.0.1
+OpenMeetings: 5.1.0
 
 Moodle: 3.6, 3.7, 3.8, 3.9
 
