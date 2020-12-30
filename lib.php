@@ -251,12 +251,12 @@ function openmeetings_get_coursemodule_info($coursemodule) {
         return NULL;
     }
 
-    if ($meeting->whole_window != 2) {
-        return null;
-    }
     $info = new cached_cm_info();
     $info->name = $meeting->name;
-    $info->onclick = "window.open('" . new moodle_url('/mod/openmeetings/view.php', array ('id' => $coursemodule->id)) . "');return false;";
+    $info->afterlink = $meeting->intro;
+    $info->onclick = "window.open('"
+        . new moodle_url('/mod/openmeetings/view.php', array('id' => $coursemodule->id))
+        . "', '" . ($omeeting->whole_window > 1 ? 'OmMoodleActivity' : '_self') . "');return false;";
     return $info;
 }
 
