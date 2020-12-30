@@ -53,10 +53,11 @@ class backup_openmeetings_activity_structure_step extends backup_activity_struct
         $files = new backup_nested_element('files');
         $file = new backup_nested_element('file', array('id'), array(
                 'openmeetings_id', 'file_id', 'file_name', 'wb'));
-        $file->set_source_sql('SELECT * FROM {openmeetings_file} WHERE openmeetings_id = ?', array(backup::VAR_PARENTID));
 
         $room->add_child($files);
         $files->add_child($file);
+
+        $file->set_source_table('openmeetings_file', array('openmeetings_id' => backup::VAR_PARENTID));
 
         return $this->prepare_activity_structure($room);
     }

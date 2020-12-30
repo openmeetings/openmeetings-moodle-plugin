@@ -3,6 +3,7 @@
 4.1.3 (20212301)
  * Arabic translation is added
  * User avatar pictures are fixed
+ * Course backup is fixed
 
 4.1.2 (2020121801)
  * Ability to access the room via externalId/type is added
