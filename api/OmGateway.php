@@ -69,10 +69,11 @@ class OmGateway {
     }
 
     private function showError($rest) {
-        echo '<h2>Fault (Service error)</h2>';
+        echo '<h2>Fault (Service error)</h2><pre>';
         if ($this->debug) {
-            print_object($rest->getMessage());
+            print_r($rest->getMessage());
         }
+        echo '</pre>';
     }
 
     private function showServiceError($msg, $response) {
@@ -110,7 +111,7 @@ class OmGateway {
             , "firstname" => $firstname
             , "lastname" => $lastname
             , "email" => $email
-            , "pictureUri" => $profilePictureUrl
+            , "profilePictureUrl" => $profilePictureUrl
             , "externalId" => $userId
             , "externalType" => $this->config["module"]
         );

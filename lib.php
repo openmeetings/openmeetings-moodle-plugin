@@ -65,7 +65,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 
 function getOmUser($gateway) {
     global $USER;
-    $pictureUrl = moodle_url::make_pluginfile_url(context_user::instance($USER->id)->id, 'user', 'icon', NULL, '/', 'f2')->out(false);
+    $pictureUrl = moodle_url::make_pluginfile_url(context_user::instance($USER->id)->id, 'user', 'icon', NULL, '/', 'f1')->out(false);
     return $gateway->getUser($USER->username, $USER->firstname, $USER->lastname, $pictureUrl, $USER->email, $USER->id);
 }
 
