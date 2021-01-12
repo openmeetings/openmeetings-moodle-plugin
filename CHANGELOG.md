@@ -1,6 +1,9 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
-4.1.3 (20212301)
+4.2.0 (2021012001)
+ * Room open in new window is fixed
+
+4.1.3 (2020123001)
  * Arabic translation is added
  * User avatar pictures are fixed
  * Course backup is fixed

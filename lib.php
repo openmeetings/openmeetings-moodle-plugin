@@ -256,7 +256,7 @@ function openmeetings_get_coursemodule_info($coursemodule) {
     $info->afterlink = $meeting->intro;
     $info->onclick = "window.open('"
         . new moodle_url('/mod/openmeetings/view.php', array('id' => $coursemodule->id))
-        . "', '" . ($omeeting->whole_window > 1 ? 'OmMoodleActivity' : '_self') . "');return false;";
+        . "', '" . ($meeting->whole_window > 1 ? 'OmMoodleActivity' : '_self') . "');return false;";
     return $info;
 }
 
