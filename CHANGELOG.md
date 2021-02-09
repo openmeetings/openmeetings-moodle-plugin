@@ -2,6 +2,7 @@
 
 4.2.0 (2021012001)
  * Room open in new window is fixed
+ * `Module key` can contain space from now on
 
 4.1.3 (2020123001)
  * Arabic translation is added

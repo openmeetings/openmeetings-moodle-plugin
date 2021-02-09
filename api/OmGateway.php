@@ -214,7 +214,7 @@ class OmGateway {
     function getRecordings() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("record") . urlencode($this->config["module"])
+                $this->getRestUrl("record") . rawurlencode($this->config["module"])
                 , RestMethod::GET
                 , $this->sessionId
                 , ""
@@ -276,7 +276,7 @@ class OmGateway {
     function getFiles() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("file") . urlencode($this->config["module"])
+                $this->getRestUrl("file") . rawurlencode($this->config["module"])
                 , RestMethod::GET
                 , $this->sessionId
                 , ""
