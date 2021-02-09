@@ -35,78 +35,79 @@
 */
 
 $string['openmeetings'] = 'openmeetings';
-$string['openmeetings:addinstance'] = 'Add instance of Openmeetings';
-$string['openmeetings:becomemoderator'] = 'Become moderator in an Openmeetings Room';
+$string['openmeetings:addinstance'] = 'Adicionar uma Instância Openmeetings';
+$string['openmeetings:becomemoderator'] = 'Tornar-se Moderador na Sala Openmeetings';
 
 $string['modulename'] = 'OpenMeetings';
-$string['modulename_help'] = 'OpenMeetings is a free browser-based software that allows you to set up instantly a conference in the Web. You can use your microphone and/or webcam, share documents on a white board, share your screen or record meetings.<br><br>This Moodle plugin uses Apache OpenMeetings.
-<br>You need your own Apache OpenMeetings instance running.<br><br>For more information see: <a href="http://openmeetings.apache.org">http://openmeetings.apache.org</a>';
+$string['modulename_help'] = 'OpenMeetings é um software livre baseado em navegador que permite você definir instantaneamente uma conferência na Web. Você pode usar seu microfone e/ou webcam, compartilhar documentos em um quadro branco, compartilhar sua tela ou gravar reuniões.
+<br><br>Este plugin do Moodle usa o Apache OpenMeetings.
+<br>Você precisa da sua própria instância do Apache OpenMeetings em execução.<br><br>Para maiores informações, veja: <a href="http://openmeetings.apache.org">http://openmeetings.apache.org</a>';
 $string['modulenameplural'] = 'OpenMeetings';
 
-$string['whiteboardfieldset'] = 'Custom example fieldset';
+$string['whiteboardfieldset'] = 'Exemplo de campo personalizado';
 $string['whiteboardintro'] = 'Introdução OpenMeetings';
-$string['whiteboardname'] = 'Nome da conferência';
+$string['whiteboardname'] = 'Nome da Conferência';
 
 $string['url'] = 'OpenMeetings URL';
 $string['urlDesc'] = 'Full URL to your OpenMeetings instance';
-$string['user'] = 'Administrador do OpenMeetings';
-$string['pass'] = 'OpenMeetings Senha do Administrador';
-$string['moduleKey'] = 'Module Key';
-$string['moduleKeyDesc'] = 'Advanced setting: OpenMeetings Module key (vary for multiple instances using same OpenMeetings Server)';
+$string['user'] = 'Usuário Administrador OpenMeetings';
+$string['pass'] = 'Senha do Administrador OpenMeetings';
+$string['moduleKey'] = 'Chave do Módulo';
+$string['moduleKeyDesc'] = 'Configuração avançada: Chave do Módulo OpenMeetings (varia para múltiplas instâncias usando o mesmo Servidor OpenMeetings)';
 
-$string['Room_Name'] = 'Nome da sala';
-$string['Room_Type'] = 'Tipo de sala';
+$string['Room_Name'] = 'Nome da Sala';
+$string['Room_Type'] = 'Tipo de Sala';
 $string['Room_Language'] = 'Idioma da Sala';
-$string['Max_User'] = 'Maximo de usuários';
+$string['Max_User'] = 'Máximo de Usuários';
 $string['Wait_for_teacher'] = 'Modo de Moderação';
 
-$string['recordings_label'] = 'The Recording Field is only used if Room Type is Recording. Instead of the conference room a recording will be shown.';
-$string['recordings_show'] = 'Available Recordings to Shows';
+$string['recordings_label'] = 'O campo Gravação só é usado se o Tipo de Sala for Gravação. Ao invés da sala de conferência será mostrada uma gravação.';
+$string['recordings_show'] = 'Disponibiliza Mostrar Gravação';
 
 $string['Conference'] = 'Conferência (max 16 participantes)';
-$string['Interview'] = 'Entrevista (2 participants)';
+$string['Interview'] = 'Entrevista (2 participantes)';
 $string['Restricted'] = 'Seminário (max 150 participantes)';
-$string['Recording'] = 'Mostrar da gravação (selecionar a gravação na drop down para ser mostrado em vez de reunião)';
+$string['Recording'] = 'Mostrar Gravação (selecionar uma gravação na lista suspensa para ser mostrada ao invés da reunião)';
 
-$string['Moderation_Description'] = '(Moodle Administrador, professores e criadores do curso são automaticamente moderadores)';
-$string['Moderation_TYPE_1'] = 'Os participantes precisam esperar até que o professor entra na sala';
-$string['Moderation_TYPE_2'] = 'Participantes já podem começar (primeiro usuário na sala torna-se moderador)';
-$string['Moderation_TYPE_3'] = 'Cada participante é automaticamente um moderador quando na sala';
+$string['Moderation_Description'] = '(Administradores do Moodle, professores e criadores do curso são automaticamente moderadores)';
+$string['Moderation_TYPE_1'] = 'Os participantes precisam esperar até que o professor entre na sala';
+$string['Moderation_TYPE_2'] = 'Participantes já podem começar (o primeiro usuário na sala se torna moderador)';
+$string['Moderation_TYPE_3'] = 'Cada participante se torna automaticamente um moderador ao entrar na sala';
 
-$string['Allow_Recording'] = 'Gravação permitido';
+$string['Allow_Recording'] = 'Gravação permitida';
 $string['Allow_RecordingDesc'] = 'Global setting to allow/disable recordings';
 $string['Recording_TYPE_1'] = 'A funcionalidade da gravação está disponível.';
 $string['Recording_TYPE_2'] = 'A funcionalidade da gravação não estará disponível.';
 
-$string['download_mp4'] = 'Download .mp4';
+$string['download_mp4'] = 'Baixar .mp4';
 
-$string['pluginadministration'] = 'OpenMeetings Administration';
+$string['pluginadministration'] = 'Administração OpenMeetings';
 $string['pluginname'] = 'OpenMeetings';
-$string['whole_window'] = 'Occupy the entire window';
-$string['whole_window_type_1'] = 'Display in frame';
-$string['whole_window_type_2'] = 'Occupy the entire window';
-$string['whole_window_type_3'] = 'Open in new window';
+$string['whole_window'] = 'Ocupar a tela inteira';
+$string['whole_window_type_1'] = 'Mostrar no quadro';
+$string['whole_window_type_2'] = 'Ocupar a tela inteira';
+$string['whole_window_type_3'] = 'Abrir em uma nova janela';
 
-$string['description'] = 'Description';
+$string['description'] = 'Descrição';
 
-$string['Chat_Hidden'] = 'Chat hidden';
-$string['Chat_Hidden_TYPE_1'] = 'Display chat in the room.';
-$string['Chat_Hidden_TYPE_2'] = 'Hide chat in the room.';
+$string['Chat_Hidden'] = 'Esconder Chat';
+$string['Chat_Hidden_TYPE_1'] = 'Mostrar Chat na sala.';
+$string['Chat_Hidden_TYPE_2'] = 'Esconder Chat na sala.';
 
-$string['Version_Ok'] = 'You have compatible version of OpenMeetings: ';
-$string['Version_Bad'] = 'You need to update your OpenMeetings, minimum version is: ';
+$string['Version_Ok'] = 'Você tem uma versão compatível do OpenMeetings: ';
+$string['Version_Bad'] = 'Você precisa atualizar seu OpenMeetings, versão mínima: ';
 
-$string['checkpeer'] = 'Check SSL certificate';
-$string['checkpeerDesc'] = 'Enable/Disable SSL certificate checking, INSECURE if unchecked (default: checked)';
-$string['checkhost'] = 'Hostname verification';
-$string['checkhostDesc'] = 'Enable/Disable hostname verification, INSECURE if unchecked (default: checked)';
+$string['checkpeer'] = 'Verificar Certificado SSL';
+$string['checkpeerDesc'] = 'Ativar/Desativar verificação do Certificado SSL, NÃO SEGURO se desativado (padrão: ativado)';
+$string['checkhost'] = 'Verificação do Nome do Servidor';
+$string['checkhostDesc'] = 'Ativar/Desativar verificação do Nome do Servidor, NÃO SEGURO se desativado (padrão: ativado)';
 
-$string['upload_file'] = 'Subir arquivo';
-$string['room_files'] = 'Room files';
-$string['wb_index'] = 'White board index';
-$string['om_file'] = 'Existing OM file';
-$string['room_file'] = 'Room file';
-$string['remove'] = 'Remove';
-$string['clean_wb'] = 'Clean White board';
+$string['upload_file'] = 'Enviar arquivo';
+$string['room_files'] = 'Arquivos de Sala';
+$string['wb_index'] = 'Índice do Quadro Branco';
+$string['om_file'] = 'Arquivo já enviado';
+$string['room_file'] = 'Arquivo de Sala';
+$string['remove'] = 'Remover';
+$string['clean_wb'] = 'Limpar Quadro Branco';
 
-$string['No_Recordings'] = 'No Recordings';
+$string['No_Recordings'] = 'Sem Gravações';
