@@ -184,6 +184,29 @@ function upgrade20200404($oldversion, $dbman) {
     }
 }
 
+function upgrade2021020900($oldversion) {
+    global $CFG;
+    $ver = 2021020900;
+    if ($oldversion < $ver) {
+        $protocol = $CFG->openmeetings_protocol;
+        $port = ':' . $CFG->openmeetings_port;
+        if (($protocol == 'https' && $port == 443) || ($protocol == 'http' && $port == 80)) {
+            $port = '';
+        }
+        set_config('openmeetings_url'
+            , $protocol . '://'
+                . $CFG->openmeetings_host . $port
+                . '/' . $CFG->openmeetings_context);
+        set_config('openmeetings_recordingAllowed', true);
+        unset_config('openmeetings_protocol');
+        unset_config('openmeetings_host');
+        unset_config('openmeetings_port');
+        unset_config('openmeetings_context');
+
+        upgrade_mod_savepoint(true, $ver, 'openmeetings');
+    }
+}
+
 function xmldb_openmeetings_upgrade($oldversion) {
     global $DB;
 
@@ -198,6 +221,7 @@ function xmldb_openmeetings_upgrade($oldversion) {
     upgrade2017101000($oldversion, $dbman);
     upgrade2018072401($oldversion);
     upgrade2018101600($oldversion, $dbman);
+    upgrade2021020900($oldversion);
 
     return $result;
 }

@@ -48,8 +48,8 @@ $string['whiteboardfieldset'] = 'مثال مخصص لمجموعة الحقول';
 $string['whiteboardintro'] = 'مقدمة غرفة الاجتماعات';
 $string['whiteboardname'] = 'اسم المؤتمر';
 
-$string['host'] = 'OpenMeetings Server Host or IP';
-$string['port'] = 'OpenMeetings Server Port';
+$string['url'] = 'OpenMeetings URL';
+$string['urlDesc'] = 'Full URL to your OpenMeetings instance';
 $string['user'] = 'OpenMeetings Admin User';
 $string['pass'] = 'OpenMeetings Admin User Password';
 $string['moduleKey'] = 'Module Key';
@@ -75,11 +75,9 @@ $string['Moderation_TYPE_2'] = 'يمكن للمشاركين البدء بالف�
 $string['Moderation_TYPE_3'] = 'كل مشارك هو المشرف تلقائيًا عند دخوله إلى الغرفة';
 
 $string['Allow_Recording'] = 'يسمح بالتسجيل';
+$string['Allow_RecordingDesc'] = 'Global setting to allow/disable recordings';
 $string['Recording_TYPE_1'] = 'وظيفة التسجيل متاحة.';
 $string['Recording_TYPE_2'] = 'وظيفة التسجيل غير متوفرة.';
-
-$string['webapp'] = 'اسم تطبيق الويب لغرفة الاجتماعات';
-$string['webappDesc'] = 'الإعداد المتقدم: إذا قمت بإعادة تسمية تطبيق الويب OpenMeetings ، يمكنك إدخال اسمك البديل هنا.';
 
 $string['download_mp4'] = 'تنزيل mp4';
 
@@ -89,8 +87,6 @@ $string['whole_window'] = 'يشغل الصفحه بأكملها';
 $string['whole_window_type_1'] = 'العرض في الإطار';
 $string['whole_window_type_2'] = 'يشغل الصفحه بأكملها';
 $string['whole_window_type_3'] = 'افتح في صفحه جديدة';
-$string['protocol'] = 'Protocol';
-$string['protocolDesc'] = 'Protocol to be used while constructing Openmeetings URLs (default: http)';
 
 $string['description'] = 'الوصف';
 

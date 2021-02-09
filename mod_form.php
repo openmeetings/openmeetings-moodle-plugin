@@ -88,6 +88,8 @@ class mod_openmeetings_mod_form extends moodleform_mod {
     }
 
     private function addGeneralFields() {
+        global $CFG;
+        $recAllowed = $CFG->openmeetings_recordingAllowed;
         $mform = $this->_form;
         // Adding the standard "name" field
         $mform->addElement('text', 'name', get_string('Room_Name', 'openmeetings'), array(
@@ -101,12 +103,15 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         $mform->setType('room_id', PARAM_INT);
 
         // Adding the "Room Type" field
-        $mform->addElement('select', 'type', get_string('Room_Type', 'openmeetings'), array(
-                'CONFERENCE' => get_string('Conference', 'openmeetings'),
-                'PRESENTATION' => get_string('Restricted', 'openmeetings'),
-                'INTERVIEW' => get_string('Interview', 'openmeetings'),
-                'recording' => get_string('Recording', 'openmeetings')
-        ));
+        $roomTypes = array(
+            'CONFERENCE' => get_string('Conference', 'openmeetings'),
+            'PRESENTATION' => get_string('Restricted', 'openmeetings'),
+            'INTERVIEW' => get_string('Interview', 'openmeetings')
+        );
+        if ($recAllowed) {
+            $roomTypes['recording'] = get_string('Recording', 'openmeetings');
+        }
+        $mform->addElement('select', 'type', get_string('Room_Type', 'openmeetings'), $roomTypes);
 
         // Adding the "Number of Participants" field
         $mform->addElement('select', 'max_user', get_string('Max_User', 'openmeetings'), array(
@@ -136,11 +141,17 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         ));
         $mform->disabledIf('is_moderated_room', 'type', 'eq', 'recording');
 
+        $recAttrs = array();
+        if (!$recAllowed) {
+            $recAttrs['disabled'] = 'disabled';
+        }
         $mform->addElement('select', 'allow_recording', get_string('Allow_Recording', 'openmeetings'), array(
                 '1' => get_string('Recording_TYPE_1', 'openmeetings'),
                 '2' => get_string('Recording_TYPE_2', 'openmeetings')
-        ));
-        $mform->disabledIf('allow_recording', 'type', 'eq', 'recording');
+        ), $recAttrs);
+        if ($recAllowed) {
+            $mform->disabledIf('allow_recording', 'type', 'eq', 'recording');
+        }
 
         $mform->addElement('select', 'chat_hidden', get_string('Chat_Hidden', 'openmeetings'), array(
                 '0' => get_string('Chat_Hidden_TYPE_1', 'openmeetings'),

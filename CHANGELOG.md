@@ -1,8 +1,11 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
-4.2.0 (2021012001)
+4.2.0 (2021021001)
  * Room open in new window is fixed
  * `Module key` can contain space from now on
+ * Weird `MOODLE_COURSE_ID_` is removed from genearted room name
+ * `protocol/host/post/context` settings are replaced with `url`
+ * Global setting to disable recording is added
 
 4.1.3 (2020123001)
  * Arabic translation is added

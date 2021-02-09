@@ -76,16 +76,14 @@ function getOmHash($gateway, $options) {
 function getOmConfig() {
     global $CFG;
     return array(
-            "protocol" => $CFG->openmeetings_protocol,
-            "host" => $CFG->openmeetings_host,
-            "port" => $CFG->openmeetings_port,
-            "context" => $CFG->openmeetings_context,
-            "user" => $CFG->openmeetings_user,
-            "pass" => $CFG->openmeetings_pass,
-            "module" => $CFG->openmeetings_moduleKey,
-            "checkpeer" => 1 == $CFG->openmeetings_checkpeer,
-            "checkhost" => 1 == $CFG->openmeetings_checkhost,
-            "debug" => $CFG->debug > 0
+        'url' => $CFG->openmeetings_url
+        , 'user' => $CFG->openmeetings_user
+        , 'pass' => $CFG->openmeetings_pass
+        , 'module' => $CFG->openmeetings_moduleKey
+        , 'recordingAllowed' => $CFG->openmeetings_recordingAllowed
+        , 'checkpeer' => 1 == $CFG->openmeetings_checkpeer
+        , 'checkhost' => 1 == $CFG->openmeetings_checkhost
+        , 'debug' => $CFG->debug > 0
     );
 }
 
@@ -94,6 +92,7 @@ function setRoomName(&$openmeetings) {
 }
 
 function getRoom(&$meeting) {
+    global $CFG;
     setRoomName($meeting);
     return array(
             'id' => $meeting->room_id > 0 ? $meeting->room_id : null
@@ -106,7 +105,7 @@ function getRoom(&$meeting) {
             , 'moderated' => 1 == $meeting->is_moderated_room
             , 'audioOnly' => false
             , 'allowUserQuestions' => true
-            , 'allowRecording' => 1 == $meeting->allow_recording
+            , 'allowRecording' => $CFG->openmeetings_recordingAllowed && 1 == $meeting->allow_recording
             , 'chatHidden' => 1 == $meeting->chat_hidden
             , 'externalId' => $meeting->id
             , 'files' => array()

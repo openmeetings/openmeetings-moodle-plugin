@@ -51,8 +51,7 @@ class OmGateway {
     }
 
     function getUrl() {
-        $port = $this->config["port"] == 80 ? '' : ":" . $this->config["port"];
-        return $this->config["protocol"] . "://" . $this->config["host"] . $port . "/" . $this->config["context"];
+        return $this->config["url"];
     }
 
     function version() {
@@ -120,6 +119,9 @@ class OmGateway {
     function getSecureHash($user, $options) {
         $rest = new OmRestService($this->config);
         $options['externalType'] = $this->config["module"];
+        if (!$this->config['recordingAllowed'] && array_key_exists('recordingId', $options)) {
+            return -1;
+        }
         $response = $rest->call(
                 $this->getRestUrl("user") . "hash"
                 , RestMethod::POST
