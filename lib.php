@@ -90,7 +90,7 @@ function getOmConfig() {
 }
 
 function setRoomName(&$openmeetings) {
-    $openmeetings->roomname = 'MOODLE_COURSE_ID_' . $openmeetings->course . '_NAME_' . $openmeetings->name;
+    $openmeetings->roomname = $openmeetings->course . ' ' . $openmeetings->name;
 }
 
 function getRoom(&$meeting) {
