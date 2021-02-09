@@ -1,5 +1,24 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.2.0 (2021021001)
+ * Room open in new window is fixed
+ * `Module key` can contain space from now on
+ * Weird `MOODLE_COURSE_ID_` is removed from genearted room name
+ * `protocol/host/post/context` settings are replaced with `url`
+ * Global setting to disable recording is added
+
+4.1.3 (2020123001)
+ * Arabic translation is added
+ * User avatar pictures are fixed
+ * Course backup is fixed
+ * Activity Description is displayed in activity list
+
+4.1.2 (2020121801)
+ * Ability to access the room via externalId/type is added
+
+4.1.1 (2020080111)
+ * tested to work with Moodle 3.9, changes in Travis config
+
 4.1.0 (202052401)
  * OM Version 5.0.0-M4 is required
  * MP4 download should work as expected

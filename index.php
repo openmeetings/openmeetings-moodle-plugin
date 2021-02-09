@@ -69,8 +69,8 @@ echo $OUTPUT->header();
 
 // Get all the appropriate data
 if (! $openmeetings = get_all_instances_in_course("openmeetings", $course)) {
-	notice("There are no openmeetings", "../../course/view.php?id=$course->id");
-	die;
+    notice("There are no openmeetings", "../../course/view.php?id=$course->id");
+    die;
 }
 
 $usesections = course_format_uses_sections($course->format);
@@ -79,38 +79,41 @@ $table = new html_table();
 $table->attributes['class'] = 'generaltable mod_index';
 
 if ($usesections) {
-	$strsectionname = get_string('sectionname', 'format_'.$course->format);
-	$table->head  = array ($strsectionname, $strname, $strintro);
-	$table->align = array ('center', 'left', 'left');
+    $strsectionname = get_string('sectionname', 'format_'.$course->format);
+    $table->head  = array ($strsectionname, $strname, $strintro);
+    $table->align = array ('center', 'left', 'left');
 } else {
-	$table->head  = array ($strlastmodified, $strname, $strintro);
-	$table->align = array ('left', 'left', 'left');
+    $table->head  = array ($strlastmodified, $strname, $strintro);
+    $table->align = array ('left', 'left', 'left');
 }
 
 $modinfo = get_fast_modinfo($course);
 $currentsection = '';
 foreach ($openmeetings as $omeeting) {
-	$cm = $modinfo->get_cm($omeeting->coursemodule);
-	if ($usesections) {
-		$printsection = '';
-		if ($omeeting->section !== $currentsection) {
-			if ($omeeting->section) {
-				$printsection = get_section_name($course, $omeeting->section);
-			}
-			if ($currentsection !== '') {
-				$table->data[] = 'hr';
-			}
-			$currentsection = $omeeting->section;
-		}
-	} else {
-		$printsection = html_writer::tag('span', userdate($omeeting->timemodified), array ('class' => 'smallinfo'));
-	}
+    $cm = $modinfo->get_cm($omeeting->coursemodule);
+    if ($usesections) {
+        $printsection = '';
+        if ($omeeting->section !== $currentsection) {
+            if ($omeeting->section) {
+                $printsection = get_section_name($course, $omeeting->section);
+            }
+            if ($currentsection !== '') {
+                $table->data[] = 'hr';
+            }
+            $currentsection = $omeeting->section;
+        }
+    } else {
+        $printsection = html_writer::tag('span', userdate($omeeting->timemodified), array ('class' => 'smallinfo'));
+    }
 
-	$table->data[] = array (
-			$printsection,
-			html_writer::link(new moodle_url('view.php', array ('id' => $cm->id)), format_string($omeeting->name), array('target' => $omeeting->whole_window > 1 ? '_blank' : '_self')),
-			format_module_intro('openmeetings', $omeeting, $cm->id)
-	);
+    $table->data[] = array (
+            $printsection,
+            html_writer::link(new moodle_url('view.php'
+                , array('id' => $cm->id))
+                , format_string($omeeting->name)
+                , array('target' => $omeeting->whole_window > 1 ? 'OmMoodleActivity' : '_self')),
+            format_module_intro('openmeetings', $omeeting, $cm->id)
+    );
 }
 
 echo html_writer::table($table);

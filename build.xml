@@ -19,12 +19,12 @@
 	xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property name="dist.dir" value="dist" />
-	<property name="project.version" value="4.1.0" />
+	<property name="project.version" value="4.2.0" />
 	<property name="project.distname" value="openmeetings-moodle-plugin" />
 	<property name="plugin.name" value="openmeetings" />
 
 	<tstamp>
-		<format property="VERSION_DATE" pattern="yyyyMMdd11" />
+		<format property="VERSION_DATE" pattern="yyyyMMdd01" />
 	</tstamp>
 	<target name="dist-bin" depends="clean">
 		<property name="archive.file.name" value="${dist.dir}/apache-${project.distname}-${project.version}" />
@@ -32,7 +32,7 @@
 		<mkdir dir="${dist.dir}/${plugin.name}"/>
 		<copy todir="${dist.dir}/${plugin.name}">
 			<fileset dir="${basedir}">
-				<exclude name=".*"/>
+				<exclude name=".*/**" />
 				<exclude name="dist/**"/>
 				<exclude name="build.xml"/>
 				<exclude name="ivy.xml"/>

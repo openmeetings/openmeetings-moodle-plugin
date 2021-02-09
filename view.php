@@ -34,51 +34,51 @@
 * under the License.
 */
 
-require_once ("../../config.php");
-require_once ("lib.php");
+require_once("../../config.php");
+require_once("lib.php");
 
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID, or
 $g = optional_param('g', 0, PARAM_INT);
 
 if (!empty($id)) {
-	if (!$cm = get_coursemodule_from_id('openmeetings', $id)) {
-		print_error('invalidcoursemodule');
-	}
-	if (!$course = $DB->get_record("course", array(
-			"id" => $cm->course
-	))) {
-		print_error('coursemisconf');
-	}
-	if (!$openmeetings = $DB->get_record("openmeetings", array(
-			"id" => $cm->instance
-	))) {
-		print_error('invalidid', 'openmeetings');
-	}
+    if (!$cm = get_coursemodule_from_id('openmeetings', $id)) {
+        print_error('invalidcoursemodule');
+    }
+    if (!$course = $DB->get_record("course", array(
+            "id" => $cm->course
+    ))) {
+        print_error('coursemisconf');
+    }
+    if (!$openmeetings = $DB->get_record("openmeetings", array(
+            "id" => $cm->instance
+    ))) {
+        print_error('invalidid', 'openmeetings');
+    }
 } else if (!empty($g)) {
-	if (!$openmeetings = $DB->get_record("openmeetings", array(
-			"id" => $g
-	))) {
-		print_error('invalidid', 'openmeetings');
-	}
-	if (!$course = $DB->get_record("course", array(
-			"id" => $openmeetings->course
-	))) {
-		print_error('invalidcourseid');
-	}
-	if (!$cm = get_coursemodule_from_instance("openmeetings", $openmeetings->id, $course->id)) {
-		print_error('invalidcoursemodule');
-	}
-	$id = $cm->id;
+    if (!$openmeetings = $DB->get_record("openmeetings", array(
+            "id" => $g
+    ))) {
+        print_error('invalidid', 'openmeetings');
+    }
+    if (!$course = $DB->get_record("course", array(
+            "id" => $openmeetings->course
+    ))) {
+        print_error('invalidcourseid');
+    }
+    if (!$cm = get_coursemodule_from_instance("openmeetings", $openmeetings->id, $course->id)) {
+        print_error('invalidcoursemodule');
+    }
+    $id = $cm->id;
 } else {
-	print_error('invalidid', 'openmeetings');
+    print_error('invalidid', 'openmeetings');
 }
 
 require_login($course->id);
 $context = context_module::instance($cm->id);
 
 $event = \mod_openmeetings\event\course_module_viewed::create(array(
-		'objectid' => $openmeetings->id,
-		'context' => $context,
+        'objectid' => $openmeetings->id,
+        'context' => $context,
 ));
 $event->add_record_snapshot('openmeetings', $openmeetings);
 $event->trigger();

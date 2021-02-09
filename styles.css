@@ -17,27 +17,28 @@
 * under the License.
 */
 .path-mod-openmeetings.noMargin {
-	padding: 0;
-	border: 0;
+    padding: 0;
+    border: 0;
 }
 .path-mod-openmeetings iframe.openmeetings {
-	border: 0;
-	width: 100%;
-	height: 640px;
+    border: 0;
+    width: 100%;
+    height: 640px;
 }
 .path-mod-openmeetings iframe.wholeWindow {
-	height: 100%;
+    height: 100%;
 }
 .path-mod-openmeetings .om-labeled-group .sr-only {
-	width: auto;
-	height: auto;
-	position: initial;
-	clip: auto;
-	clip-path: none;
+    width: auto;
+    height: auto;
+    position: initial;
+    clip: auto;
+    clip-path: none;
 }
 .path-mod-openmeetings .om-labeled-group .w-100 {
-	width: auto !important;
+    width: auto !important;
 }
-.path-mod-openmeetings .om-labeled-group .inline, .path-mod-openmeetings .om-labeled-group .inline .col-form-label.sr-only {
-	display: inline-block;
+.path-mod-openmeetings .om-labeled-group .inline,
+.path-mod-openmeetings .om-labeled-group .inline .col-form-label.sr-only {
+    display: inline-block;
 }

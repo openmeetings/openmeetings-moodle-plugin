@@ -46,37 +46,37 @@ defined('MOODLE_INTERNAL') || die();
  * Openmeetings conversion handler
  */
 class moodle1_mod_openmeetings_handler extends moodle1_mod_handler {
-	/**
-	 * Declare the paths in moodle.xml we are able to convert
-	 *
-	 * The method returns list of {@link convert_path} instances. For each path returned,
-	 * at least one of on_xxx_start(), process_xxx() and on_xxx_end() methods must be
-	 * defined. The method process_xxx() is not executed if the associated path element is
-	 * empty (i.e. it contains none elements or sub-paths only).
-	 *
-	 * Note that the path /MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS does not
-	 * actually exist in the file. The last element with the module name was
-	 * appended by the moodle1_converter class.
-	 *
-	 * @return array of {@link convert_path} instances
-	 */
-	public function get_paths() {
-		return array(
-				new convert_path('openmeetings', '/MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS')
-		);
-	}
+    /**
+     * Declare the paths in moodle.xml we are able to convert
+     *
+     * The method returns list of {@link convert_path} instances. For each path returned,
+     * at least one of on_xxx_start(), process_xxx() and on_xxx_end() methods must be
+     * defined. The method process_xxx() is not executed if the associated path element is
+     * empty (i.e. it contains none elements or sub-paths only).
+     *
+     * Note that the path /MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS does not
+     * actually exist in the file. The last element with the module name was
+     * appended by the moodle1_converter class.
+     *
+     * @return array of {@link convert_path} instances
+     */
+    public function get_paths() {
+        return array(
+                new convert_path('openmeetings', '/MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS')
+        );
+    }
 
-	/**
-	 * This is executed every time we have one /MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS
-	 * data available
-	 */
-	public function process_openmeetings() {
-	}
+    /**
+     * This is executed every time we have one /MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS
+     * data available
+     */
+    public function process_openmeetings() {
+    }
 
-	/**
-	 * This is executed every time we have one /MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS/OPTIONS/OPTION
-	 * data available
-	 */
-	public function process_openmeetings_option() {
-	}
+    /**
+     * This is executed every time we have one /MOODLE_BACKUP/COURSE/MODULES/MOD/OPENMEETINGS/OPTIONS/OPTION
+     * data available
+     */
+    public function process_openmeetings_option() {
+    }
 }

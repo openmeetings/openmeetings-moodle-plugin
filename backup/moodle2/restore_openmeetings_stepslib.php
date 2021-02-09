@@ -42,43 +42,43 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->dirroot.'/mod/openmeetings/lib.php');
 
 class restore_openmeetings_activity_structure_step extends restore_activity_structure_step {
-	protected function define_structure() {
-		$paths = array();
-		$paths[] = new restore_path_element('openmeetings', '/activity/openmeetings');
-		$paths[] = new restore_path_element('openmeetings_file', '/activity/openmeetings/files/file');
-		return $this->prepare_activity_structure($paths);
-	}
+    protected function define_structure() {
+        $paths = array();
+        $paths[] = new restore_path_element('openmeetings', '/activity/openmeetings');
+        $paths[] = new restore_path_element('openmeetings_file', '/activity/openmeetings/files/file');
+        return $this->prepare_activity_structure($paths);
+    }
 
-	protected function process_openmeetings($data) {
-		global $DB;
+    protected function process_openmeetings($data) {
+        global $DB;
 
-		$data = (object)$data;
-		$data->course = $this->get_courseid();
+        $data = (object)$data;
+        $data->course = $this->get_courseid();
 
-		$data->timecreated = $this->apply_date_offset($data->timecreated);
-		$data->timemodified = $this->apply_date_offset($data->timemodified);
+        $data->timecreated = $this->apply_date_offset($data->timecreated);
+        $data->timemodified = $this->apply_date_offset($data->timemodified);
 
-		// insert the openmeetings record
-		$newitemid = $DB->insert_record('openmeetings', $data);
-		$data->room_id = 0; //reset it, new room will be created
-		$data->instance = $newitemid;
-		openmeetings_update_instance($data);
-		// immediately after inserting "activity" record, call this
-		$this->apply_activity_instance($newitemid);
-	}
+        // insert the openmeetings record
+        $newitemid = $DB->insert_record('openmeetings', $data);
+        $data->room_id = 0; //reset it, new room will be created
+        $data->instance = $newitemid;
+        openmeetings_update_instance($data);
+        // immediately after inserting "activity" record, call this
+        $this->apply_activity_instance($newitemid);
+    }
 
-	protected function process_openmeetings_file($data) {
-		global $DB;
+    protected function process_openmeetings_file($data) {
+        global $DB;
 
-		$data = (object)$data;
-		$oldid = $data->id;
-		$data->openmeetings_id = $this->get_new_parentid('openmeetings');
-		$newitemid = $DB->insert_record('openmeetings_file', $data);
-		$this->set_mapping('openmeetings_file', $oldid, $newitemid);
-	}
+        $data = (object)$data;
+        $oldid = $data->id;
+        $data->openmeetings_id = $this->get_new_parentid('openmeetings');
+        $newitemid = $DB->insert_record('openmeetings_file', $data);
+        $this->set_mapping('openmeetings_file', $oldid, $newitemid);
+    }
 
-	protected function after_execute() {
-		// Add openmeetings related files, no need to match by itemname (just internally handled context)
-		$this->add_related_files('mod_openmeetings', 'intro', null);
-	}
+    protected function after_execute() {
+        // Add openmeetings related files, no need to match by itemname (just internally handled context)
+        $this->add_related_files('mod_openmeetings', 'intro', null);
+    }
 }

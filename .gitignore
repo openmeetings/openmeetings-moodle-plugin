@@ -1,2 +1,5 @@
 dist
+.project
+.settings
+.buildpath
 

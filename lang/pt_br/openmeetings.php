@@ -48,8 +48,8 @@ $string['whiteboardfieldset'] = 'Exemplo de campo personalizado';
 $string['whiteboardintro'] = 'Introdução OpenMeetings';
 $string['whiteboardname'] = 'Nome da Conferência';
 
-$string['host'] = 'Nome do Servidor ou IP OpenMeetings';
-$string['port'] = 'Porta do Servidor OpenMeetings';
+$string['url'] = 'OpenMeetings URL';
+$string['urlDesc'] = 'Full URL to your OpenMeetings instance';
 $string['user'] = 'Usuário Administrador OpenMeetings';
 $string['pass'] = 'Senha do Administrador OpenMeetings';
 $string['moduleKey'] = 'Chave do Módulo';
@@ -75,11 +75,9 @@ $string['Moderation_TYPE_2'] = 'Participantes já podem começar (o primeiro usu
 $string['Moderation_TYPE_3'] = 'Cada participante se torna automaticamente um moderador ao entrar na sala';
 
 $string['Allow_Recording'] = 'Gravação permitida';
+$string['Allow_RecordingDesc'] = 'Global setting to allow/disable recordings';
 $string['Recording_TYPE_1'] = 'A funcionalidade da gravação está disponível.';
 $string['Recording_TYPE_2'] = 'A funcionalidade da gravação não estará disponível.';
-
-$string['webapp'] = 'Nome da Aplicação OpenMeetings';
-$string['webappDesc'] = 'Configuração avançada: Se você renomeou a Aplicação OpenMeetings você pode digitar o novo nome aqui.';
 
 $string['download_mp4'] = 'Baixar .mp4';
 
@@ -89,8 +87,6 @@ $string['whole_window'] = 'Ocupar a tela inteira';
 $string['whole_window_type_1'] = 'Mostrar no quadro';
 $string['whole_window_type_2'] = 'Ocupar a tela inteira';
 $string['whole_window_type_3'] = 'Abrir em uma nova janela';
-$string['protocol'] = 'Protocolo';
-$string['protocolDesc'] = 'Protocolo a ser usado para compor as URLs OpenMeetings (padrão: http)';
 
 $string['description'] = 'Descrição';
 

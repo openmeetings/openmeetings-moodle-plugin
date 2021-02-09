@@ -48,8 +48,8 @@ $string['whiteboardfieldset'] = 'Пример настроек';
 $string['whiteboardintro'] = 'Введение в OpenMeetings';
 $string['whiteboardname'] = 'Название конференции';
 
-$string['host'] = 'Имя или IP адрес сервера OpenMeetings';
-$string['port'] = 'Порт сервера OpenMeetings';
+$string['url'] = 'OpenMeetings URL';
+$string['urlDesc'] = 'Полный URL до Вашего сервера OpenMeetings';
 $string['user'] = 'Имя администатора OpenMeetings';
 $string['pass'] = 'Пароль администратора OpenMeetings';
 $string['moduleKey'] = 'Ключ модуля';
@@ -75,11 +75,9 @@ $string['Moderation_TYPE_2'] = 'Участники не должны ждать 
 $string['Moderation_TYPE_3'] = 'Каждый участник автоматически становитсся модератором, когда входит в комнату';
 
 $string['Allow_Recording'] = 'Разрешить запись?';
+$string['Allow_RecordingDesc'] = 'Глобальная настройка для разрешения/запрещения записи';
 $string['Recording_TYPE_1'] = 'Разрешить';
 $string['Recording_TYPE_2'] = 'Запретить';
-
-$string['webapp'] = 'Имя Java-приложения OpenMeetings';
-$string['webappDesc'] = 'Дополнительная функция: Если Вы переименовали приложение OpenMeetings укажите его новое имя здесь.';
 
 $string['download_mp4'] = 'Скачать .mp4';
 
@@ -89,8 +87,6 @@ $string['whole_window'] = 'Расположение';
 $string['whole_window_type_1'] = 'В рамке';
 $string['whole_window_type_2'] = 'На всё окно';
 $string['whole_window_type_3'] = 'В новом окне';
-$string['protocol'] = 'Протокол';
-$string['protocolDesc'] = 'Протокол, используемый для составления URL (по умолчанию: http)';
 
 $string['description'] = 'Описание';
 
