@@ -28,14 +28,14 @@
 .path-mod-openmeetings iframe.wholeWindow {
     height: 100%;
 }
-.path-mod-openmeetings .om-labeled-group .sr-only {
+.path-mod-openmeetings .om-labeled-group.room-files .sr-only {
     width: auto;
     height: auto;
     position: initial;
     clip: auto;
     clip-path: none;
 }
-.path-mod-openmeetings .om-labeled-group .w-100 {
+.path-mod-openmeetings .om-labeled-group.room-files .w-100 {
     width: auto !important;
 }
 .path-mod-openmeetings .om-labeled-group .inline,

@@ -1,5 +1,9 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.3.0 (2022122001)
+ * 'fullscreen' is added to allow list
+ * Autocomplete is added for the recordings
+
 4.2.0 (2021021001)
  * Room open in new window is fixed
  * `Module key` can contain space from now on
@@ -74,12 +78,12 @@
 
 2.0.0.1 (2016043001)
  * Moodle plugin is updated to work as expected with OM 3.1 and Moodle 3.0
- 
+
 1.7.5.1 (2015051801)
    * GPL header was added to the files
 
 1.7.5 (2015051301)
-   * added standard_intro_elements as description field instead of the old mform for intro/comment 
+   * added standard_intro_elements as description field instead of the old mform for intro/comment
    * installation and upgrade works with moodle 2.9.x and Openmeetings with version 3.0.+
 
 1.7.4.1 (2015040201)
@@ -88,7 +92,7 @@
 
 1.7.4 (2015020701)
   * Open in new window function is fully implemented
-  * Additional display mode is added 
+  * Additional display mode is added
   * installation and upgrade works with moodle 2.7.x & 2.8.x and Openmeetings with version 3.0.+
 
 1.7.3 (2014121301)
@@ -98,7 +102,7 @@
 
 1.7.2 (2014111101)
   * installation and upgrade works with moodle 2.7.x & 2.8.x and Openmeetings with version 3.0.+
-  
+
 1.7.1
   (2014062001)
   * Correct lists are being returned from Recording related API methods
