@@ -13,13 +13,13 @@
    limitations under the License.
  -->
 <!DOCTYPE project>
-<project name="openmeetings moodle plugin" basedir="./" default="dist-bin" 
-	xmlns="antlib:org.apache.tools.ant" 
-	xmlns:rat="antlib:org.apache.rat.anttasks" 
+<project name="openmeetings moodle plugin" basedir="./" default="dist-bin"
+	xmlns="antlib:org.apache.tools.ant"
+	xmlns:rat="antlib:org.apache.rat.anttasks"
 	xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property name="dist.dir" value="dist" />
-	<property name="project.version" value="4.2.0" />
+	<property name="project.version" value="4.3.0" />
 	<property name="project.distname" value="openmeetings-moodle-plugin" />
 	<property name="plugin.name" value="openmeetings" />
 
@@ -69,7 +69,7 @@
 	<target name="clean">
 		<delete includeemptydirs="true" dir="${dist.dir}" />
 	</target>
-	
+
 	<!-- RAT -->
 	<property name="ivy.install.version" value="2.3.0-rc1" />
 	<property name="project.lib.dir" value="${dist.dir}" />
