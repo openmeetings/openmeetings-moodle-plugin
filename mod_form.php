@@ -33,11 +33,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Main form for create/edit activity.
- *
- * @package mod_openmeetings
- **/
 global $data, $cm, $CFG;
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
@@ -46,6 +41,12 @@ require_once($CFG->dirroot . '/mod/openmeetings/version.php');
 
 $gateway = new OmGateway(get_om_config());
 $omlogin = $gateway->login();
+
+/**
+ * Main form for create/edit activity.
+ *
+ * @package mod_openmeetings
+ **/
 class mod_openmeetings_mod_form extends moodleform_mod {
     private function get_languages() {
         return array(
@@ -179,7 +180,8 @@ class mod_openmeetings_mod_form extends moodleform_mod {
                         'multiple' => false,
                         'noselectionstring' => get_string('recordings_search', 'openmeetings'),
                     ));
-        $dwnldgrp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'), array('class' => 'inline col-md-3'));
+        $dwnldgrp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings')
+                , array('class' => 'inline col-md-3'));
         $dwnldgrp[] = & $mform->createElement('html', '</div>');
         $mform->disabledIf('mp4', 'room_recording_id', 'eq', '0');
         $mform->addGroup($dwnldgrp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
@@ -196,35 +198,39 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         }
         $mform->addElement('html', '<div class="om-labeled-group room-files">');
 
-        foreach ($this->current->files as $cFile) {
-            $curId = 'curfile_grp' . $cFile->id;
+        foreach ($this->current->files as $cfile) {
+            $curid = 'curfile_grp' . $cfile->id;
             $curfilegrp = array();
             $curfilegrp[] = & $mform->createElement('html', '<div class="om-labeled-group col-md-12">');
             $curfilegrp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
-            $curfilegrp[] = & $mform->createElement('static', 'file', '', $cFile->file_name);
+            $curfilegrp[] = & $mform->createElement('static', 'file', '', $cfile->file_name);
             $curfilegrp[] = & $mform->createElement('html', '</div>');
             $curfilegrp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
             $curfilegrp[] = & $mform->createElement('static', 'wb_idx_lbl', '', get_string('wb_index', 'openmeetings'));
             $curfilegrp[] = & $mform->createElement('html', '</div>');
             $curfilegrp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
-            $curfilegrp[] = & $mform->createElement('static', 'wb', '', $cFile->wb);
+            $curfilegrp[] = & $mform->createElement('static', 'wb', '', $cfile->wb);
             $curfilegrp[] = & $mform->createElement('html', '</div>');
-            $curfilegrp[] = & $mform->createElement('advcheckbox', 'remove[' . $cFile->id . ']', get_string('remove', 'openmeetings'), '', array('group' => 1, 'class' => 'inline col-md-3'), array(0, $cFile->id));
+            $curfilegrp[] = & $mform->createElement('advcheckbox', 'remove[' . $cfile->id . ']'
+                    , get_string('remove', 'openmeetings'), '', array('group' => 1, 'class' => 'inline col-md-3')
+                    , array(0, $cfile->id));
             $curfilegrp[] = & $mform->createElement('html', '</div>');
-            $mform->addGroup($curfilegrp, $curId, get_string('room_file', 'openmeetings'), array(' '), false);
-            $mform->disabledIf($curId, 'type', 'eq', 'recording');
+            $mform->addGroup($curfilegrp, $curid, get_string('room_file', 'openmeetings'), array(' '), false);
+            $mform->disabledIf($curid, 'type', 'eq', 'recording');
         }
 
         $repnewfilegrp = array();
         $repnewfilegrp[] = & $mform->createElement('html', '<div class="room-files">');
-        $repnewfilegrp[] = & $mform->createElement('select', 'wb_idx', get_string('wb_index', 'openmeetings'), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        $repnewfilegrp[] = & $mform->createElement('select', 'wb_idx', get_string('wb_index', 'openmeetings')
+                , array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
         $repnewfilegrp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'), $files);
-        $repnewfilegrp[] = & $mform->createElement('filepicker', 'userfile', get_string('file'), null,
-                array('accepted_types' => '*'));
+        $repnewfilegrp[] = & $mform->createElement('filepicker', 'userfile', get_string('file'), null
+                , array('accepted_types' => '*'));
         $repnewfilegrp[] = & $mform->createElement('html', '</div>');
 
         $repnewfile = array();
-        $repnewfile[] = $mform->createElement('group', 'file_grp', get_string('room_file', 'openmeetings'), $repnewfilegrp, ' ', false);
+        $repnewfile[] = $mform->createElement('group', 'file_grp', get_string('room_file', 'openmeetings')
+                , $repnewfilegrp, ' ', false);
 
         $repoptions = array();
         $repoptions['wb_idx']['disabledif'] = array('type', 'eq', 'recording');
@@ -262,7 +268,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         }
     }
 
-    function definition() {
+    public function definition() {
         global $gateway, $plugin;
         $mform = $this->_form;
 
@@ -299,23 +305,6 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 
         // Add standard buttons, common to all modules.
         $this->add_action_buttons();
-    }
-
-    function getFile($idx = 0) {
-        global $USER;
-        $grp = $this->_form->getElement('file_grp[' . $idx . ']');
-        if ($grp instanceof MoodleQuickForm_group) {
-            $picker = $grp->getElements()[2];
-            if ($picker instanceof MoodleQuickForm_filepicker) {
-                $fs = get_file_storage();
-                $context = context_user::instance($USER->id);
-                $files = $fs->get_area_files($context->id, 'user', 'draft', $picker->getValue(), 'id DESC', false);
-                if ($files) {
-                    return reset($files);
-                }
-            }
-        }
-        return false;
     }
 }
 

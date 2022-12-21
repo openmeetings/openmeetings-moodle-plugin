@@ -40,8 +40,8 @@
 
 
  /**
- * Openmeetings conversion handler
- */
+  * Openmeetings conversion handler
+  */
 class moodle1_mod_openmeetings_handler extends moodle1_mod_handler {
     /**
      * Declare the paths in moodle.xml we are able to convert

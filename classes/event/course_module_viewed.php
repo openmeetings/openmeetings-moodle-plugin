@@ -32,8 +32,6 @@
 // under the License.
 namespace mod_openmeetings\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The mod_openmeetings course module viewed event class.
  *

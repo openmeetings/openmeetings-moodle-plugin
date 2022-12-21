@@ -35,6 +35,8 @@
  * @package     mod_openmeetings
  * @category    backup
  */
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/openmeetings/lib.php');
 
 class restore_openmeetings_activity_structure_step extends restore_activity_structure_step {
