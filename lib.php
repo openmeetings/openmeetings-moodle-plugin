@@ -31,15 +31,14 @@
 // specific language governing permissions and limitations
 // under the License.
 
-set_error_handler("myErrorHandler");
-require_once($CFG->dirroot.'/config.php');
-require_once($CFG->dirroot.'/mod/openmeetings/api/OmGateway.php');
+set_error_handler("my_error_handler");
+require_once("../../config.php");
+require_once("./api/OmGateway.php");
 
 /** error handler function
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-function myErrorHandler($errno, $errstr, $errfile, $errline)
-{
+function my_error_handler($errno, $errstr, $errfile, $errline) {
     switch ($errno) {
         case E_USER_ERROR:
             die("<b>My ERROR</b> [$errno] $errstr<br />\n"
@@ -53,24 +52,24 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
             echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
             break;
         default:
-            //echo "Unknown error type: [$errno] $errstr<br />\n";
             break;
     }
-    /* Don't execute PHP internal error handler */
+    // Don't execute PHP internal error handler.
     return true;
 }
 
-function getOmUser($gateway) {
+function get_om_user($gateway) {
     global $USER;
-    $pictureUrl = moodle_url::make_pluginfile_url(context_user::instance($USER->id)->id, 'user', 'icon', NULL, '/', 'f1')->out(false);
-    return $gateway->get_user($USER->username, $USER->firstname, $USER->lastname, $pictureUrl, $USER->email, $USER->id);
+    $pictureurl = moodle_url::make_pluginfile_url(context_user::instance($USER->id)->id, 'user', 'icon'
+            , NULL, '/', 'f1')->out(false);
+    return $gateway->get_user($USER->username, $USER->firstname, $USER->lastname, $pictureurl, $USER->email, $USER->id);
 }
 
-function getOmHash($gateway, $options) {
-    return $gateway->get_secure_hash(getOmUser($gateway), $options);
+function get_om_hash($gateway, $options) {
+    return $gateway->get_secure_hash(get_om_user($gateway), $options);
 }
 
-function getOmConfig() {
+function get_om_config() {
     global $CFG;
     return array(
         'url' => $CFG->openmeetings_url
@@ -110,99 +109,102 @@ function get_room(&$meeting) {
 }
 
 /**
- * Add OM DB record
+ * Add OM DB record.
+ *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function openmeetings_add_instance(&$meeting) {
     global $DB;
 
-    $gateway = new OmGateway(getOmConfig());
+    $gateway = new OmGateway(get_om_config());
     if (!$gateway->login()) {
         die("Could not login User to OpenMeetings, check your OpenMeetings Module Configuration");
     }
     $meeting->id = $DB->insert_record("openmeetings", $meeting);
-    return updateOmRoomObj($meeting, $gateway);
+    return update_om_room_obj($meeting, $gateway);
 }
 
 /**
- * Update OM DB record
+ * Update OM DB record.
+ *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function openmeetings_update_instance(&$meeting) {
-    $gateway = new OmGateway(getOmConfig());
+    $gateway = new OmGateway(get_om_config());
     if (!$gateway->login()) {
         die("Could not login User to OpenMeetings, check your OpenMeetings Module Configuration");
     }
     $meeting->timemodified = time();
     $meeting->id = $meeting->instance;
-    return updateOmRoomObj($meeting, $gateway);
+    return update_om_room_obj($meeting, $gateway);
 }
 
 function updateOmRoom(&$meeting, $gateway) {
     global $DB, $mform;
     $room = get_room($meeting);
-    foreach ($meeting->remove as $mFileId => $selected) {
+    foreach ($meeting->remove as $mfileid => $selected) {
         if ($selected == 0) {
-            unset($meeting->remove[$mFileId]);
+            unset($meeting->remove[$mfileid]);
         }
     }
     if (!empty($meeting->remove)) {
-        $delIds = join(',', $meeting->remove);
-        $DB->delete_records_select('openmeetings_file', 'id IN (' . $delIds . ')');
+        $delids = join(',', $meeting->remove);
+        $DB->delete_records_select('openmeetings_file', 'id IN (' . $delids . ')');
     }
-    foreach ($DB->get_records('openmeetings_file', array('openmeetings_id' => $meeting->id)) as $mFile) {
-        $room['files'][] = array('wbIdx' => $mFile->wb, 'fileId' => $mFile->file_id);
+    foreach ($DB->get_records('openmeetings_file', array('openmeetings_id' => $meeting->id)) as $mfile) {
+        $room['files'][] = array('wbIdx' => $mfile->wb, 'fileId' => $mfile->file_id);
     }
     for ($i = 0; $i < $meeting->room_files; ++$i) {
-        $wbIdx = $meeting->wb_idx[$i];
-        $omFileId = $meeting->om_files[$i];
-        $fileObj = new stdClass();
-        $fileObj->openmeetings_id = $meeting->id;
-        $fileObj->wb = $wbIdx;
-        if ($omFileId > 0) {
-            $fileObj->file_name = $meeting->{'om_int_file' . $omFileId};
-            $fileObj->file_id = $omFileId;
-            $fileObj->id = $DB->insert_record("openmeetings_file", $fileObj);
-            $room['files'][] = array('wbIdx' => $wbIdx, 'fileId' => $omFileId);
+        $wbidx = $meeting->wb_idx[$i];
+        $omfileid = $meeting->om_files[$i];
+        $fileobj = new stdClass();
+        $fileobj->openmeetings_id = $meeting->id;
+        $fileobj->wb = $wbidx;
+        if ($omfileid > 0) {
+            $fileobj->file_name = $meeting->{'om_int_file' . $omfileid};
+            $fileobj->file_id = $omfileid;
+            $fileobj->id = $DB->insert_record("openmeetings_file", $fileobj);
+            $room['files'][] = array('wbIdx' => $wbidx, 'fileId' => $omfileid);
             continue;
         }
         $file = $mform->getFile($i);
         if (!!$file) {
-            $fileName = $file->get_filename();
-            $fileObj->file_name = $fileName;
-            $fileObj->file_id = 0;
-            $fileObj->id = $DB->insert_record("openmeetings_file", $fileObj);
-            $fileJson = array(
-                    'externalId' => $fileObj->id
-                    , 'name' => $fileName
+            $filename = $file->get_filename();
+            $fileobj->file_name = $filename;
+            $fileobj->file_id = 0;
+            $fileobj->id = $DB->insert_record("openmeetings_file", $fileobj);
+            $filejson = array(
+                    'externalId' => $fileobj->id
+                    , 'name' => $filename
             );
-            $fileContent = $file->get_content();
-            $omFile = $gateway->create_file($fileJson, $fileContent);
-            if (!$omFile) {
-                $DB->delete_records("openmeetings_file", array("id" => $fileObj->id));
+            $filecontent = $file->get_content();
+            $omfile = $gateway->create_file($filejson, $filecontent);
+            if (!$omfile) {
+                $DB->delete_records("openmeetings_file", array("id" => $fileobj->id));
             } else {
-                $fileObj->file_id = $omFile['id'];
-                $DB->update_record("openmeetings_file", $fileObj);
-                $room['files'][] = array('wbIdx' => $wbIdx, 'fileId' => $omFile['id']);
+                $fileobj->file_id = $omfile['id'];
+                $DB->update_record("openmeetings_file", $fileobj);
+                $room['files'][] = array('wbIdx' => $wbidx, 'fileId' => $omfile['id']);
             }
         }
     }
     $meeting->room_id = $gateway->update_room($room);
 }
 
-function updateOmRoomObj(&$meeting, $gateway) {
+function update_om_room_obj(&$meeting, $gateway) {
     global $DB;
     if ($meeting->type == 'recording') {
         $meeting->room_id = 0;
     } else {
         updateOmRoom($meeting, $gateway);
     }
-    $DB->update_record("openmeetings", $meeting); // need to update room_id
+    $DB->update_record("openmeetings", $meeting); // Need to update room_id.
     return $meeting->id;
 }
 
 /**
- * Delete OM DB record
+ * Delete OM DB record.
+ *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function openmeetings_delete_instance($id) {
@@ -214,16 +216,16 @@ function openmeetings_delete_instance($id) {
 
     $result = true;
 
-    $gateway = new OmGateway(getOmConfig());
+    $gateway = new OmGateway(get_om_config());
     if (!$gateway->login()) {
         die("Could not login User to OpenMeetings, check your OpenMeetings Module Configuration");
     }
     if ($meeting->type != 'recording') {
         $meeting->room_id = $gateway->delete_room($meeting->room_id);
     }
-    // processing room files
+    // Processing room files.
     $DB->delete_records("openmeetings_file", array("openmeetings_id" => $meeting->id));
-    // delete room instance
+    // Delete room instance.
     if (!$DB->delete_records("openmeetings", array("id" => $meeting->id))) {
         $result = false;
     }
@@ -244,7 +246,7 @@ function openmeetings_get_coursemodule_info($coursemodule) {
     global $DB;
 
     if (!$meeting = $DB->get_record('openmeetings', array ('id' => $coursemodule->instance))) {
-        return NULL;
+        return null;
     }
 
     $info = new cached_cm_info();
@@ -265,7 +267,7 @@ function openmeetings_user_complete() {
 }
 
 function openmeetings_print_recent_activity() {
-    return false;  //  True if anything was printed, otherwise false
+    return false;  // True if anything was printed, otherwise false.
 }
 
 function openmeetings_cron() {
@@ -273,7 +275,7 @@ function openmeetings_cron() {
 }
 
 function openmeetings_grades() {
-    return NULL;
+    return null;
 }
 
 function openmeetings_get_participants() {
@@ -288,8 +290,7 @@ function openmeetings_scale_used_anywhere() {
     return false;
 }
 
-// Enables grading using Moodle's Activity completion API
-
+// Enables grading using Moodle's Activity completion API.
 function openmeetings_supports($feature) {
     switch($feature) {
         case FEATURE_GRADE_HAS_GRADE:

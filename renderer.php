@@ -36,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
 
 class openmeetings implements renderable {
-    var $om;
+    public $om;
 
     public function __construct(stdclass $openmeetings) {
         $this->om = $openmeetings;
@@ -85,7 +85,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
         } else {
             $stropenmeetingss = get_string("modulenameplural", "openmeetings");
 
-            $this->page->set_heading($course->fullname); // Required
+            $this->page->set_heading($course->fullname); // Required.
             $this->page->navbar->add($stropenmeetingss, null, null, navigation_node::TYPE_CUSTOM
                     , new moodle_url($CFG->wwwroot . '/user/index.php?id=' . $course->id));
             $this->page->navbar->add($openmeetings->om->name);
@@ -120,7 +120,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
         }
         $gateway = new OmGateway(getOmConfig());
         if ($gateway->login()) {
-            $allow_recording = $openmeetings->om->allow_recording != 2;
+            $allowrecording = $openmeetings->om->allow_recording != 2;
             if ($openmeetings->om->is_moderated_room == 3) {
                 $becomemoderator = true;
             }
@@ -130,7 +130,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
                     "roomId" => $openmeetings->om->room_id // Added for backward compatibility.
                     , "externalRoomId" => $openmeetings->om->id
                     , "moderator" => $becomemoderator
-                    , "allowRecording" => $allow_recording));
+                    , "allowRecording" => $allowrecording));
             } else {
                 $hash = getOmHash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));
             }

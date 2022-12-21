@@ -38,19 +38,19 @@
  * @version 1.7
  * @package mod_openmeetings
  **/
-require(dirname(__FILE__).'/../../config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once("../../config.php");
+require_once("/lib.php");
 
-$id = required_param('id', PARAM_INT);   // Course
+$id = required_param('id', PARAM_INT);   // Course.
 
-$course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
+$course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
 unset($id);
 
 require_course_login($course, true);
 $PAGE->set_pagelayout('incourse');
 
-// Get all required stringsopenmeetings
+// Get all required stringsopenmeetings.
 $stropenmeetings = get_string("modulenameplural", "openmeetings");
 $stropenmeeting  = get_string("modulename", "openmeetings");
 $strname         = get_string("name");
@@ -65,7 +65,7 @@ echo $OUTPUT->header();
 
 \mod_openmeetings\event\course_module_instance_list_viewed::create_from_course($course)->trigger();
 
-// Get all the appropriate data
+// Get all the appropriate data.
 if (! $openmeetings = get_all_instances_in_course("openmeetings", $course)) {
     notice("There are no openmeetings", "../../course/view.php?id=$course->id");
     die;
