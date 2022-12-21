@@ -46,19 +46,22 @@
 //
 // It is important that capability names are unique. The naming convention
 // for capabilities that are specific to modules and blocks is as follows:
-//   [mod/block]/<component_name>:<capabilityname>
+//
+// [mod/block]/<component_name>:<capabilityname>
 //
 // component_name should be the same as the directory name of the mod or block.
 //
 // Core moodle capabilities are defined thus:
-//    moodle/<capabilityclass>:<capabilityname>
 //
-// Examples: mod/openmeetings:viewpost
-//           block/recent_activity:view
-//           moodle/site:deleteuser
+// moodle/<capabilityclass>:<capabilityname>
+//
+// Examples:
+// mod/openmeetings:viewpost
+// block/recent_activity:view
+// moodle/site:deleteuser
 //
 // The variable name for the capability definitions array follows the format
-//   $<componenttype>_<component_name>_capabilities
+// $<componenttype>_<component_name>_capabilities
 //
 // For the core capabilities, the variable is $moodle_capabilities.
 

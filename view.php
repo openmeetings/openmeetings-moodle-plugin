@@ -34,7 +34,7 @@
 require_once("../../config.php");
 require_once("lib.php");
 
-$id = optional_param('id', 0, PARAM_INT); // Course Module ID, or
+$id = optional_param('id', 0, PARAM_INT); // Course Module ID.
 $g = optional_param('g', 0, PARAM_INT);
 
 if (!empty($id)) {
