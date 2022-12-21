@@ -22,7 +22,7 @@
 // "License") +  you may not use this file except in compliance
 // with the License.  You may obtain a copy of the License at
 //
-//   http://www.apache.org/licenses/LICENSE-2.0
+// http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing,
 // software distributed under the License is distributed on an
@@ -34,16 +34,17 @@
 function upgrade20111001($oldversion, $dbman) {
     $ver = 20111001;
     if ($oldversion < $ver) {
-        // Define field allow_recording to be added to openmeetings
+        // Define field allow_recording to be added to openmeetings.
         $table = new xmldb_table('openmeetings');
-        $field = new xmldb_field('allow_recording', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '1', 'room_recording_id');
+        $field = new xmldb_field('allow_recording', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null
+                , '1', 'room_recording_id');
 
-        // Conditionally launch add field allow_recording
+        // Conditionally launch add field allow_recording.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        // openmeetings savepoint reached
+        // openmeetings savepoint reached.
         upgrade_mod_savepoint(true, $ver, 'openmeetings');
     }
 }
@@ -51,16 +52,16 @@ function upgrade20111001($oldversion, $dbman) {
 function upgrade20111002($oldversion, $dbman) {
     $ver = 20111002;
     if ($oldversion < $ver) {
-        // Define field introformat to be dropped from openmeetings
+        // Define field introformat to be dropped from openmeetings.
         $table = new xmldb_table('openmeetings');
         $field = new xmldb_field('introformat');
 
-        // Conditionally launch drop field introformat
+        // Conditionally launch drop field introformat.
         if ($dbman->field_exists($table, $field)) {
             $dbman->drop_field($table, $field);
         }
 
-        // openmeetings savepoint reached
+        // openmeetings savepoint reached.
         upgrade_mod_savepoint(true, $ver, 'openmeetings');
     }
 }
@@ -68,11 +69,12 @@ function upgrade20111002($oldversion, $dbman) {
 function upgrade2014031603($oldversion, $dbman) {
     $ver = 2014031603;
     if ($oldversion < $ver) {
-        // Define field allow_recording to be added to openmeetings
+        // Define field allow_recording to be added to openmeetings.
         $table = new xmldb_table('openmeetings');
-        $field = new xmldb_field('whole_window', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'allow_recording');
+        $field = new xmldb_field('whole_window', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null
+                , '0', 'allow_recording');
 
-        // Conditionally launch add field allow_recording
+        // Conditionally launch add field allow_recording.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -85,20 +87,21 @@ function upgrade2016042002($oldversion, $dbman) {
     global $CFG;
     $ver = 2016042002;
     if ($oldversion < $ver) {
-        // Define field chat_hidden to be added to openmeetings
+        // Define field chat_hidden to be added to openmeetings.
         $table = new xmldb_table('openmeetings');
-        $field = new xmldb_field('chat_hidden', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'whole_window');
+        $field = new xmldb_field('chat_hidden', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null
+                , '0', 'whole_window');
 
-        // Conditionally launch add field chat_hidden
+        // Conditionally launch add field chat_hidden.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        // Define field type to be changed in openmeetings
+        // Define field type to be changed in openmeetings.
         $table = new xmldb_table('openmeetings');
         $field = new xmldb_field('type', XMLDB_TYPE_CHAR, '16', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'teacher');
 
-        // Conditionally launch change type of the field type
+        // Conditionally launch change type of the field type.
         if ($dbman->field_exists($table, $field)) {
             $dbman->change_field_type($table, $field);
         }
@@ -127,7 +130,7 @@ function upgrade2017101000($oldversion, $dbman) {
         $table = new xmldb_table('openmeetings');
         $field = new xmldb_field('type');
 
-        // Conditionally launch value change for `type` field
+        // Conditionally launch value change for `type` field.
         if ($dbman->field_exists($table, $field)) {
             $DB->execute("UPDATE {$CFG->prefix}openmeetings SET type = 'presentation' WHERE type = 'restricted'");
         }
@@ -171,7 +174,7 @@ function upgrade20200404($oldversion, $dbman) {
         $table = new xmldb_table('openmeetings');
         $field = new xmldb_field('type');
 
-        // Conditionally launch value change for `type` field
+        // Conditionally launch value change for `type` field.
         if ($dbman->field_exists($table, $field)) {
             $DB->execute("UPDATE {$CFG->prefix}openmeetings SET type = 'PRESENTATION' WHERE type = 'presentation'");
             $DB->execute("UPDATE {$CFG->prefix}openmeetings SET type = 'INTERVIEW' WHERE type = 'interview'");
