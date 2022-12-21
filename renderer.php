@@ -31,6 +31,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
 
 class openmeetings implements renderable {
@@ -43,21 +45,21 @@ class openmeetings implements renderable {
 
 class mod_openmeetings_renderer extends plugin_renderer_base {
     public function header() {
-        // designed to be empty
+        // Designed to be empty.
     }
 
     public function footer() {
-        // designed to be empty
+        // Designed to be empty.
     }
 
-    private function _header(openmeetings $openmeetings) {
-        global $cm, $course, $CFG, $PAGE;
+    private function out_header(openmeetings $openmeetings) {
+        global $cm, $course, $CFG;
 
         $title = $course->shortname . ": " . $openmeetings->om->name;
-        $PAGE->set_title($title);
-        $PAGE->set_cacheable(false);
-        $PAGE->set_focuscontrol("");
-        $PAGE->set_url('/mod/openmeetings/view.php', array(
+        $this->page->set_title($title);
+        $this->page->set_cacheable(false);
+        $this->page->set_focuscontrol("");
+        $this->page->set_url('/mod/openmeetings/view.php', array(
                 'id' => $cm->id
         ));
 
@@ -83,17 +85,18 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
         } else {
             $stropenmeetingss = get_string("modulenameplural", "openmeetings");
 
-            $PAGE->set_heading($course->fullname); // Required
-            $PAGE->navbar->add($stropenmeetingss, null, null, navigation_node::TYPE_CUSTOM, new moodle_url($CFG->wwwroot . '/user/index.php?id=' . $course->id));
-            $PAGE->navbar->add($openmeetings->om->name);
-            $PAGE->add_body_class('noMargin');
+            $this->page->set_heading($course->fullname); // Required
+            $this->page->navbar->add($stropenmeetingss, null, null, navigation_node::TYPE_CUSTOM
+                    , new moodle_url($CFG->wwwroot . '/user/index.php?id=' . $course->id));
+            $this->page->navbar->add($openmeetings->om->name);
+            $this->page->add_body_class('noMargin');
 
             $out .= $this->output->header();
         }
         return $out;
     }
 
-    private function _footer(openmeetings $openmeetings) {
+    private function out_footer(openmeetings $openmeetings) {
         if ($openmeetings->om->whole_window > 0) {
             $out .= html_writer::end_tag("body");
             $out .= html_writer::end_tag("html");
@@ -109,7 +112,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
     protected function render_openmeetings(openmeetings $openmeetings) {
         global $cm;
 
-        $out .= $this->_header($openmeetings);
+        $out .= $this->out_header($openmeetings);
         $context = context_module::instance($cm->id);
         $becomemoderator = false;
         if (has_capability('mod/openmeetings:becomemoderator', $context)) {
@@ -117,17 +120,17 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
         }
         $gateway = new OmGateway(getOmConfig());
         if ($gateway->login()) {
-            $allowRecording = $openmeetings->om->allow_recording != 2;
+            $allow_recording = $openmeetings->om->allow_recording != 2;
             if ($openmeetings->om->is_moderated_room == 3) {
                 $becomemoderator = true;
             }
-            // Simulate the User automatically
+            // Simulate the User automatically.
             if ($openmeetings->om->type != 'recording') {
                 $hash = getOmHash($gateway, array(
-                    "roomId" => $openmeetings->om->room_id // added for backward compatibility
+                    "roomId" => $openmeetings->om->room_id // Added for backward compatibility.
                     , "externalRoomId" => $openmeetings->om->id
                     , "moderator" => $becomemoderator
-                    , "allowRecording" => $allowRecording));
+                    , "allowRecording" => $allow_recording));
             } else {
                 $hash = getOmHash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));
             }
@@ -144,7 +147,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
             $out .= "<p>Could not login User to OpenMeetings, check your OpenMeetings Module Configuration</p>";
         }
 
-        $out .= $this->_footer($openmeetings);
+        $out .= $this->out_footer($openmeetings);
         return $out;
     }
 }

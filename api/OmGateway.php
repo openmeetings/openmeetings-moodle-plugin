@@ -69,7 +69,7 @@ class OmGateway {
     private function show_error($rest) {
         echo '<h2>Fault (Service error)</h2><pre>';
         if ($this->debug) {
-            print_r($rest->getMessage());
+            print_r($rest->get_message());
         }
         echo '</pre>';
     }
@@ -90,7 +90,7 @@ class OmGateway {
                 , "serviceResult"
             );
 
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
@@ -130,7 +130,7 @@ class OmGateway {
                 , "serviceResult"
             );
 
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
@@ -152,7 +152,7 @@ class OmGateway {
                 , null
                 , "roomDTO"
             );
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             if (isset($response["id"]) && $response["id"]) {
@@ -175,7 +175,7 @@ class OmGateway {
                 , null
                 , "roomDTO"
             );
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             if ($response["id"] > 0) {
@@ -197,7 +197,7 @@ class OmGateway {
                 , null
                 , "serviceResult"
             );
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
@@ -222,7 +222,7 @@ class OmGateway {
                 , null
                 , "recordingDTO"
             );
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             return $response;
@@ -240,7 +240,7 @@ class OmGateway {
                 , null
                 , "serviceResult"
             );
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
@@ -262,7 +262,7 @@ class OmGateway {
                 , null
                 , "serviceResult"
                 );
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
@@ -284,7 +284,7 @@ class OmGateway {
                 , null
                 , "fileItemDTO"
                 );
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             return $response;
@@ -318,7 +318,7 @@ class OmGateway {
                         , 'Content-Type: multipart/form-data; boundary=' . $boundary)
                 , "fileItemDTO"
                 );
-        if ($rest->isError()) {
+        if ($rest->is_error()) {
             $this->show_error($rest);
         } else {
             return $response;
