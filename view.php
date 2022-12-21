@@ -39,35 +39,35 @@ $g = optional_param('g', 0, PARAM_INT);
 
 if (!empty($id)) {
     if (!$cm = get_coursemodule_from_id('openmeetings', $id)) {
-        print_error('invalidcoursemodule');
+        throw new moodle_exception('invalidcoursemodule');
     }
     if (!$course = $DB->get_record("course", array(
             "id" => $cm->course
     ))) {
-        print_error('coursemisconf');
+        throw new moodle_exception('coursemisconf');
     }
     if (!$openmeetings = $DB->get_record("openmeetings", array(
             "id" => $cm->instance
     ))) {
-        print_error('invalidid', 'openmeetings');
+        throw new moodle_exception('invalidid', 'openmeetings');
     }
 } else if (!empty($g)) {
     if (!$openmeetings = $DB->get_record("openmeetings", array(
             "id" => $g
     ))) {
-        print_error('invalidid', 'openmeetings');
+        throw new moodle_exception('invalidid', 'openmeetings');
     }
     if (!$course = $DB->get_record("course", array(
             "id" => $openmeetings->course
     ))) {
-        print_error('invalidcourseid');
+        throw new moodle_exception('invalidcourseid');
     }
     if (!$cm = get_coursemodule_from_instance("openmeetings", $openmeetings->id, $course->id)) {
-        print_error('invalidcoursemodule');
+        throw new moodle_exception('invalidcoursemodule');
     }
     $id = $cm->id;
 } else {
-    print_error('invalidid', 'openmeetings');
+    throw new moodle_exception('invalidid', 'openmeetings');
 }
 
 require_login($course->id);

@@ -33,6 +33,8 @@
 /**
  * Created on 03.01.2012 by eugen.schwert@gmail.com
  */
+defined('MOODLE_INTERNAL') || die();
+
 abstract class RestMethod
 {
     const GET = "GET";
