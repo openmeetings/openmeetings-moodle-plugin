@@ -44,7 +44,7 @@ function upgrade20111001($oldversion, $dbman) {
             $dbman->add_field($table, $field);
         }
 
-        // openmeetings savepoint reached.
+        // Openmeetings savepoint reached.
         upgrade_mod_savepoint(true, $ver, 'openmeetings');
     }
 }
@@ -61,7 +61,7 @@ function upgrade20111002($oldversion, $dbman) {
             $dbman->drop_field($table, $field);
         }
 
-        // openmeetings savepoint reached.
+        // Openmeetings savepoint reached.
         upgrade_mod_savepoint(true, $ver, 'openmeetings');
     }
 }

@@ -34,16 +34,16 @@
 defined('MOODLE_INTERNAL') || die();
 
 $settings->add(new admin_setting_configtext('openmeetings_url', get_string('url', 'openmeetings')
-		, get_string('urlDesc', 'openmeetings'), "https://localhost:5443/openmeetings", PARAM_TEXT));
+        , get_string('urlDesc', 'openmeetings'), "https://localhost:5443/openmeetings", PARAM_TEXT));
 $settings->add(new admin_setting_configtext('openmeetings_user', get_string('user', 'openmeetings')
-		, get_string('user', 'openmeetings'), "admin", PARAM_TEXT));
+        , get_string('user', 'openmeetings'), "admin", PARAM_TEXT));
 $settings->add(new admin_setting_configpasswordunmask('openmeetings_pass', get_string('pass', 'openmeetings')
-		, get_string('pass', 'openmeetings'), "password", PARAM_TEXT));
+        , get_string('pass', 'openmeetings'), "password", PARAM_TEXT));
 $settings->add(new admin_setting_configtext('openmeetings_moduleKey', get_string('moduleKey', 'openmeetings')
-		, get_string('moduleKeyDesc', 'openmeetings'), "moodle", PARAM_TEXT));
+        , get_string('moduleKeyDesc', 'openmeetings'), "moodle", PARAM_TEXT));
 $settings->add(new admin_setting_configcheckbox('openmeetings_checkpeer', get_string('checkpeer', 'openmeetings')
-		, get_string('checkpeerDesc', 'openmeetings'), 1));
+        , get_string('checkpeerDesc', 'openmeetings'), 1));
 $settings->add(new admin_setting_configcheckbox('openmeetings_checkhost', get_string('checkhost', 'openmeetings')
-		, get_string('checkhostDesc', 'openmeetings'), 1));
+        , get_string('checkhostDesc', 'openmeetings'), 1));
 $settings->add(new admin_setting_configcheckbox('openmeetings_recordingAllowed', get_string('Allow_Recording', 'openmeetings')
-		, get_string('Allow_RecordingDesc', 'openmeetings'), 1));
+        , get_string('Allow_RecordingDesc', 'openmeetings'), 1));
