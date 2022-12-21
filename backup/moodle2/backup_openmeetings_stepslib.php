@@ -35,7 +35,6 @@
  * @package     mod_openmeetings
  * @category    backup
  */
-defined('MOODLE_INTERNAL') || die;
 
 class backup_openmeetings_activity_structure_step extends backup_activity_structure_step {
     protected function define_structure() {
@@ -45,7 +44,7 @@ class backup_openmeetings_activity_structure_step extends backup_activity_struct
                 , 'whole_window', 'chat_hidden'));
 
         $room->set_source_table('openmeetings', array('id' => backup::VAR_ACTIVITYID));
-        $room->annotate_files('mod_openmeetings', 'intro', null); // This file area hasn't itemid
+        $room->annotate_files('mod_openmeetings', 'intro', null); // This file area hasn't itemid.
 
         $files = new backup_nested_element('files');
         $file = new backup_nested_element('file', array('id'), array(

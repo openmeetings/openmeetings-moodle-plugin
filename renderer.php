@@ -118,7 +118,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
         if (has_capability('mod/openmeetings:becomemoderator', $context)) {
             $becomemoderator = true;
         }
-        $gateway = new OmGateway(getOmConfig());
+        $gateway = new OmGateway(get_om_config());
         if ($gateway->login()) {
             $allowrecording = $openmeetings->om->allow_recording != 2;
             if ($openmeetings->om->is_moderated_room == 3) {
@@ -126,13 +126,13 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
             }
             // Simulate the User automatically.
             if ($openmeetings->om->type != 'recording') {
-                $hash = getOmHash($gateway, array(
+                $hash = get_om_hash($gateway, array(
                     "roomId" => $openmeetings->om->room_id // Added for backward compatibility.
                     , "externalRoomId" => $openmeetings->om->id
                     , "moderator" => $becomemoderator
                     , "allowRecording" => $allowrecording));
             } else {
-                $hash = getOmHash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));
+                $hash = get_om_hash($gateway, array("recordingId" => $openmeetings->om->room_recording_id));
             }
 
             if ($hash != "") {

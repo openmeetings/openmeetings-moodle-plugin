@@ -31,9 +31,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.'); // It must be included from a Moodle page
-}
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * @package mod_openmeetings
@@ -45,7 +43,7 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
 require_once($CFG->dirroot . '/mod/openmeetings/version.php');
 
-$gateway = new OmGateway(getOmConfig());
+$gateway = new OmGateway(get_om_config());
 $om_login = $gateway->login();
 class mod_openmeetings_mod_form extends moodleform_mod {
     private function getLanguages() {
@@ -343,7 +341,7 @@ if ($mform->no_submit_button_pressed() && $om_login) {
             }
             header('Content-disposition: attachment; filename=' . $filename);
             header('Content-type: video/' . $type);
-            $url = $gateway->get_url() . "/recordings/$type/" . getOmHash($gateway, array("recordingId" => $recId));
+            $url = $gateway->get_url() . "/recordings/$type/" . get_om_hash($gateway, array("recordingId" => $recId));
             readfile($url);
         }
         exit(0);

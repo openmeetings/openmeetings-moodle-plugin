@@ -32,8 +32,8 @@
 // under the License.
 
 set_error_handler("my_error_handler");
-require_once("../../config.php");
-require_once("./api/OmGateway.php");
+require_once(__DIR__. '/../../config.php');
+require_once(__DIR__. '/api/OmGateway.php');
 
 /** error handler function
  * @SuppressWarnings(PHPMD.ExitExpression)
@@ -61,7 +61,7 @@ function my_error_handler($errno, $errstr, $errfile, $errline) {
 function get_om_user($gateway) {
     global $USER;
     $pictureurl = moodle_url::make_pluginfile_url(context_user::instance($USER->id)->id, 'user', 'icon'
-            , NULL, '/', 'f1')->out(false);
+            , null, '/', 'f1')->out(false);
     return $gateway->get_user($USER->username, $USER->firstname, $USER->lastname, $pictureurl, $USER->email, $USER->id);
 }
 
@@ -83,13 +83,13 @@ function get_om_config() {
     );
 }
 
-function setRoomName(&$openmeetings) {
+function set_room_name(&$openmeetings) {
     $openmeetings->roomname = $openmeetings->course . ' ' . $openmeetings->name;
 }
 
 function get_room(&$meeting) {
     global $CFG;
-    setRoomName($meeting);
+    set_room_name($meeting);
     return array(
             'id' => $meeting->room_id > 0 ? $meeting->room_id : null
             , 'name' => $meeting->roomname
@@ -139,7 +139,7 @@ function openmeetings_update_instance(&$meeting) {
     return update_om_room_obj($meeting, $gateway);
 }
 
-function updateOmRoom(&$meeting, $gateway) {
+function update_om_room(&$meeting, $gateway) {
     global $DB, $mform;
     $room = get_room($meeting);
     foreach ($meeting->remove as $mfileid => $selected) {
@@ -196,7 +196,7 @@ function update_om_room_obj(&$meeting, $gateway) {
     if ($meeting->type == 'recording') {
         $meeting->room_id = 0;
     } else {
-        updateOmRoom($meeting, $gateway);
+        update_om_room($meeting, $gateway);
     }
     $DB->update_record("openmeetings", $meeting); // Need to update room_id.
     return $meeting->id;

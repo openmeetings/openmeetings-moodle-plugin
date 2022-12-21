@@ -38,9 +38,8 @@
  * @subpackage openmeetings
  */
 
-defined('MOODLE_INTERNAL') || die();
 
-/**
+ /**
  * Openmeetings conversion handler
  */
 class moodle1_mod_openmeetings_handler extends moodle1_mod_handler {

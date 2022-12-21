@@ -31,8 +31,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-require_once("../../config.php");
-require_once("lib.php");
+require_once(__DIR__. '/../../config.php');
+require_once(__DIR__. '/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID.
 $g = optional_param('g', 0, PARAM_INT);

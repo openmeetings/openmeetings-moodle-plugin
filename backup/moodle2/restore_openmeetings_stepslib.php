@@ -35,7 +35,6 @@
  * @package     mod_openmeetings
  * @category    backup
  */
-defined('MOODLE_INTERNAL') || die;
 require_once($CFG->dirroot.'/mod/openmeetings/lib.php');
 
 class restore_openmeetings_activity_structure_step extends restore_activity_structure_step {
@@ -55,12 +54,12 @@ class restore_openmeetings_activity_structure_step extends restore_activity_stru
         $data->timecreated = $this->apply_date_offset($data->timecreated);
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
-        // insert the openmeetings record
+        // Insert the openmeetings record.
         $newitemid = $DB->insert_record('openmeetings', $data);
-        $data->room_id = 0; //reset it, new room will be created
+        $data->room_id = 0; // Reset it, new room will be created.
         $data->instance = $newitemid;
         openmeetings_update_instance($data);
-        // immediately after inserting "activity" record, call this
+        // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
     }
 
@@ -75,7 +74,7 @@ class restore_openmeetings_activity_structure_step extends restore_activity_stru
     }
 
     protected function after_execute() {
-        // Add openmeetings related files, no need to match by itemname (just internally handled context)
+        // Add openmeetings related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_openmeetings', 'intro', null);
     }
 }
