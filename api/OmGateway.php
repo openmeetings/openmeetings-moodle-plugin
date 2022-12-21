@@ -103,14 +103,14 @@ class OmGateway {
         return false;
     }
 
-    public function get_user($login, $firstname, $lastname, $profilePictureUrl, $email, $userId) {
+    public function get_user($login, $firstname, $lastname, $pictureurl, $email, $userid) {
         return array(
             "login" => $login
             , "firstname" => $firstname
             , "lastname" => $lastname
             , "email" => $email
-            , "profilePictureUrl" => $profilePictureUrl
-            , "externalId" => $userId
+            , "profilePictureUrl" => $pictureurl
+            , "externalId" => $userid
             , "externalType" => $this->config["module"]
         );
     }
@@ -142,10 +142,10 @@ class OmGateway {
         return -1;
     }
 
-    public function get_room($roomId) {
+    public function get_room($roomid) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->get_rest_url("room") . $roomId
+                $this->get_rest_url("room") . $roomid
                 , RestMethod::GET
                 , $this->sessionId
                 , null
@@ -187,10 +187,10 @@ class OmGateway {
         return -1;
     }
 
-    public function delete_room($roomId) {
+    public function delete_room($roomid) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->get_rest_url("room") . $roomId
+                $this->get_rest_url("room") . $roomid
                 , RestMethod::DELETE
                 , $this->sessionId
                 , ""
@@ -230,10 +230,10 @@ class OmGateway {
         return array();
     }
 
-    public function delete_recording($recId) {
+    public function delete_recording($recid) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->get_rest_url("record") . $recId
+                $this->get_rest_url("record") . $recid
                 , RestMethod::DELETE
                 , $this->sessionId
                 , ""
@@ -252,10 +252,10 @@ class OmGateway {
         return -1;
     }
 
-    public function clean_wb($roomId) {
+    public function clean_wb($roomid) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->get_rest_url("room") . 'cleanwb/' . $roomId
+                $this->get_rest_url("room") . 'cleanwb/' . $roomid
                 , RestMethod::GET
                 , $this->sessionId
                 , ""
@@ -292,20 +292,20 @@ class OmGateway {
         return array();
     }
 
-    public function create_file($fileJson, $fileContents) {
-        $fileJson['externalType'] = $this->config["module"];
+    public function create_file($json, $contents) {
+        $json['externalType'] = $this->config["module"];
         $rest = new OmRestService($this->config);
         $boundary = '';
         $params = array(
                 array(
                     "name" => "file"
                     , "type" => "application/json"
-                    , "val" => json_encode(array('fileItemDTO' => $fileJson))
+                    , "val" => json_encode(array('fileItemDTO' => $json))
                 )
                 , array(
                     "name" => "stream"
                     , "type" => "application/octet-stream"
-                    , "val" => $fileContents
+                    , "val" => $contents
                 )
             );
         $data = OmRestService::encode($params, $boundary);
@@ -314,7 +314,8 @@ class OmGateway {
                 , RestMethod::POST
                 , $this->sessionId
                 , $data
-                , array("Content-Length: " . (strlen(bin2hex($data)) / 2), 'Content-Type: multipart/form-data; boundary=' . $boundary)
+                , array("Content-Length: " . (strlen(bin2hex($data)) / 2)
+                        , 'Content-Type: multipart/form-data; boundary=' . $boundary)
                 , "fileItemDTO"
                 );
         if ($rest->isError()) {
