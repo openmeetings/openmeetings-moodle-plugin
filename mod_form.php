@@ -34,9 +34,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Main form for create/edit activity.
+ *
  * @package mod_openmeetings
  **/
-
 global $data, $cm, $CFG;
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
@@ -44,9 +45,9 @@ require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
 require_once($CFG->dirroot . '/mod/openmeetings/version.php');
 
 $gateway = new OmGateway(get_om_config());
-$om_login = $gateway->login();
+$omlogin = $gateway->login();
 class mod_openmeetings_mod_form extends moodleform_mod {
-    private function getLanguages() {
+    private function get_languages() {
         return array(
                 '1' => 'english',
                 '2' => 'deutsch',
@@ -82,33 +83,32 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         );
     }
 
-    private function addGeneralFields() {
+    private function add_general_fields() {
         global $CFG;
-        $recAllowed = $CFG->openmeetings_recordingAllowed;
+        $recallowed = $CFG->openmeetings_recordingAllowed;
         $mform = $this->_form;
-        // Adding the standard "name" field
+        // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('Room_Name', 'openmeetings'), array(
                 'size' => '64'
         ));
-        // $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->setType('name', PARAM_TEXT);
 
         $mform->addElement('hidden', 'room_id', '0', array('size' => '64'));
         $mform->setType('room_id', PARAM_INT);
 
-        // Adding the "Room Type" field
-        $roomTypes = array(
+        // Adding the "Room Type" field.
+        $roomtypes = array(
             'CONFERENCE' => get_string('Conference', 'openmeetings'),
             'PRESENTATION' => get_string('Restricted', 'openmeetings'),
             'INTERVIEW' => get_string('Interview', 'openmeetings')
         );
-        if ($recAllowed) {
-            $roomTypes['recording'] = get_string('Recording', 'openmeetings');
+        if ($recallowed) {
+            $roomtypes['recording'] = get_string('Recording', 'openmeetings');
         }
-        $mform->addElement('select', 'type', get_string('Room_Type', 'openmeetings'), $roomTypes);
+        $mform->addElement('select', 'type', get_string('Room_Type', 'openmeetings'), $roomtypes);
 
-        // Adding the "Number of Participants" field
+        // Adding the "Number of Participants" field.
         $mform->addElement('select', 'max_user', get_string('Max_User', 'openmeetings'), array(
                 '2' => '2',
                 '4' => '4',
@@ -122,13 +122,13 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         ));
         $mform->disabledIf('max_user', 'type', 'eq', 'recording');
 
-        // Adding the "Room Language" field
-        $mform->addElement('select', 'language', get_string('Room_Language', 'openmeetings'), $this->getLanguages());
+        // Adding the "Room Language" field.
+        $mform->addElement('select', 'language', get_string('Room_Language', 'openmeetings'), $this->get_languages());
 
-        // Some description
+        // Some description.
         $mform->addElement('static', 'description', '', get_string('Moderation_Description', 'openmeetings'));
 
-        // Adding the "Is Moderated Room" field
+        // Adding the "Is Moderated Room" field.
         $mform->addElement('select', 'is_moderated_room', get_string('Wait_for_teacher', 'openmeetings'), array(
                 '1' => get_string('Moderation_TYPE_1', 'openmeetings'),
                 '2' => get_string('Moderation_TYPE_2', 'openmeetings'),
@@ -136,15 +136,15 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         ));
         $mform->disabledIf('is_moderated_room', 'type', 'eq', 'recording');
 
-        $recAttrs = array();
-        if (!$recAllowed) {
-            $recAttrs['disabled'] = 'disabled';
+        $recattrs = array();
+        if (!$recallowed) {
+            $recattrs['disabled'] = 'disabled';
         }
         $mform->addElement('select', 'allow_recording', get_string('Allow_Recording', 'openmeetings'), array(
                 '1' => get_string('Recording_TYPE_1', 'openmeetings'),
                 '2' => get_string('Recording_TYPE_2', 'openmeetings')
-        ), $recAttrs);
-        if ($recAllowed) {
+        ), $recattrs);
+        if ($recallowed) {
             $mform->disabledIf('allow_recording', 'type', 'eq', 'recording');
         }
 
@@ -160,91 +160,91 @@ class mod_openmeetings_mod_form extends moodleform_mod {
                 '2' => get_string('whole_window_type_3', 'openmeetings')
         ));
 
-        // Adding the optional "intro" field
+        // Adding the optional "intro" field.
         $this->standard_intro_elements(get_string('description', 'openmeetings'));
     }
 
-    private function addRecordings($recordings) {
+    private function add_recordings($recordings) {
         $mform = $this->_form;
-        // Adding the "Available Recordings to Show" field
+        // Adding the "Available Recordings to Show" field.
         $mform->registerNoSubmitButton('mp4');
-        $dwnld_grp = array();
-        $dwnld_grp[] = & $mform->createElement('html', '<div class="col-md-12">');
-        $dwnld_grp[] = & $mform->createElement('static', 'description', '', get_string('recordings_label', 'openmeetings'));
-        $dwnld_grp[] = & $mform->createElement('html', '</div>');
-        $dwnld_grp[] = & $mform->createElement('html', '<div class="om-labeled-group col-md-12">');
-        $dwnld_grp[] = & $mform->createElement('autocomplete', 'room_recording_id', get_string('recordings_show', 'openmeetings')
+        $dwnldgrp = array();
+        $dwnldgrp[] = & $mform->createElement('html', '<div class="col-md-12">');
+        $dwnldgrp[] = & $mform->createElement('static', 'description', '', get_string('recordings_label', 'openmeetings'));
+        $dwnldgrp[] = & $mform->createElement('html', '</div>');
+        $dwnldgrp[] = & $mform->createElement('html', '<div class="om-labeled-group col-md-12">');
+        $dwnldgrp[] = & $mform->createElement('autocomplete', 'room_recording_id', get_string('recordings_show', 'openmeetings')
                     , $recordings, array(
                         'class' => 'inline col-md-8',
                         'multiple' => false,
                         'noselectionstring' => get_string('recordings_search', 'openmeetings'),
                     ));
-        $dwnld_grp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'), array('class' => 'inline col-md-3'));
-        $dwnld_grp[] = & $mform->createElement('html', '</div>');
+        $dwnldgrp[] = & $mform->createElement('submit', 'mp4', get_string('download_mp4', 'openmeetings'), array('class' => 'inline col-md-3'));
+        $dwnldgrp[] = & $mform->createElement('html', '</div>');
         $mform->disabledIf('mp4', 'room_recording_id', 'eq', '0');
-        $mform->addGroup($dwnld_grp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
+        $mform->addGroup($dwnldgrp, 'dwnld_grp', get_string('recordings_show', 'openmeetings'), array(' '), false);
         $mform->disabledIf('room_recording_id', 'type', 'neq', 'recording');
         $mform->disabledIf('dwnld_grp', 'type', 'neq', 'recording');
     }
 
-    private function addFiles($files) {
+    private function add_files($files) {
         $mform = $this->_form;
-        foreach ($files as $fileId => $fileName) {
-            $hname = 'om_int_file' . $fileId;
-            $mform->addElement('hidden', $hname, $fileName);
+        foreach ($files as $fileid => $filename) {
+            $hname = 'om_int_file' . $fileid;
+            $mform->addElement('hidden', $hname, $filename);
             $mform->setType($hname, PARAM_TEXT);
         }
         $mform->addElement('html', '<div class="om-labeled-group room-files">');
 
         foreach ($this->current->files as $cFile) {
             $curId = 'curfile_grp' . $cFile->id;
-            $curfile_grp = array();
-            $curfile_grp[] = & $mform->createElement('html', '<div class="om-labeled-group col-md-12">');
-            $curfile_grp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
-            $curfile_grp[] = & $mform->createElement('static', 'file', '', $cFile->file_name);
-            $curfile_grp[] = & $mform->createElement('html', '</div>');
-            $curfile_grp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
-            $curfile_grp[] = & $mform->createElement('static', 'wb_idx_lbl', '', get_string('wb_index', 'openmeetings'));
-            $curfile_grp[] = & $mform->createElement('html', '</div>');
-            $curfile_grp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
-            $curfile_grp[] = & $mform->createElement('static', 'wb', '', $cFile->wb);
-            $curfile_grp[] = & $mform->createElement('html', '</div>');
-            $curfile_grp[] = & $mform->createElement('advcheckbox', 'remove[' . $cFile->id . ']', get_string('remove', 'openmeetings'), '', array('group' => 1, 'class' => 'inline col-md-3'), array(0, $cFile->id));
-            $curfile_grp[] = & $mform->createElement('html', '</div>');
-            $mform->addGroup($curfile_grp, $curId, get_string('room_file', 'openmeetings'), array(' '), false);
+            $curfilegrp = array();
+            $curfilegrp[] = & $mform->createElement('html', '<div class="om-labeled-group col-md-12">');
+            $curfilegrp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
+            $curfilegrp[] = & $mform->createElement('static', 'file', '', $cFile->file_name);
+            $curfilegrp[] = & $mform->createElement('html', '</div>');
+            $curfilegrp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
+            $curfilegrp[] = & $mform->createElement('static', 'wb_idx_lbl', '', get_string('wb_index', 'openmeetings'));
+            $curfilegrp[] = & $mform->createElement('html', '</div>');
+            $curfilegrp[] = & $mform->createElement('html', '<div class="inline col-md-3">');
+            $curfilegrp[] = & $mform->createElement('static', 'wb', '', $cFile->wb);
+            $curfilegrp[] = & $mform->createElement('html', '</div>');
+            $curfilegrp[] = & $mform->createElement('advcheckbox', 'remove[' . $cFile->id . ']', get_string('remove', 'openmeetings'), '', array('group' => 1, 'class' => 'inline col-md-3'), array(0, $cFile->id));
+            $curfilegrp[] = & $mform->createElement('html', '</div>');
+            $mform->addGroup($curfilegrp, $curId, get_string('room_file', 'openmeetings'), array(' '), false);
             $mform->disabledIf($curId, 'type', 'eq', 'recording');
         }
 
-        $rep_newfile_grp = array();
-        $rep_newfile_grp[] = & $mform->createElement('html', '<div class="room-files">');
-        $rep_newfile_grp[] = & $mform->createElement('select', 'wb_idx', get_string('wb_index', 'openmeetings'), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-        $rep_newfile_grp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'), $files);
-        $rep_newfile_grp[] = & $mform->createElement('filepicker', 'userfile', get_string('file'), null,
+        $repnewfilegrp = array();
+        $repnewfilegrp[] = & $mform->createElement('html', '<div class="room-files">');
+        $repnewfilegrp[] = & $mform->createElement('select', 'wb_idx', get_string('wb_index', 'openmeetings'), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        $repnewfilegrp[] = & $mform->createElement('select', 'om_files', get_string('om_file', 'openmeetings'), $files);
+        $repnewfilegrp[] = & $mform->createElement('filepicker', 'userfile', get_string('file'), null,
                 array('accepted_types' => '*'));
-        $rep_newfile_grp[] = & $mform->createElement('html', '</div>');
+        $repnewfilegrp[] = & $mform->createElement('html', '</div>');
 
-        $rep_newfile = array();
-        $rep_newfile[] = $mform->createElement('group', 'file_grp', get_string('room_file', 'openmeetings'), $rep_newfile_grp, ' ', false);
+        $repnewfile = array();
+        $repnewfile[] = $mform->createElement('group', 'file_grp', get_string('room_file', 'openmeetings'), $repnewfilegrp, ' ', false);
 
-        $rep_options = array();
-        $rep_options['wb_idx']['disabledif'] = array('type', 'eq', 'recording');
-        $rep_options['om_files']['disabledif'] = array('type', 'eq', 'recording');
+        $repoptions = array();
+        $repoptions['wb_idx']['disabledif'] = array('type', 'eq', 'recording');
+        $repoptions['om_files']['disabledif'] = array('type', 'eq', 'recording');
 
-        $this->repeat_elements($rep_newfile, 1, $rep_options, 'room_files', 'add_room_files', 1, null, true);
+        $this->repeat_elements($repnewfile, 1, $repoptions, 'room_files', 'add_room_files', 1, null, true);
 
         $mform->addElement('html', '</div>');
     }
 
-    private function fillFiles(&$recordings, &$files) {
-        global $gateway, $om_login;
+    private function fill_files(&$recordings, &$files) {
+        global $gateway, $omlogin;
 
-        if ($om_login) {
+        if ($omlogin) {
             $omrecordings = $gateway->get_recordings();
             foreach ($omrecordings as $rec) {
-                $recId = $rec['id'];
-                $recName = $rec['name'];
-                if ($recId) {
-                    $recordings[$recId] = $recName;
+                $recid = $rec['id'];
+                $recname = $rec['name'];
+                if ($recid) {
+                    $recordings[$recid] = $recname;
                 }
             }
             if (count($recordings) == 0) {
@@ -253,10 +253,10 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 
             $omfiles = $gateway->get_files();
             foreach ($omfiles as $file) {
-                $fileId = $file['id'];
-                $fileName = $file['name'];
-                if ($fileId) {
-                    $files[$fileId] = $fileName;
+                $fileid = $file['id'];
+                $filename = $file['name'];
+                if ($fileid) {
+                    $files[$fileid] = $filename;
                 }
             }
         }
@@ -266,8 +266,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         global $gateway, $plugin;
         $mform = $this->_form;
 
-        // -------------------------------------------------------------------------------
-        // Adding the "general" fieldset, where all the common settings are showed
+        // Adding the "general" fieldset, where all the common settings are showed.
         $mform->addElement('header', 'general', get_string('general', 'form'));
         if ($plugin->om_check) {
             $min = preg_split('/[.-]/', $plugin->om_version);
@@ -282,25 +281,23 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         }
         $recordings = array();
         $files = array(-1 => get_string('upload_file', 'openmeetings'));
-        $this->fillFiles($recordings, $files);
+        $this->fill_files($recordings, $files);
 
-        $this->addGeneralFields();
-        $this->addRecordings($recordings);
+        $this->add_general_fields();
+        $this->add_recordings($recordings);
         if ($this->current->room_id > 0) {
             $mform->registerNoSubmitButton('cleanWb');
             $mform->addElement('submit', 'cleanWb', get_string('clean_wb', 'openmeetings'));
         }
 
-        // room files
+        // Room files.
         $mform->addElement('header', 'room_files_header', get_string('room_files', 'openmeetings'));
-        $this->addFiles($files);
+        $this->add_files($files);
 
-        // -------------------------------------------------------------------------------
-        // add standard elements, common to all modules
+        // Add standard elements, common to all modules.
         $this->standard_coursemodule_elements();
 
-        // -------------------------------------------------------------------------------
-        // add standard buttons, common to all modules
+        // Add standard buttons, common to all modules.
         $this->add_action_buttons();
     }
 
@@ -329,19 +326,19 @@ if ($data->id > 0) {
 $mform = new mod_openmeetings_mod_form($data, $data->section, $cm, $course);
 
 $sdata = $mform->get_submitted_data();
-if ($mform->no_submit_button_pressed() && $om_login) {
+if ($mform->no_submit_button_pressed() && $omlogin) {
     if ($sdata->{'mp4'}) {
-        $recId = $sdata->{'room_recording_id'};
+        $recid = $sdata->{'room_recording_id'};
         $type = "mp4";
-        $filename = "flvRecording_$recId.$type";
-        if ($om_login) {
+        $filename = "flvRecording_$recid.$type";
+        if ($omlogin) {
             ob_end_clean();
             if (ini_get_bool('zlib.output_compression')) {
                 ini_set('zlib.output_compression', 'Off');
             }
             header('Content-disposition: attachment; filename=' . $filename);
             header('Content-type: video/' . $type);
-            $url = $gateway->get_url() . "/recordings/$type/" . get_om_hash($gateway, array("recordingId" => $recId));
+            $url = $gateway->get_url() . "/recordings/$type/" . get_om_hash($gateway, array("recordingId" => $recid));
             readfile($url);
         }
         exit(0);

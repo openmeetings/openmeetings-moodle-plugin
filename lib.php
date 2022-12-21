@@ -31,8 +31,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-set_error_handler("my_error_handler");
 require_once(__DIR__. '/../../config.php');
+set_error_handler("my_error_handler");
 require_once(__DIR__. '/api/OmGateway.php');
 
 /** error handler function
