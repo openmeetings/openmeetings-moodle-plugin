@@ -31,30 +31,32 @@
 // specific language governing permissions and limitations
 // under the License.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once('OmRestService.php');
 
 class OmGateway {
-    private $sessionId = "";
+    private $sessionid = "";
     private $config = array();
     private $debug = false;
 
-    function __construct($cfg) {
+    public function __construct($cfg) {
         $this->config = $cfg;
         $this->debug = true === $cfg["debug"];
     }
 
-    function getRestUrl($name) {
+    private function get_rest_url($name) {
         return $this->getUrl() . "/services/" . $name . "/";
     }
 
-    function getUrl() {
+    public function getUrl() {
         return $this->config["url"];
     }
 
-    function version() {
+    public function version() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("info") . "version"
+                $this->get_rest_url("info") . "version"
                 , RestMethod::GET
                 , null
                 , array()
@@ -77,10 +79,10 @@ class OmGateway {
         echo '<div>' . $msg . '; message: ' . $response['message'] . '</div>';
     }
 
-    function login() {
+    public function login() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("user") . "login"
+                $this->get_rest_url("user") . "login"
                 , RestMethod::GET
                 , null
                 , array("user" => $this->config["user"], "pass" => $this->config["pass"])
@@ -101,7 +103,7 @@ class OmGateway {
         return false;
     }
 
-    function getUser($login, $firstname, $lastname, $profilePictureUrl, $email, $userId) {
+    public function getUser($login, $firstname, $lastname, $profilePictureUrl, $email, $userId) {
         return array(
             "login" => $login
             , "firstname" => $firstname
@@ -113,14 +115,14 @@ class OmGateway {
         );
     }
 
-    function getSecureHash($user, $options) {
+    public function getSecureHash($user, $options) {
         $rest = new OmRestService($this->config);
         $options['externalType'] = $this->config["module"];
         if (!$this->config['recordingAllowed'] && array_key_exists('recordingId', $options)) {
             return -1;
         }
         $response = $rest->call(
-                $this->getRestUrl("user") . "hash"
+                $this->get_rest_url("user") . "hash"
                 , RestMethod::POST
                 , $this->sessionId
                 , http_build_query(array("user" => json_encode($user), "options" => json_encode($options)), '', '&')
@@ -140,10 +142,10 @@ class OmGateway {
         return -1;
     }
 
-    function getRoom($roomId) {
+    public function getRoom($roomId) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("room") . $roomId
+                $this->get_rest_url("room") . $roomId
                 , RestMethod::GET
                 , $this->sessionId
                 , null
@@ -162,11 +164,11 @@ class OmGateway {
         return -1;
     }
 
-    function updateRoom($data) {
+    public function updateRoom($data) {
         $data['externalType'] = $this->config["module"];
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("room")
+                $this->get_rest_url("room")
                 , RestMethod::POST
                 , $this->sessionId
                 , array('room' => json_encode($data))
@@ -185,10 +187,10 @@ class OmGateway {
         return -1;
     }
 
-    function deleteRoom($roomId) {
+    public function deleteRoom($roomId) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("room") . $roomId
+                $this->get_rest_url("room") . $roomId
                 , RestMethod::DELETE
                 , $this->sessionId
                 , ""
@@ -210,10 +212,10 @@ class OmGateway {
     /**
      * Get list of available recordings made by this instance
      */
-    function getRecordings() {
+    public function getRecordings() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("record") . rawurlencode($this->config["module"])
+                $this->get_rest_url("record") . rawurlencode($this->config["module"])
                 , RestMethod::GET
                 , $this->sessionId
                 , ""
@@ -228,10 +230,10 @@ class OmGateway {
         return array();
     }
 
-    function deleteRecording($recId) {
+    public function deleteRecording($recId) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("record") . $recId
+                $this->get_rest_url("record") . $recId
                 , RestMethod::DELETE
                 , $this->sessionId
                 , ""
@@ -250,10 +252,10 @@ class OmGateway {
         return -1;
     }
 
-    function cleanWb($roomId) {
+    public function cleanWb($roomId) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("room") . 'cleanwb/' . $roomId
+                $this->get_rest_url("room") . 'cleanwb/' . $roomId
                 , RestMethod::GET
                 , $this->sessionId
                 , ""
@@ -272,10 +274,10 @@ class OmGateway {
         return -1;
     }
 
-    function getFiles() {
+    public function getFiles() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->getRestUrl("file") . rawurlencode($this->config["module"])
+                $this->get_rest_url("file") . rawurlencode($this->config["module"])
                 , RestMethod::GET
                 , $this->sessionId
                 , ""
@@ -290,7 +292,7 @@ class OmGateway {
         return array();
     }
 
-    function createFile($fileJson, $fileContents) {
+    public function createFile($fileJson, $fileContents) {
         $fileJson['externalType'] = $this->config["module"];
         $rest = new OmRestService($this->config);
         $boundary = '';
@@ -308,7 +310,7 @@ class OmGateway {
             );
         $data = OmRestService::encode($params, $boundary);
         $response = $rest->call(
-                $this->getRestUrl("file")
+                $this->get_rest_url("file")
                 , RestMethod::POST
                 , $this->sessionId
                 , $data

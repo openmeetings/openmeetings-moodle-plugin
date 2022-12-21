@@ -31,10 +31,12 @@
 // specific language governing permissions and limitations
 // under the License.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once("OmGateway.php");
 
 class OmRoomManager {
-    var $config = array();
+    private $config = array();
 
     public function __construct($cfg) {
         $this->config = $cfg;
@@ -49,19 +51,19 @@ class OmRoomManager {
         }
     }
 
-    public function delete($room_id) {
+    public function delete($roomid) {
         $gateway = new OmGateway($this->config);
         if ($gateway->login()) {
-            return $gateway->deleteRoom($room_id);
+            return $gateway->deleteRoom($roomid);
         } else {
             return -1;
         }
     }
 
-    public function get($room_id) {
+    public function get($roomid) {
         $gateway = new OmGateway($this->config);
         if ($gateway->login()) {
-            return $gateway->getRoom($room_id);
+            return $gateway->getRoom($roomid);
         } else {
             return -1;
         }
