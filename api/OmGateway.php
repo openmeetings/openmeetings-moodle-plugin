@@ -46,10 +46,10 @@ class OmGateway {
     }
 
     private function get_rest_url($name) {
-        return $this->getUrl() . "/services/" . $name . "/";
+        return $this->get_url() . "/services/" . $name . "/";
     }
 
-    public function getUrl() {
+    public function get_url() {
         return $this->config["url"];
     }
 
@@ -66,7 +66,7 @@ class OmGateway {
         return $response;
     }
 
-    private function showError($rest) {
+    private function show_error($rest) {
         echo '<h2>Fault (Service error)</h2><pre>';
         if ($this->debug) {
             print_r($rest->getMessage());
@@ -74,7 +74,7 @@ class OmGateway {
         echo '</pre>';
     }
 
-    private function showServiceError($msg, $response) {
+    private function show_service_error($msg, $response) {
         echo '<h2>REST call failed</h2>';
         echo '<div>' . $msg . '; message: ' . $response['message'] . '</div>';
     }
@@ -91,19 +91,19 @@ class OmGateway {
             );
 
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
                 $this->sessionId = $response["message"];
                 return true;
             } else {
-                $this->showServiceError('Error While signing into OpenMeetings, please check credentials', $response);
+                $this->show_service_error('Error While signing into OpenMeetings, please check credentials', $response);
             }
         }
         return false;
     }
 
-    public function getUser($login, $firstname, $lastname, $profilePictureUrl, $email, $userId) {
+    public function get_user($login, $firstname, $lastname, $profilePictureUrl, $email, $userId) {
         return array(
             "login" => $login
             , "firstname" => $firstname
@@ -115,7 +115,7 @@ class OmGateway {
         );
     }
 
-    public function getSecureHash($user, $options) {
+    public function get_secure_hash($user, $options) {
         $rest = new OmRestService($this->config);
         $options['externalType'] = $this->config["module"];
         if (!$this->config['recordingAllowed'] && array_key_exists('recordingId', $options)) {
@@ -131,18 +131,18 @@ class OmGateway {
             );
 
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
                 return $response["message"];
             } else {
-                $this->showServiceError('Failed to get hash', $response);
+                $this->show_service_error('Failed to get hash', $response);
             }
         }
         return -1;
     }
 
-    public function getRoom($roomId) {
+    public function get_room($roomId) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
                 $this->get_rest_url("room") . $roomId
@@ -153,18 +153,18 @@ class OmGateway {
                 , "roomDTO"
             );
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             if (isset($response["id"]) && $response["id"]) {
                 return $response;
             } else {
-                $this->showServiceError('Failed to get room', $response);
+                $this->show_service_error('Failed to get room', $response);
             }
         }
         return -1;
     }
 
-    public function updateRoom($data) {
+    public function update_room($data) {
         $data['externalType'] = $this->config["module"];
         $rest = new OmRestService($this->config);
         $response = $rest->call(
@@ -176,18 +176,18 @@ class OmGateway {
                 , "roomDTO"
             );
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             if ($response["id"] > 0) {
                 return $response["id"];
             } else {
-                $this->showServiceError('Failed to update room', $response);
+                $this->show_service_error('Failed to update room', $response);
             }
         }
         return -1;
     }
 
-    public function deleteRoom($roomId) {
+    public function delete_room($roomId) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
                 $this->get_rest_url("room") . $roomId
@@ -198,12 +198,12 @@ class OmGateway {
                 , "serviceResult"
             );
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
                 return $response["code"];
             } else {
-                $this->showServiceError('Failed to delete room', $response);
+                $this->show_service_error('Failed to delete room', $response);
             }
         }
         return -1;
@@ -212,7 +212,7 @@ class OmGateway {
     /**
      * Get list of available recordings made by this instance
      */
-    public function getRecordings() {
+    public function get_recordings() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
                 $this->get_rest_url("record") . rawurlencode($this->config["module"])
@@ -223,14 +223,14 @@ class OmGateway {
                 , "recordingDTO"
             );
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             return $response;
         }
         return array();
     }
 
-    public function deleteRecording($recId) {
+    public function delete_recording($recId) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
                 $this->get_rest_url("record") . $recId
@@ -241,18 +241,18 @@ class OmGateway {
                 , "serviceResult"
             );
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
                 return $response["code"];
             } else {
-                $this->showServiceError('Failed to delete recording', $response);
+                $this->show_service_error('Failed to delete recording', $response);
             }
         }
         return -1;
     }
 
-    public function cleanWb($roomId) {
+    public function clean_wb($roomId) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
                 $this->get_rest_url("room") . 'cleanwb/' . $roomId
@@ -263,18 +263,18 @@ class OmGateway {
                 , "serviceResult"
                 );
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             if ($response["type"] == "SUCCESS") {
                 return $response["code"];
             } else {
-                $this->showServiceError('Failed to clean WB', $response);
+                $this->show_service_error('Failed to clean WB', $response);
             }
         }
         return -1;
     }
 
-    public function getFiles() {
+    public function get_files() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
                 $this->get_rest_url("file") . rawurlencode($this->config["module"])
@@ -285,14 +285,14 @@ class OmGateway {
                 , "fileItemDTO"
                 );
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             return $response;
         }
         return array();
     }
 
-    public function createFile($fileJson, $fileContents) {
+    public function create_file($fileJson, $fileContents) {
         $fileJson['externalType'] = $this->config["module"];
         $rest = new OmRestService($this->config);
         $boundary = '';
@@ -318,7 +318,7 @@ class OmGateway {
                 , "fileItemDTO"
                 );
         if ($rest->isError()) {
-            $this->showError($rest);
+            $this->show_error($rest);
         } else {
             return $response;
         }

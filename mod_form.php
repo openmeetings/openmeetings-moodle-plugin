@@ -241,7 +241,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         global $gateway, $om_login;
 
         if ($om_login) {
-            $omrecordings = $gateway->getRecordings();
+            $omrecordings = $gateway->get_recordings();
             foreach ($omrecordings as $rec) {
                 $recId = $rec['id'];
                 $recName = $rec['name'];
@@ -253,7 +253,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
                 $recordings[0] = get_string('No_Recordings', 'openmeetings');
             }
 
-            $omfiles = $gateway->getFiles();
+            $omfiles = $gateway->get_files();
             foreach ($omfiles as $file) {
                 $fileId = $file['id'];
                 $fileName = $file['name'];
@@ -343,11 +343,11 @@ if ($mform->no_submit_button_pressed() && $om_login) {
             }
             header('Content-disposition: attachment; filename=' . $filename);
             header('Content-type: video/' . $type);
-            $url = $gateway->getUrl() . "/recordings/$type/" . getOmHash($gateway, array("recordingId" => $recId));
+            $url = $gateway->get_url() . "/recordings/$type/" . getOmHash($gateway, array("recordingId" => $recId));
             readfile($url);
         }
         exit(0);
     } else if ($sdata->{'cleanWb'} && $data->room_id > 0) {
-        $gateway->cleanWb($data->room_id);
+        $gateway->clean_wb($data->room_id);
     }
 }

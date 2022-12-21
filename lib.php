@@ -63,11 +63,11 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 function getOmUser($gateway) {
     global $USER;
     $pictureUrl = moodle_url::make_pluginfile_url(context_user::instance($USER->id)->id, 'user', 'icon', NULL, '/', 'f1')->out(false);
-    return $gateway->getUser($USER->username, $USER->firstname, $USER->lastname, $pictureUrl, $USER->email, $USER->id);
+    return $gateway->get_user($USER->username, $USER->firstname, $USER->lastname, $pictureUrl, $USER->email, $USER->id);
 }
 
 function getOmHash($gateway, $options) {
-    return $gateway->getSecureHash(getOmUser($gateway), $options);
+    return $gateway->get_secure_hash(getOmUser($gateway), $options);
 }
 
 function getOmConfig() {
@@ -88,7 +88,7 @@ function setRoomName(&$openmeetings) {
     $openmeetings->roomname = $openmeetings->course . ' ' . $openmeetings->name;
 }
 
-function getRoom(&$meeting) {
+function get_room(&$meeting) {
     global $CFG;
     setRoomName($meeting);
     return array(
@@ -140,7 +140,7 @@ function openmeetings_update_instance(&$meeting) {
 
 function updateOmRoom(&$meeting, $gateway) {
     global $DB, $mform;
-    $room = getRoom($meeting);
+    $room = get_room($meeting);
     foreach ($meeting->remove as $mFileId => $selected) {
         if ($selected == 0) {
             unset($meeting->remove[$mFileId]);
@@ -177,7 +177,7 @@ function updateOmRoom(&$meeting, $gateway) {
                     , 'name' => $fileName
             );
             $fileContent = $file->get_content();
-            $omFile = $gateway->createFile($fileJson, $fileContent);
+            $omFile = $gateway->create_file($fileJson, $fileContent);
             if (!$omFile) {
                 $DB->delete_records("openmeetings_file", array("id" => $fileObj->id));
             } else {
@@ -187,7 +187,7 @@ function updateOmRoom(&$meeting, $gateway) {
             }
         }
     }
-    $meeting->room_id = $gateway->updateRoom($room);
+    $meeting->room_id = $gateway->update_room($room);
 }
 
 function updateOmRoomObj(&$meeting, $gateway) {
@@ -219,7 +219,7 @@ function openmeetings_delete_instance($id) {
         die("Could not login User to OpenMeetings, check your OpenMeetings Module Configuration");
     }
     if ($meeting->type != 'recording') {
-        $meeting->room_id = $gateway->deleteRoom($meeting->room_id);
+        $meeting->room_id = $gateway->delete_room($meeting->room_id);
     }
     // processing room files
     $DB->delete_records("openmeetings_file", array("openmeetings_id" => $meeting->id));

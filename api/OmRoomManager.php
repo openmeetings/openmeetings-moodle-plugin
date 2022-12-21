@@ -45,7 +45,7 @@ class OmRoomManager {
     public function update($data) {
         $gateway = new OmGateway($this->config);
         if ($gateway->login()) {
-            return $gateway->updateRoom($data);
+            return $gateway->update_room($data);
         } else {
             return -1;
         }
@@ -54,7 +54,7 @@ class OmRoomManager {
     public function delete($roomid) {
         $gateway = new OmGateway($this->config);
         if ($gateway->login()) {
-            return $gateway->deleteRoom($roomid);
+            return $gateway->delete_room($roomid);
         } else {
             return -1;
         }
@@ -63,7 +63,7 @@ class OmRoomManager {
     public function get($roomid) {
         $gateway = new OmGateway($this->config);
         if ($gateway->login()) {
-            return $gateway->getRoom($roomid);
+            return $gateway->get_room($roomid);
         } else {
             return -1;
         }
