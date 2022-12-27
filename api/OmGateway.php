@@ -255,7 +255,7 @@ class OmGateway {
     public function clean_wb($roomid) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
-                $this->get_rest_url("room") . 'cleanwb/' . $roomid
+                $this->get_rest_url("wb") . 'resetwb/' . $roomid
                 , RestMethod::GET
                 , $this->sessionId
                 , ""
