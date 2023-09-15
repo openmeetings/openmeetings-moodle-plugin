@@ -37,7 +37,6 @@ global $data, $cm, $CFG;
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
-require_once($CFG->dirroot . '/mod/openmeetings/version.php');
 
 $gateway = new OmGateway(get_om_config());
 $omlogin = $gateway->login();
