@@ -31,6 +31,15 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * Class responsible for communications with OM
+ * Prepares data for OM REST call, and processes the results
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once('OmRestService.php');

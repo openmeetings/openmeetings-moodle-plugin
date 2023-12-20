@@ -32,7 +32,7 @@
 // under the License.
 
 /**
- * Openmeetings module renderering methods are defined here
+ * OpenMeetings module renderering methods are defined here
  *
  * @package    mod_openmeetings
  * @license    Apache-2.0 GPL-3.0-only
@@ -48,12 +48,14 @@ require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
  */
 class openmeetings implements renderable {
     /**
-     * OM activity instance
+     * @var stdClass OM activity instance
      */
     public $om;
 
     /**
      * Constructor
+     *
+     * @param stdclass $openmeetings - OM activity instance
      */
     public function __construct(stdclass $openmeetings) {
         $this->om = $openmeetings;

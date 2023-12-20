@@ -31,6 +31,14 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * Describes all available settings for OpenMeetings module
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 $settings->add(new admin_setting_configtext('openmeetings_url', get_string('url', 'openmeetings')

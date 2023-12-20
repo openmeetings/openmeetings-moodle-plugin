@@ -65,6 +65,14 @@
 //
 // For the core capabilities, the variable is $moodle_capabilities.
 
+/**
+ * Capability definitions for the openmeetings module.
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(

@@ -31,6 +31,20 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * Describes all required steps for upgrade DB from older versions
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
+/**
+ * Upgrade to version '20111001'
+ *
+ * @param int $oldversion - previous version
+ * @param $dbman - DB structure to be patched
+ */
 function upgrade20111001($oldversion, $dbman) {
     $ver = 20111001;
     if ($oldversion < $ver) {
@@ -49,6 +63,12 @@ function upgrade20111001($oldversion, $dbman) {
     }
 }
 
+/**
+ * Upgrade to version '20111002'
+ *
+ * @param int $oldversion - previous version
+ * @param $dbman - DB structure to be patched
+ */
 function upgrade20111002($oldversion, $dbman) {
     $ver = 20111002;
     if ($oldversion < $ver) {
@@ -66,6 +86,12 @@ function upgrade20111002($oldversion, $dbman) {
     }
 }
 
+/**
+ * Upgrade to version '2014031603'
+ *
+ * @param int $oldversion - previous version
+ * @param $dbman - DB structure to be patched
+ */
 function upgrade2014031603($oldversion, $dbman) {
     $ver = 2014031603;
     if ($oldversion < $ver) {
@@ -83,6 +109,12 @@ function upgrade2014031603($oldversion, $dbman) {
     }
 }
 
+/**
+ * Upgrade to version '2016042002'
+ *
+ * @param int $oldversion - previous version
+ * @param $dbman - DB structure to be patched
+ */
 function upgrade2016042002($oldversion, $dbman) {
     global $CFG;
     $ver = 2016042002;
@@ -123,6 +155,12 @@ function upgrade2016042002($oldversion, $dbman) {
     }
 }
 
+/**
+ * Upgrade to version '2017101000'
+ *
+ * @param int $oldversion - previous version
+ * @param $dbman - DB structure to be patched
+ */
 function upgrade2017101000($oldversion, $dbman) {
     global $CFG, $DB;
     $ver = 2017101000;
@@ -138,6 +176,12 @@ function upgrade2017101000($oldversion, $dbman) {
     }
 }
 
+/**
+ * Upgrade to version '2018072401'
+ *
+ * @param int $oldversion - previous version
+ * @param $dbman - DB structure to be patched
+ */
 function upgrade2018072401($oldversion) {
     $ver = 2018072401;
     if ($oldversion < $ver) {
@@ -146,6 +190,12 @@ function upgrade2018072401($oldversion) {
     }
 }
 
+/**
+ * Upgrade to version '2018101600'
+ *
+ * @param int $oldversion - previous version
+ * @param $dbman - DB structure to be patched
+ */
 function upgrade2018101600($oldversion, $dbman) {
     $ver = 2018101600;
     if ($oldversion < $ver) {
@@ -167,6 +217,12 @@ function upgrade2018101600($oldversion, $dbman) {
     }
 }
 
+/**
+ * Upgrade to version '20200404'
+ *
+ * @param int $oldversion - previous version
+ * @param $dbman - DB structure to be patched
+ */
 function upgrade20200404($oldversion, $dbman) {
     global $CFG, $DB;
     $ver = 20200404;
@@ -184,6 +240,12 @@ function upgrade20200404($oldversion, $dbman) {
     }
 }
 
+/**
+ * Upgrade to version '2021020900'
+ *
+ * @param int $oldversion - previous version
+ * @param $dbman - DB structure to be patched
+ */
 function upgrade2021020900($oldversion) {
     global $CFG;
     $ver = 2021020900;
@@ -207,6 +269,12 @@ function upgrade2021020900($oldversion) {
     }
 }
 
+/**
+ * Main function for all DB upgrades
+ *
+ * @param int $oldversion - previous version
+ * @return bool - The result of the upgrade
+ */
 function xmldb_openmeetings_upgrade($oldversion) {
     global $DB;
 
