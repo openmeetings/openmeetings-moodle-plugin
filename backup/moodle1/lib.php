@@ -34,8 +34,10 @@
 /**
  * Provides support for the conversion of moodle1 backup to the moodle2 format
  *
- * @package    mod
- * @subpackage openmeetings
+ * @package    mod_openmeetings
+ * @category   backup
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
  */
 
 
@@ -46,7 +48,7 @@ class moodle1_mod_openmeetings_handler extends moodle1_mod_handler {
     /**
      * Declare the paths in moodle.xml we are able to convert
      *
-     * The method returns list of {@link convert_path} instances. For each path returned,
+     * The method returns list of convert_path instances. For each path returned,
      * at least one of on_xxx_start(), process_xxx() and on_xxx_end() methods must be
      * defined. The method process_xxx() is not executed if the associated path element is
      * empty (i.e. it contains none elements or sub-paths only).
@@ -55,7 +57,7 @@ class moodle1_mod_openmeetings_handler extends moodle1_mod_handler {
      * actually exist in the file. The last element with the module name was
      * appended by the moodle1_converter class.
      *
-     * @return array of {@link convert_path} instances
+     * @return array of convert_path instances
      */
     public function get_paths() {
         return array(

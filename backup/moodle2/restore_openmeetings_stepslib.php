@@ -30,16 +30,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 /**
+ * Provides class to restore OpenMeetings activity structure
  *
- * @package     mod_openmeetings
- * @category    backup
+ * @package    mod_openmeetings
+ * @category   backup
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
  */
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/openmeetings/lib.php');
 
+/**
+ * Provides class to restore OpenMeetings activity structure
+ */
 class restore_openmeetings_activity_structure_step extends restore_activity_structure_step {
+    /**
+     * Structure definition
+     */
     protected function define_structure() {
         $paths = array();
         $paths[] = new restore_path_element('openmeetings', '/activity/openmeetings');
@@ -47,6 +57,11 @@ class restore_openmeetings_activity_structure_step extends restore_activity_stru
         return $this->prepare_activity_structure($paths);
     }
 
+    /**
+     * Method to restore single OM activity DB item
+     *
+     * @param object $data - data to insert into DB
+     */
     protected function process_openmeetings($data) {
         global $DB;
 
@@ -65,6 +80,11 @@ class restore_openmeetings_activity_structure_step extends restore_activity_stru
         $this->apply_activity_instance($newitemid);
     }
 
+    /**
+     * Method to restore single OM activity DB item
+     *
+     * @param object $data - data to insert into DB
+     */
     protected function process_openmeetings_file($data) {
         global $DB;
 
@@ -75,6 +95,9 @@ class restore_openmeetings_activity_structure_step extends restore_activity_stru
         $this->set_mapping('openmeetings_file', $oldid, $newitemid);
     }
 
+    /**
+     * Housekeeping
+     */
     protected function after_execute() {
         // Add openmeetings related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_openmeetings', 'intro', null);

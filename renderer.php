@@ -36,6 +36,7 @@
  *
  * @package    mod_openmeetings
  * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -46,8 +47,14 @@ require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
  * class to store OM activity instance
  */
 class openmeetings implements renderable {
+    /**
+     * OM activity instance
+     */
     public $om;
 
+    /**
+     * Constructor
+     */
     public function __construct(stdclass $openmeetings) {
         $this->om = $openmeetings;
     }
@@ -57,14 +64,25 @@ class openmeetings implements renderable {
  * class able to render OM activity instance
  */
 class mod_openmeetings_renderer extends plugin_renderer_base {
+    /**
+     * No-op header
+     */
     public function header() {
         // Designed to be empty.
     }
 
+    /**
+     * No-op footer
+     */
     public function footer() {
         // Designed to be empty.
     }
 
+    /**
+     * Custom renderer for header
+     *
+     * @param openmeetings $openmeetings - holder for OM activity instance
+     */
     private function out_header(openmeetings $openmeetings) {
         global $cm, $course, $CFG;
 
@@ -109,6 +127,11 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
         return $out;
     }
 
+    /**
+     * Custom renderer for footer
+     *
+     * @param openmeetings $openmeetings - holder for OM activity instance
+     */
     private function out_footer(openmeetings $openmeetings) {
         if ($openmeetings->om->whole_window > 0) {
             $out .= html_writer::end_tag("body");
@@ -121,6 +144,8 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 
     /**
      * This function will render OM iframe (if login was successful)
+     *
+     * @param openmeetings $openmeetings - holder for OM activity instance
      */
     protected function render_openmeetings(openmeetings $openmeetings) {
         global $cm;

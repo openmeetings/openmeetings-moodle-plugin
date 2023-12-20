@@ -30,17 +30,21 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 /**
+ * Provides class to define steps required to backup OpenMeetings activity
  *
- * @package     mod_openmeetings
- * @category    backup
+ * @package    mod_openmeetings
+ * @category   backup
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
  */
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/mod/openmeetings/backup/moodle2/backup_openmeetings_stepslib.php');
 
 /**
- * Provides the steps to perform one complete backup of the Openmeetings instance
+ * Provides the steps to perform backup of one OpenMeetings activity instance
  */
 class backup_openmeetings_activity_task extends backup_activity_task {
     /**
@@ -49,6 +53,9 @@ class backup_openmeetings_activity_task extends backup_activity_task {
     protected function define_my_settings() {
     }
 
+    /**
+     * Defines the only required backup step
+     */
     protected function define_my_steps() {
         $this->add_step(new backup_openmeetings_activity_structure_step('openmeetings_structure', 'openmeetings.xml'));
     }

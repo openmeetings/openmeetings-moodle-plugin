@@ -30,19 +30,32 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 /**
+ * Provides class to define steps required to restore OpenMeetings activity
  *
- * @package     mod_openmeetings
- * @category    backup
+ * @package    mod_openmeetings
+ * @category   backup
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
  */
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/mod/openmeetings/backup/moodle2/restore_openmeetings_stepslib.php');
 
+/**
+ * Provides the steps to perform restore of one OpenMeetings activity instance
+ */
 class restore_openmeetings_activity_task extends restore_activity_task {
+    /**
+     * No specific settings for this activity
+     */
     protected function define_my_settings() {
     }
 
+    /**
+     * Defines the only required restore step
+     */
     protected function define_my_steps() {
         $this->add_step(new restore_openmeetings_activity_structure_step('openmeetings_structure', 'openmeetings.xml'));
     }
@@ -69,9 +82,9 @@ class restore_openmeetings_activity_task extends restore_activity_task {
 
     /**
      * Define the restore log rules that will be applied
-     * by the {@link restore_logs_processor} when restoring
+     * by the restore_logs_processor when restoring
      * openmeetings logs. It must return one array
-     * of {@link restore_log_rule} objects
+     * of restore_log_rule objects
      */
     public static function define_restore_log_rules() {
         $rules = array();
@@ -83,9 +96,9 @@ class restore_openmeetings_activity_task extends restore_activity_task {
 
     /**
      * Define the restore log rules that will be applied
-     * by the {@link restore_logs_processor} when restoring
+     * by the restore_logs_processor when restoring
      * course logs. It must return one array
-     * of {@link restore_log_rule} objects
+     * of restore_log_rule objects
      *
      * Note this rules are applied when restoring course logs
      * by the restore final task, but are defined here at

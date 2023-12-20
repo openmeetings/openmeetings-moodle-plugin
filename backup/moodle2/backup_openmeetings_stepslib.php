@@ -30,13 +30,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 /**
+ * Provides class to backup OpenMeetings activity structure
  *
- * @package     mod_openmeetings
- * @category    backup
+ * @package    mod_openmeetings
+ * @category   backup
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
  */
 
+/**
+ * Provides class to backup OpenMeetings activity structure
+ */
 class backup_openmeetings_activity_structure_step extends backup_activity_structure_step {
+    /**
+     * Structure definition
+     */
     protected function define_structure() {
         $room = new backup_nested_element('openmeetings', array('id'), array(
                 'teacher', 'type', 'is_moderated_room', 'max_user', 'language', 'name', 'intro'
