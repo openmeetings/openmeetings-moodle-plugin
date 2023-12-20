@@ -43,7 +43,7 @@
  * Upgrade to version '20111001'
  *
  * @param int $oldversion - previous version
- * @param $dbman - DB structure to be patched
+ * @param database_manager $dbman - DB structure to be patched
  */
 function upgrade20111001($oldversion, $dbman) {
     $ver = 20111001;
@@ -67,7 +67,7 @@ function upgrade20111001($oldversion, $dbman) {
  * Upgrade to version '20111002'
  *
  * @param int $oldversion - previous version
- * @param $dbman - DB structure to be patched
+ * @param database_manager $dbman - DB structure to be patched
  */
 function upgrade20111002($oldversion, $dbman) {
     $ver = 20111002;
@@ -90,7 +90,7 @@ function upgrade20111002($oldversion, $dbman) {
  * Upgrade to version '2014031603'
  *
  * @param int $oldversion - previous version
- * @param $dbman - DB structure to be patched
+ * @param database_manager $dbman - DB structure to be patched
  */
 function upgrade2014031603($oldversion, $dbman) {
     $ver = 2014031603;
@@ -113,7 +113,7 @@ function upgrade2014031603($oldversion, $dbman) {
  * Upgrade to version '2016042002'
  *
  * @param int $oldversion - previous version
- * @param $dbman - DB structure to be patched
+ * @param database_manager $dbman - DB structure to be patched
  */
 function upgrade2016042002($oldversion, $dbman) {
     global $CFG;
@@ -159,7 +159,7 @@ function upgrade2016042002($oldversion, $dbman) {
  * Upgrade to version '2017101000'
  *
  * @param int $oldversion - previous version
- * @param $dbman - DB structure to be patched
+ * @param database_manager $dbman - DB structure to be patched
  */
 function upgrade2017101000($oldversion, $dbman) {
     global $CFG, $DB;
@@ -180,7 +180,7 @@ function upgrade2017101000($oldversion, $dbman) {
  * Upgrade to version '2018072401'
  *
  * @param int $oldversion - previous version
- * @param $dbman - DB structure to be patched
+ * @param database_manager $dbman - DB structure to be patched
  */
 function upgrade2018072401($oldversion) {
     $ver = 2018072401;
@@ -194,7 +194,7 @@ function upgrade2018072401($oldversion) {
  * Upgrade to version '2018101600'
  *
  * @param int $oldversion - previous version
- * @param $dbman - DB structure to be patched
+ * @param database_manager $dbman - DB structure to be patched
  */
 function upgrade2018101600($oldversion, $dbman) {
     $ver = 2018101600;
@@ -221,7 +221,7 @@ function upgrade2018101600($oldversion, $dbman) {
  * Upgrade to version '20200404'
  *
  * @param int $oldversion - previous version
- * @param $dbman - DB structure to be patched
+ * @param database_manager $dbman - DB structure to be patched
  */
 function upgrade20200404($oldversion, $dbman) {
     global $CFG, $DB;
@@ -244,7 +244,7 @@ function upgrade20200404($oldversion, $dbman) {
  * Upgrade to version '2021020900'
  *
  * @param int $oldversion - previous version
- * @param $dbman - DB structure to be patched
+ * @param database_manager $dbman - DB structure to be patched
  */
 function upgrade2021020900($oldversion) {
     global $CFG;

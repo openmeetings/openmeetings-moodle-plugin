@@ -44,24 +44,52 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('OmRestService.php');
 
+/**
+ * Class responsible for communications with OM
+ * Prepares data for OM REST call, and processes the results
+ */
 class OmGateway {
+    /** @var string $sessionid - OM sessionID */
     private $sessionid = "";
+    /** @var array $config - Gateway config */
     private $config = array();
+    /** @var bool $debug - debug flag */
     private $debug = false;
 
+    /**
+     * Constructor
+     *
+     * @param array $cfg - Gateway config
+     */
     public function __construct($cfg) {
         $this->config = $cfg;
         $this->debug = true === $cfg["debug"];
     }
 
+    /**
+     * Method to get URL for specific REST endpoint
+     *
+     * @param string $name - the name of the endpoint
+     * @return string - URL
+     */
     private function get_rest_url($name) {
         return $this->get_url() . "/services/" . $name . "/";
     }
 
+    /**
+     * Method to get OM URL
+     *
+     * @return string - OM URL
+     */
     public function get_url() {
         return $this->config["url"];
     }
 
+    /**
+     * Method to get response from OM version endpoint
+     *
+     * @return array - response from OM version endpoint
+     */
     public function version() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
@@ -75,6 +103,11 @@ class OmGateway {
         return $response;
     }
 
+    /**
+     * Displays an error
+     *
+     * @param array $rest - REST error
+     */
     private function show_error($rest) {
         echo '<h2>Fault (Service error)</h2><pre>';
         if ($this->debug) {
@@ -83,11 +116,22 @@ class OmGateway {
         echo '</pre>';
     }
 
+    /**
+     * Displays service error
+     *
+     * @param string $msg - message
+     * @param array $response - REST response
+     */
     private function show_service_error($msg, $response) {
         echo '<h2>REST call failed</h2>';
         echo '<div>' . $msg . '; message: ' . $response['message'] . '</div>';
     }
 
+    /**
+     * Method to perform login to OM server
+     *
+     * @return bool - if login was successful or not
+     */
     public function login() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
@@ -112,6 +156,17 @@ class OmGateway {
         return false;
     }
 
+    /**
+     * Constructs OM user based on passed params
+     *
+     * @param string $login - user's login
+     * @param string $firstname - user's first name
+     * @param string $lastname - user's last name
+     * @param string $pictureurl - URL of user's avatar
+     * @param string $email - user's email
+     * @param string $userid - The ID of user in Moodle
+     * @return array - user array
+     */
     public function get_user($login, $firstname, $lastname, $pictureurl, $email, $userid) {
         return array(
             "login" => $login
@@ -124,6 +179,13 @@ class OmGateway {
         );
     }
 
+    /**
+     * Retrieves secure hash for OM room
+     *
+     * @param array $user - Moodle user
+     * @param array $options - external options
+     * @return string - secure hash of the room or -1 in case of error
+     */
     public function get_secure_hash($user, $options) {
         $rest = new OmRestService($this->config);
         $options['externalType'] = $this->config["module"];
