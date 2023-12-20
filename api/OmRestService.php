@@ -117,7 +117,7 @@ class OmRestService {
             curl_close($session);
             $this->error = true;
             $this->message = 'Request OpenMeetings! OpenMeetings Service failed and no response was returned. Additional info: '
-                    . print_object($info);
+                    . $info;
             return;
         }
         // TODO FIXME check status.

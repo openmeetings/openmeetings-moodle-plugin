@@ -31,10 +31,20 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * Openmeetings module renderering methods are defined here
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
 
+/**
+ * class to store OM activity instance
+ */
 class openmeetings implements renderable {
     public $om;
 
@@ -43,6 +53,9 @@ class openmeetings implements renderable {
     }
 }
 
+/**
+ * class able to render OM activity instance
+ */
 class mod_openmeetings_renderer extends plugin_renderer_base {
     public function header() {
         // Designed to be empty.

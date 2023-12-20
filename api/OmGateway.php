@@ -69,7 +69,7 @@ class OmGateway {
     private function show_error($rest) {
         echo '<h2>Fault (Service error)</h2><pre>';
         if ($this->debug) {
-            print_r($rest->get_message());
+            echo($rest->get_message());
         }
         echo '</pre>';
     }
