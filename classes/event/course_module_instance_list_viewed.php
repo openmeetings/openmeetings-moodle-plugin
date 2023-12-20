@@ -39,10 +39,6 @@ namespace mod_openmeetings\event;
  * @license    Apache-2.0 GPL-3.0-only
  * @copyright  OpenMeetings devs
  */
-
-/**
- * The mod_openmeetings course module viewed instance class.
- */
 class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
     /**
      * Create the instance from course record.

@@ -113,10 +113,21 @@ function get_om_config() {
     );
 }
 
-function set_room_name(&$openmeetings) {
-    $openmeetings->roomname = $openmeetings->course . ' ' . $openmeetings->name;
+/**
+ * Sets room name for OM activity
+ *
+ * @param stdclass $meeting - OM activity
+ */
+function set_room_name(&$meeting) {
+    $meeting->roomname = $meeting->course . ' ' . $meeting->name;
 }
 
+/**
+ * Creates room array from DB object
+ *
+ * @param stdclass $meeting - OM activity
+ * @return array - room as array
+ */
 function get_room(&$meeting) {
     global $CFG;
     set_room_name($meeting);
@@ -141,6 +152,8 @@ function get_room(&$meeting) {
 /**
  * Add OM DB record.
  *
+ * @param stdclass $meeting - OM activity
+ * @return int - room ID or -1 in case of error
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function openmeetings_add_instance(&$meeting) {
@@ -157,6 +170,8 @@ function openmeetings_add_instance(&$meeting) {
 /**
  * Update OM DB record.
  *
+ * @param stdclass $meeting - OM activity
+ * @return int - room ID or -1 in case of error
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function openmeetings_update_instance(&$meeting) {
@@ -169,6 +184,13 @@ function openmeetings_update_instance(&$meeting) {
     return update_om_room_obj($meeting, $gateway);
 }
 
+/**
+ * Create files and updates OM activity in Moodle DB
+ *
+ * @param stdclass $meeting - OM activity
+ * @param OmGateway $gateway - gateway
+ * @SuppressWarnings(PHPMD.ExitExpression)
+ */
 function update_om_room(&$meeting, $gateway) {
     global $DB, $mform;
     $room = get_room($meeting);
@@ -221,6 +243,14 @@ function update_om_room(&$meeting, $gateway) {
     $meeting->room_id = $gateway->update_room($room);
 }
 
+/**
+ * Updates room ID for OM activity
+ *
+ * @param stdclass $meeting - OM activity
+ * @param OmGateway $gateway - gateway
+ * @return int - OM activity ID
+ * @SuppressWarnings(PHPMD.ExitExpression)
+ */
 function update_om_room_obj(&$meeting, $gateway) {
     global $DB;
     if ($meeting->type == 'recording') {
@@ -233,8 +263,10 @@ function update_om_room_obj(&$meeting, $gateway) {
 }
 
 /**
- * Delete OM DB record.
+ * Delete OM DB record from everywhere.
  *
+ * @param int $id - OM activity ID
+ * @return bool - if operation was succesful
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function openmeetings_delete_instance($id) {
@@ -267,10 +299,8 @@ function openmeetings_delete_instance($id) {
  * "extra" information that may be needed when printing
  * this activity in a course listing.
  *
- * See {@link get_array_of_activities()} in course/lib.php
- *
- * @param object $coursemodule
- * @return object info
+ * @param object $coursemodule - course
+ * @return object info - cm info
  */
 function openmeetings_get_coursemodule_info($coursemodule) {
     global $DB;
@@ -288,39 +318,83 @@ function openmeetings_get_coursemodule_info($coursemodule) {
     return $info;
 }
 
+/**
+ * N/A
+ *
+ * @return bool
+ */
 function openmeetings_user_outline() {
     return true;
 }
 
+/**
+ * N/A
+ *
+ * @return bool
+ */
 function openmeetings_user_complete() {
     return true;
 }
 
+/**
+ * N/A
+ *
+ * @return bool
+ */
 function openmeetings_print_recent_activity() {
     return false;  // True if anything was printed, otherwise false.
 }
 
+/**
+ * N/A
+ *
+ * @return bool
+ */
 function openmeetings_cron() {
     return true;
 }
 
+/**
+ * N/A
+ *
+ * @return bool
+ */
 function openmeetings_grades() {
     return null;
 }
 
+/**
+ * N/A
+ *
+ * @return bool
+ */
 function openmeetings_get_participants() {
     return false;
 }
 
+/**
+ * N/A
+ *
+ * @return bool
+ */
 function openmeetings_scale_used() {
     return false;
 }
 
+/**
+ * N/A
+ *
+ * @return bool
+ */
 function openmeetings_scale_used_anywhere() {
     return false;
 }
 
-// Enables grading using Moodle's Activity completion API.
+/**
+ * Enables grading using Moodle's Activity completion API.
+ *
+ * @return bool - if feature is supported
+ */
 function openmeetings_supports($feature) {
     switch($feature) {
         case FEATURE_GRADE_HAS_GRADE:
