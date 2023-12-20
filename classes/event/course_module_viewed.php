@@ -40,10 +40,10 @@ namespace mod_openmeetings\event;
  * @copyright  OpenMeetings devs
  */
 
- /**
+/**
  * The mod_openmeetings course module viewed event class.
  */
- class course_module_viewed extends \core\event\course_module_viewed {
+class course_module_viewed extends \core\event\course_module_viewed {
     /**
      * Init method
      */

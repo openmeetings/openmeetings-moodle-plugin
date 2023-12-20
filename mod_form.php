@@ -31,6 +31,14 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * Main form for create/edit activity.
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 global $data, $cm, $CFG;
@@ -43,10 +51,12 @@ $omlogin = $gateway->login();
 
 /**
  * Main form for create/edit activity.
- *
- * @package mod_openmeetings
  **/
 class mod_openmeetings_mod_form extends moodleform_mod {
+    /**
+     * Creates list of available languages
+     * @return array - code-language map
+     */
     private function get_languages() {
         return array(
                 '1' => 'english',
@@ -83,6 +93,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         );
     }
 
+    /**
+     * Fills form with general fields
+     */
     private function add_general_fields() {
         global $CFG;
         $recallowed = $CFG->openmeetings_recordingAllowed;
@@ -164,6 +177,11 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         $this->standard_intro_elements(get_string('description', 'openmeetings'));
     }
 
+    /**
+     * Adds recordings specific fields
+     *
+     * @param array $recordings - recording list
+     */
     private function add_recordings($recordings) {
         $mform = $this->_form;
         // Adding the "Available Recordings to Show" field.
@@ -188,6 +206,11 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         $mform->disabledIf('dwnld_grp', 'type', 'neq', 'recording');
     }
 
+    /**
+     * Adds files specific fields
+     *
+     * @param array $files - file list
+     */
     private function add_files($files) {
         $mform = $this->_form;
         foreach ($files as $fileid => $filename) {
@@ -240,6 +263,12 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         $mform->addElement('html', '</div>');
     }
 
+    /**
+     * Adds recordings/files specific fields
+     *
+     * @param array $recordings - recording list
+     * @param array $files - file list
+     */
     private function fill_files(&$recordings, &$files) {
         global $gateway, $omlogin;
 
@@ -267,6 +296,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         }
     }
 
+    /**
+     * Method to generate form for OM activity add/edit
+     */
     public function definition() {
         global $gateway, $plugin;
         $mform = $this->_form;

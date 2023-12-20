@@ -31,6 +31,14 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * Main view page for activity
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
 require_once(__DIR__. '/../../config.php');
 require_once(__DIR__. '/lib.php');
 
