@@ -30,23 +30,48 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 /**
- * Created on 03.01.2012 by eugen.schwert@gmail.com
+ * Class to perform REST calls using cURL
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
  */
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Enum holding constants for REST methods
+ */
 abstract class RestMethod {
     const GET = "GET";
     const POST = "POST";
     const DELETE = "DELETE";
 }
 
+/**
+ * Class to perform REST calls using cURL
+ */
 class OmRestService {
+    /**
+     * @var array - REST config
+     */
     private $config = array();
+    /**
+     * @var bool - if call was succesful
+     */
     private $error = false;
+    /**
+     * @var string - error message
+     */
     private $message = "";
 
+    /**
+     * Constructor
+     *
+     * @param array $cfg - config
+     */
     public function __construct($cfg) {
         $this->config = $cfg;
     }

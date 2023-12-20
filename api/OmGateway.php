@@ -49,11 +49,17 @@ require_once('OmRestService.php');
  * Prepares data for OM REST call, and processes the results
  */
 class OmGateway {
-    /** @var string $sessionid - OM sessionID */
+    /**
+     * @var string OM sessionID
+     */
     private $sessionid = "";
-    /** @var array $config - Gateway config */
+    /**
+     * @var array Gateway config
+     */
     private $config = array();
-    /** @var bool $debug - debug flag */
+    /**
+     * @var bool debug flag
+     */
     private $debug = false;
 
     /**
@@ -213,6 +219,12 @@ class OmGateway {
         return -1;
     }
 
+    /**
+     * Retrieves OM room ID by Moodle room ID
+     *
+     * @param int $roomid - Moodle room ID
+     * @return int - OM room ID or -1 in case of error
+     */
     public function get_room($roomid) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
@@ -235,6 +247,12 @@ class OmGateway {
         return -1;
     }
 
+    /**
+     * Updates OM room with some new details (name, options etc.)
+     *
+     * @param array $data - room details/options
+     * @return int - OM room ID or -1 in case of error
+     */
     public function update_room($data) {
         $data['externalType'] = $this->config["module"];
         $rest = new OmRestService($this->config);
@@ -258,6 +276,12 @@ class OmGateway {
         return -1;
     }
 
+    /**
+     * Delete OM room by Moodle room ID
+     *
+     * @param int $roomid - Moodle room ID
+     * @return int - response code or -1 in case of error
+     */
     public function delete_room($roomid) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
@@ -282,6 +306,8 @@ class OmGateway {
 
     /**
      * Get list of available recordings made by this instance
+     *
+     * @return array - list of available recordings
      */
     public function get_recordings() {
         $rest = new OmRestService($this->config);
@@ -301,6 +327,12 @@ class OmGateway {
         return array();
     }
 
+    /**
+     * Delete OM recording by ID
+     *
+     * @param int $recid - recording ID
+     * @return int - response code or -1 in case of error
+     */
     public function delete_recording($recid) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
@@ -323,6 +355,12 @@ class OmGateway {
         return -1;
     }
 
+    /**
+     * Performs WB cleanup for specific room
+     *
+     * @param int $roomid - Moodle room ID
+     * @return int - response code or -1 in case of error
+     */
     public function clean_wb($roomid) {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
@@ -345,6 +383,11 @@ class OmGateway {
         return -1;
     }
 
+    /**
+     * Get list of available files
+     *
+     * @return array - list of available files
+     */
     public function get_files() {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
@@ -363,6 +406,13 @@ class OmGateway {
         return array();
     }
 
+    /**
+     * Creates file at OM
+     *
+     * @param array $json - file params
+     * @param object $contents - file contents
+     * @return bool - if operation was succesful
+     */
     public function create_file($json, $contents) {
         $json['externalType'] = $this->config["module"];
         $rest = new OmRestService($this->config);
