@@ -48,7 +48,11 @@ require_once(__DIR__. '/api/OmGateway.php');
 /**
  * error handler function
  *
- * @SuppressWarnings(PHPMD.ExitExpression)
+ * @param int $errno - error code
+ * @param string $errstr - error message
+ * @param string $errfile - the name of PHP file having error
+ * @param int $errline - the line number
+ * @return bool - 'true' to skip execute PHP internal error handler
  */
 function my_error_handler($errno, $errstr, $errfile, $errline) {
     switch ($errno) {
@@ -154,7 +158,6 @@ function get_room(&$meeting) {
  *
  * @param stdclass $meeting - OM activity
  * @return int - room ID or -1 in case of error
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function openmeetings_add_instance(&$meeting) {
     global $DB;
@@ -172,7 +175,6 @@ function openmeetings_add_instance(&$meeting) {
  *
  * @param stdclass $meeting - OM activity
  * @return int - room ID or -1 in case of error
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function openmeetings_update_instance(&$meeting) {
     $gateway = new OmGateway(get_om_config());
@@ -189,7 +191,6 @@ function openmeetings_update_instance(&$meeting) {
  *
  * @param stdclass $meeting - OM activity
  * @param OmGateway $gateway - gateway
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function update_om_room(&$meeting, $gateway) {
     global $DB, $mform;
@@ -249,7 +250,6 @@ function update_om_room(&$meeting, $gateway) {
  * @param stdclass $meeting - OM activity
  * @param OmGateway $gateway - gateway
  * @return int - OM activity ID
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function update_om_room_obj(&$meeting, $gateway) {
     global $DB;
@@ -267,7 +267,6 @@ function update_om_room_obj(&$meeting, $gateway) {
  *
  * @param int $id - OM activity ID
  * @return bool - if operation was succesful
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function openmeetings_delete_instance($id) {
     global $DB;
@@ -393,6 +392,7 @@ function openmeetings_scale_used_anywhere() {
 /**
  * Enables grading using Moodle's Activity completion API.
  *
+ * @param int $feature - feature to check
  * @return bool - if feature is supported
  */
 function openmeetings_supports($feature) {
