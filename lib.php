@@ -31,13 +31,23 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * OpenMeetings activity module common functions
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__. '/../../config.php');
 set_error_handler("my_error_handler");
 require_once(__DIR__. '/api/OmGateway.php');
 
-/** error handler function
+/**
+ * error handler function
+ *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function my_error_handler($errno, $errstr, $errfile, $errline) {
@@ -60,6 +70,12 @@ function my_error_handler($errno, $errstr, $errfile, $errline) {
     return true;
 }
 
+/**
+ * Constructs OM user based on Moodle logged-in user
+ *
+ * @param OmGateway $gateway - gateway
+ * @return array - user array
+ */
 function get_om_user($gateway) {
     global $USER;
     $pictureurl = moodle_url::make_pluginfile_url(context_user::instance($USER->id)->id, 'user', 'icon'
@@ -67,10 +83,22 @@ function get_om_user($gateway) {
     return $gateway->get_user($USER->username, $USER->firstname, $USER->lastname, $pictureurl, $USER->email, $USER->id);
 }
 
+/**
+ * Retrieves secure hash for OM room
+ *
+ * @param OmGateway $gateway - gateway
+ * @param array $options - external options
+ * @return string - secure hash of the room or -1 in case of error
+ */
 function get_om_hash($gateway, $options) {
     return $gateway->get_secure_hash(get_om_user($gateway), $options);
 }
 
+/**
+ * Constructs gateway config
+ *
+ * @return array - config as array
+ */
 function get_om_config() {
     global $CFG;
     return array(
