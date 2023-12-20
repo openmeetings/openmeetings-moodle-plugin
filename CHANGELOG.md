@@ -1,5 +1,9 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.4.0 (2023122001)
+ * Plugin should work as expected with Moodle 4.3.1 (Issue #52)
+ * Build is green
+
 4.3.0 (2022122001)
  * 'fullscreen' is added to allow list
  * Autocomplete is added for the recordings
