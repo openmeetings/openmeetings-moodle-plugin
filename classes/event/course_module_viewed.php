@@ -36,11 +36,17 @@ namespace mod_openmeetings\event;
  * The mod_openmeetings course module viewed event class.
  *
  * @package    mod_openmeetings
- * @since      Moodle 2.7
- * @copyright  2014 solomax <solomax@apache.org>
- * @license    http://www.apache.org/licenses/LICENSE-2.0
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
  */
-class course_module_viewed extends \core\event\course_module_viewed {
+
+ /**
+ * The mod_openmeetings course module viewed event class.
+ */
+ class course_module_viewed extends \core\event\course_module_viewed {
+    /**
+     * Init method
+     */
     protected function init() {
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;

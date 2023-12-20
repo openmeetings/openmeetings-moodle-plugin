@@ -31,6 +31,14 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * Italian strings
+ *
+ * @package mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
 $string['openmeetings'] = 'Openmeetings';
 $string['openmeetings:addinstance'] = 'Aggiungere Istanza Openmeetings';
 $string['openmeetings:becomemoderator'] = 'Become moderator in an Openmeetings Room';

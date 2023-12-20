@@ -34,10 +34,12 @@
 /**
  * This page lists all the instances of openmeetings in a particular course
  *
- * @author Sebastian Wagner
- * @version 1.7
  * @package mod_openmeetings
- **/
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ * @author Sebastian Wagner
+ */
+
 require_once(__DIR__. '/../../config.php');
 require_once(__DIR__.'/lib.php');
 

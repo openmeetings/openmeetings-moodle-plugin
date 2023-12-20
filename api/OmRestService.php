@@ -45,8 +45,20 @@ defined('MOODLE_INTERNAL') || die();
  * Enum holding constants for REST methods
  */
 abstract class RestMethod {
+    /**
+     * GET method
+     * @var string
+     */
     const GET = "GET";
+    /**
+     * POST method
+     * @var string
+     */
     const POST = "POST";
+    /**
+     * DELETE method
+     * @var string
+     */
     const DELETE = "DELETE";
 }
 

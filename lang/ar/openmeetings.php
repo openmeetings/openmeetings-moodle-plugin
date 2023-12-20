@@ -31,6 +31,14 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * Arabic strings
+ *
+ * @package mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
 $string['openmeetings'] = 'غرفة الاجتماعات';
 $string['openmeetings:addinstance'] = 'أضف نسخة من غرفة الاجتماعات';
 $string['openmeetings:becomemoderator'] = 'كن مشرفًا في غرفة الاجتماعات';
