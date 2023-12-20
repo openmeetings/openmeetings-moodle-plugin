@@ -32,7 +32,6 @@
 // under the License.
 
 /**
- * Class responsible for communications with OM
  * Prepares data for OM REST call, and processes the results
  *
  * @package    mod_openmeetings
@@ -46,7 +45,6 @@ require_once('OmRestService.php');
 
 /**
  * Class responsible for communications with OM
- * Prepares data for OM REST call, and processes the results
  */
 class OmGateway {
     /**

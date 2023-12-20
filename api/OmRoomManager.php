@@ -31,17 +31,42 @@
 // specific language governing permissions and limitations
 // under the License.
 
+/**
+ * Some high level OM methods
+ *
+ * @package    mod_openmeetings
+ * @license    Apache-2.0 GPL-3.0-only
+ * @copyright  OpenMeetings devs
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once("OmGateway.php");
 
+/**
+ * Class defining high level OM methods
+ */
 class OmRoomManager {
+    /**
+     * @var array - room manager config
+     */
     private $config = array();
 
+    /**
+     * Constructor
+     *
+     * @param array $cfg - room manager config
+     */
     public function __construct($cfg) {
         $this->config = $cfg;
     }
 
+    /**
+     * Updates OM room with some new details (name, options etc.)
+     *
+     * @param array $data - room details/options
+     * @return int - OM room ID or -1 in case of error
+     */
     public function update($data) {
         $gateway = new OmGateway($this->config);
         if ($gateway->login()) {
@@ -51,6 +76,12 @@ class OmRoomManager {
         }
     }
 
+    /**
+     * Delete OM room by Moodle room ID
+     *
+     * @param int $roomid - Moodle room ID
+     * @return int - response code or -1 in case of error
+     */
     public function delete($roomid) {
         $gateway = new OmGateway($this->config);
         if ($gateway->login()) {
@@ -60,6 +91,12 @@ class OmRoomManager {
         }
     }
 
+    /**
+     * Retrieves OM room ID by Moodle room ID
+     *
+     * @param int $roomid - Moodle room ID
+     * @return int - OM room ID or -1 in case of error
+     */
     public function get($roomid) {
         $gateway = new OmGateway($this->config);
         if ($gateway->login()) {

@@ -76,6 +76,13 @@ class OmRestService {
         $this->config = $cfg;
     }
 
+    /**
+     * Method encodes params passed as multipart/form-data
+     *
+     * @param array $params - params to be encoded
+     * @param string $boundary - boundary to use
+     * @return string - encoded data
+     */
     public static function encode($params, &$boundary) {
         $eol = "\r\n";
         if (!$boundary) {
@@ -94,6 +101,15 @@ class OmRestService {
         return $data;
     }
 
+    /**
+     * Updates URL and/or options with params given
+     *
+     * @param string $url - REST url
+     * @param RestMethod $method - REST method
+     * @param string $sid - user SID
+     * @param array $params - params to check
+     * @param array $options - REST call options
+     */
     private static function set_params(&$url, $method, $sid, $params, &$options) {
         $url .= '?';
         if ($sid) {
@@ -112,6 +128,17 @@ class OmRestService {
         }
     }
 
+    /**
+     * performs REST call
+     *
+     * @param string $url - REST url
+     * @param RestMethod $method - REST method
+     * @param string $sid - user SID
+     * @param array $params - params to check
+     * @param array $headers - REST headers
+     * @param array $wrapername - specific part of response to be returned or any
+     * @return array - response as array or nothing
+     */
     public function call($url, $method, $sid, $params, $headers, $wrapername) {
         $options = array (
                 CURLOPT_RETURNTRANSFER => true                            // Return web page.
@@ -151,10 +178,20 @@ class OmRestService {
         return $wrapername ? $decoded[$wrapername] : $decoded;
     }
 
+    /**
+     * Checks if there was error
+     *
+     * @return bool - if there was error
+     */
     public function is_error() {
         return $this->error;
     }
 
+    /**
+     * Get error message
+     *
+     * @return string - error message
+     */
     public function get_message() {
         return $this->message;
     }
