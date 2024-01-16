@@ -339,7 +339,9 @@ class mod_openmeetings_mod_form extends moodleform_mod {
     }
 
     /**
-     * Method to get uploaded files
+     * Method to get uploaded file by index
+     * @param int $idx - index of the file
+     * @return file - file at given index or `false`
      */
     public function getFile($idx = 0) {
         global $USER;
