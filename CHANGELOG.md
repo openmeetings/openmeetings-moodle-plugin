@@ -1,5 +1,8 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.4.2 (2024011701)
+ * `mod_form->getFile` method is restored
+
 4.4.1 (2024011601)
  * Error at `Default activity completion` page is fixed
 

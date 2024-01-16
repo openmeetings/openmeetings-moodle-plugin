@@ -337,6 +337,26 @@ class mod_openmeetings_mod_form extends moodleform_mod {
         // Add standard buttons, common to all modules.
         $this->add_action_buttons();
     }
+
+    /**
+     * Method to get uploaded files
+     */
+    public function getFile($idx = 0) {
+        global $USER;
+        $grp = $this->_form->getElement('file_grp[' . $idx . ']');
+        if ($grp instanceof MoodleQuickForm_group) {
+            $picker = $grp->getElements()[2];
+            if ($picker instanceof MoodleQuickForm_filepicker) {
+                $fs = get_file_storage();
+                $context = context_user::instance($USER->id);
+                $files = $fs->get_area_files($context->id, 'user', 'draft', $picker->getValue(), 'id DESC', false);
+                if ($files) {
+                    return reset($files);
+                }
+            }
+        }
+        return false;
+    }
 }
 
 if ($data) {
