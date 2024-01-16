@@ -343,7 +343,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
      * @param int $idx - index of the file
      * @return file - file at given index or `false`
      */
-    public function getFile($idx = 0) {
+    public function get_file($idx = 0) {
         global $USER;
         $grp = $this->_form->getElement('file_grp[' . $idx . ']');
         if ($grp instanceof MoodleQuickForm_group) {

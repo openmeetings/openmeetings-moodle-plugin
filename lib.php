@@ -220,7 +220,7 @@ function update_om_room(&$meeting, $gateway) {
             $room['files'][] = array('wbIdx' => $wbidx, 'fileId' => $omfileid);
             continue;
         }
-        $file = $mform->getFile($i);
+        $file = $mform->get_file($i);
         if (!!$file) {
             $filename = $file->get_filename();
             $fileobj->file_name = $filename;
