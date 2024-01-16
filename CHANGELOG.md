@@ -1,5 +1,8 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+4.4.1 (2024011601)
+ * Error at `Default activity completion` page is fixed
+
 4.4.0 (2023122001)
  * Plugin should work as expected with Moodle 4.3.1 (Issue #52)
  * Build is green

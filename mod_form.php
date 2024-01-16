@@ -41,7 +41,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-global $data, $cm, $CFG;
+global $data, $cm, $CFG, $DB;
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once($CFG->dirroot . '/mod/openmeetings/lib.php');
@@ -339,30 +339,32 @@ class mod_openmeetings_mod_form extends moodleform_mod {
     }
 }
 
-$course = $DB->get_record('course', array('id' => $data->course), '*', MUST_EXIST);
-if ($data->id > 0) {
-    $data->files = $DB->get_records('openmeetings_file', array('openmeetings_id' => $data->id));
-}
-$mform = new mod_openmeetings_mod_form($data, $data->section, $cm, $course);
+if ($data) {
+    $course = $DB->get_record('course', array('id' => $data->course), '*', MUST_EXIST);
+    if ($data->id > 0) {
+        $data->files = $DB->get_records('openmeetings_file', array('openmeetings_id' => $data->id));
+    }
+    $mform = new mod_openmeetings_mod_form($data, $data->section, $cm, $course);
 
-$sdata = $mform->get_submitted_data();
-if ($mform->no_submit_button_pressed() && $omlogin) {
-    if ($sdata->{'mp4'}) {
-        $recid = $sdata->{'room_recording_id'};
-        $type = "mp4";
-        $filename = "flvRecording_$recid.$type";
-        if ($omlogin) {
-            ob_end_clean();
-            if (ini_get_bool('zlib.output_compression')) {
-                ini_set('zlib.output_compression', 'Off');
+    $sdata = $mform->get_submitted_data();
+    if ($mform->no_submit_button_pressed() && $omlogin) {
+        if ($sdata->{'mp4'}) {
+            $recid = $sdata->{'room_recording_id'};
+            $type = "mp4";
+            $filename = "flvRecording_$recid.$type";
+            if ($omlogin) {
+                ob_end_clean();
+                if (ini_get_bool('zlib.output_compression')) {
+                    ini_set('zlib.output_compression', 'Off');
+                }
+                header('Content-disposition: attachment; filename=' . $filename);
+                header('Content-type: video/' . $type);
+                $url = $gateway->get_url() . "/recordings/$type/" . get_om_hash($gateway, array("recordingId" => $recid));
+                readfile($url);
             }
-            header('Content-disposition: attachment; filename=' . $filename);
-            header('Content-type: video/' . $type);
-            $url = $gateway->get_url() . "/recordings/$type/" . get_om_hash($gateway, array("recordingId" => $recid));
-            readfile($url);
+            exit(0);
+        } else if ($sdata->{'cleanWb'} && $data->room_id > 0) {
+            $gateway->clean_wb($data->room_id);
         }
-        exit(0);
-    } else if ($sdata->{'cleanWb'} && $data->room_id > 0) {
-        $gateway->clean_wb($data->room_id);
     }
 }
