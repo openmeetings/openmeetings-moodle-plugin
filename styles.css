@@ -39,3 +39,6 @@
 .path-mod-openmeetings .om-labeled-group .inline .col-form-label.sr-only {
     display: inline-block;
 }
+.path-mod-openmeetings .om-labeled-group .inline .filemanager-loading {
+    margin-top: 0.25rem;
+}

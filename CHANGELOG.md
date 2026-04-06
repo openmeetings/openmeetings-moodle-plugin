@@ -1,5 +1,8 @@
 ##Apache OpenMeetings Moodle Plugin Change Log
 
+5.0.0 (2026040601)
+ * `mod_form->getFile` method is restored
+
 4.4.2 (2024011701)
  * `mod_form->getFile` method is restored
 

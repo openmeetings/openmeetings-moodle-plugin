@@ -140,7 +140,7 @@ class OmGateway {
         $rest = new OmRestService($this->config);
         $response = $rest->call(
                 $this->get_rest_url("user") . "login"
-                , RestMethod::GET
+                , RestMethod::POST
                 , null
                 , array("user" => $this->config["user"], "pass" => $this->config["pass"])
                 , null

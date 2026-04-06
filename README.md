@@ -6,12 +6,12 @@ You need your own Apache OpenMeetings instance running.
 [![Build Status](https://travis-ci.org/openmeetings/openmeetings-moodle-plugin.svg?branch=master)](https://travis-ci.org/openmeetings/openmeetings-moodle-plugin)
 
 ## Requirements
-PHP 7.0 or later, OpenMeetings 5.0.0 or later and Moodle 3.5 or later.
+PHP 7.0 or later, OpenMeetings 9.0.0 or later and Moodle 3.5 or later.
 
 ## tested Versions
 OpenMeetings: 5.1.0
 
-Moodle: 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11
+Moodle: 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 5.0
 
 ## Building/Developing
 
@@ -30,7 +30,7 @@ https://openmeetings.apache.org
 ### Access Denied
 
 if you have "Access Denied" message while room entering this might be due to cookies are not being saved in iframe.
-To bypass this please edit `${OM_HOME}/webapp/META-INF/context.xml` and change
+To bypass this please edit `${OM_HOME}/webapps/openmeetings/META-INF/context.xml` and change
 
 ```
       <CookieProcessor sameSiteCookies="Lax" />
